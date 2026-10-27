@@ -1,0 +1,17 @@
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Archivos locales y temporales
+*.log
+.pytest_cache/
+.coverage
+htmlcov/
