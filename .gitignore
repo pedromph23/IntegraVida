@@ -1,17 +1,59 @@
-
-# Python
+# Python: cachés y archivos compilados
 __pycache__/
 *.py[cod]
+*$py.class
+
+# Entornos virtuales
 .venv/
 venv/
+env/
+ENV/
 
 # Variables de entorno y secretos
 .env
 .env.*
 !.env.example
 
-# Archivos locales y temporales
+# Django: archivos generados localmente
 *.log
+staticfiles/
+media/
+
+# Bases de datos locales y archivos temporales
+*.sqlite3
+*.sqlite3-journal
+
+# PostgreSQL: copias de seguridad locales
+*.dump
+*.backup
+
+# Pruebas y cobertura
 .pytest_cache/
 .coverage
+.coverage.*
 htmlcov/
+coverage.xml
+
+# Herramientas de calidad y análisis
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+
+# Distribuciones y paquetes Python
+build/
+dist/
+*.egg-info/
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+# Datos geoespaciales originales: no distribuir hasta verificar
+# procedencia, licencia y condiciones de redistribución.
+data/territorio/original/*.zip
+data/territorio/analisis/igvsb_municipal/
+
+# Cachés generadas dentro del análisis territorial.
+data/territorio/analisis/**/__pycache__/
+data/territorio/analisis/**/*.pyc
