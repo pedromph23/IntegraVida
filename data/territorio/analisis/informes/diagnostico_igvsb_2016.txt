@@ -1,0 +1,37 @@
+INFO: Open of `data/territorio/analisis/igvsb_municipal/Limites_municipales_de_venezuela_IGVSB_WGS84/Limites_municipales_de_venezuela_IGVSB_WGS84.shp'
+      using driver `ESRI Shapefile' successful.
+
+Layer name: Limites_municipales_de_venezuela_IGVSB_WGS84
+Metadata:
+  DBF_DATE_LAST_UPDATE=2024-09-03
+Geometry: Polygon
+Feature Count: 408
+Extent: (-73.366467, 0.645370) - (-58.094341, 12.197286)
+Layer SRS WKT:
+GEOGCRS["WGS 84",
+    DATUM["World Geodetic System 1984",
+        ELLIPSOID["WGS 84",6378137,298.257223563,
+            LENGTHUNIT["metre",1]]],
+    PRIMEM["Greenwich",0,
+        ANGLEUNIT["degree",0.0174532925199433]],
+    CS[ellipsoidal,2],
+        AXIS["latitude",north,
+            ORDER[1],
+            ANGLEUNIT["degree",0.0174532925199433]],
+        AXIS["longitude",east,
+            ORDER[2],
+            ANGLEUNIT["degree",0.0174532925199433]],
+    ID["EPSG",4326]]
+Data axis to CRS axis mapping: 2,1
+id_0: Real (20.0)
+dm_acc: Real (20.0)
+ara: Real (24.15)
+dm_bst: Real (20.0)
+nam: String (254.0)
+ngov: String (254.0)
+nm3: String (254.0)
+nm4: String (254.0)
+sag: String (254.0)
+txt: String (254.0)
+dm_cent: String (254.0)
+dm_cmun: String (254.0)

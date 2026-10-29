@@ -1,0 +1,679 @@
+{
+  "fuente": "data/territorio/analisis/igvsb_municipal/Limites_municipales_de_venezuela_IGVSB_WGS84/Limites_municipales_de_venezuela_IGVSB_WGS84.shp",
+  "total_entidades": 408,
+  "distribucion_dm_bst": {
+    "1": 338,
+    "3": 65,
+    "4": 4,
+    "SIN_CLASIFICAR": 1
+  },
+  "registros_clasificados_como_municipales": 338,
+  "codigos_municipales_unicos_con_codigo": 334,
+  "grupos_de_codigos_duplicados": 4,
+  "registros_en_grupos_de_codigos_duplicados": 8,
+  "codigos_duplicados": [
+    {
+      "codigo_estado_municipio": [
+        "02",
+        "03"
+      ],
+      "registros": [
+        {
+          "id_0": 34.0,
+          "nombre": "Municipio Autónomo Atures",
+          "dm_bst": "1",
+          "dm_cent": "02",
+          "dm_cmun": "03",
+          "observacion": null
+        },
+        {
+          "id_0": 349.0,
+          "nombre": "Municipio Fernando de Peñalver",
+          "dm_bst": "1",
+          "dm_cent": "02",
+          "dm_cmun": "03",
+          "observacion": null
+        }
+      ]
+    },
+    {
+      "codigo_estado_municipio": [
+        "11",
+        "14"
+      ],
+      "registros": [
+        {
+          "id_0": 368.0,
+          "nombre": "Municipio Urumaco",
+          "dm_bst": "1",
+          "dm_cent": "11",
+          "dm_cmun": "14",
+          "observacion": null
+        },
+        {
+          "id_0": 390.0,
+          "nombre": "Municipio Miranda",
+          "dm_bst": "1",
+          "dm_cent": "11",
+          "dm_cmun": "14",
+          "observacion": null
+        }
+      ]
+    },
+    {
+      "codigo_estado_municipio": [
+        "17",
+        "10"
+      ],
+      "registros": [
+        {
+          "id_0": 398.0,
+          "nombre": "Municipio Tubores",
+          "dm_bst": "1",
+          "dm_cent": "17",
+          "dm_cmun": "10",
+          "observacion": null
+        },
+        {
+          "id_0": 399.0,
+          "nombre": "Municipio Tubores",
+          "dm_bst": "1",
+          "dm_cent": "17",
+          "dm_cmun": "10",
+          "observacion": null
+        }
+      ]
+    },
+    {
+      "codigo_estado_municipio": [
+        "23",
+        "20"
+      ],
+      "registros": [
+        {
+          "id_0": 381.0,
+          "nombre": "Municipio Sucre",
+          "dm_bst": "1",
+          "dm_cent": "23",
+          "dm_cmun": "20",
+          "observacion": "Zona de Sobreposición de Límite entre los Estados Mérida-Zulia"
+        },
+        {
+          "id_0": 380.0,
+          "nombre": "Municipio Sucre",
+          "dm_bst": "1",
+          "dm_cent": "23",
+          "dm_cmun": "20",
+          "observacion": "Zona de Sobreposición de Límite entre los Estados Mérida-Zulia"
+        }
+      ]
+    }
+  ],
+  "registros_sin_codigo": [],
+  "registros_sin_clasificacion": [
+    {
+      "id_0": 408.0,
+      "nombre": "GUAYANA ESEQUIBA",
+      "dm_bst": "SIN_CLASIFICAR",
+      "dm_cent": "26",
+      "dm_cmun": "01",
+      "observacion": null
+    }
+  ],
+  "registros_especiales_excluidos_de_catalogo": [
+    {
+      "id_0": 19.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 20.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 21.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 23.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 35.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 59.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 88.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 60.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 61.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 62.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 63.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 64.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 66.0,
+      "nombre": "Zona sin Jurisdicción Territorial entre Municipios",
+      "dm_bst": "4",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 69.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 70.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 72.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 86.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 109.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 113.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 89.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 108.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 111.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 114.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 115.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 124.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 125.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 126.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 127.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 129.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 140.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": "Municipio Independencia (Anzoátegui) - Municipio Libertad (Monagas)"
+    },
+    {
+      "id_0": 147.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 149.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 154.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 155.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 159.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 74.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 160.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 75.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 76.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 77.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 78.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 165.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 79.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 80.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 81.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 82.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 92.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 225.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 377.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 383.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 384.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 386.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 388.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 283.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 287.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 275.0,
+      "nombre": "Zona sin Jurisdicción Territorial entre Municipios",
+      "dm_bst": "4",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 202.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "03",
+      "dm_cmun": "00",
+      "observacion": "ESTADO ANZOÁTEGUI"
+    },
+    {
+      "id_0": 204.0,
+      "nombre": "Zona sin Jurisdicción Territorial entre los Municipios Marí­a Fréites-Cedeño",
+      "dm_bst": "4",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 226.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 227.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 228.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 229.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 231.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 232.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 233.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 51.0,
+      "nombre": "Zona de Sobreposición de Lí­mites entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": "Municipio Juan Manuel Cajigal (Anzoátegui) - Municipio José Félix Ribas (Guárico)"
+    },
+    {
+      "id_0": 22.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 158.0,
+      "nombre": "Zona de Sobreposición de Lí­mite entre Municipios",
+      "dm_bst": "3",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    },
+    {
+      "id_0": 216.0,
+      "nombre": "Zona sin Jurisdicción Territorial entre los Municipios Zamora-Carlos Arvelo",
+      "dm_bst": "4",
+      "dm_cent": "00",
+      "dm_cmun": "00",
+      "observacion": null
+    }
+  ],
+  "registros_con_estado_inesperado": [],
+  "advertencia": "Diagnóstico técnico, no certificación de límites vigentes. No importar automáticamente sin validar la fuente, la licencia, los códigos y la vigencia territorial."
+}

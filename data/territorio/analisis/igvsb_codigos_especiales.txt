@@ -1,0 +1,590 @@
+INFO: Open of `data/territorio/analisis/igvsb_municipal/Limites_municipales_de_venezuela_IGVSB_WGS84/Limites_municipales_de_venezuela_IGVSB_WGS84.shp'
+      using driver `ESRI Shapefile' successful.
+
+Layer name: SELECT
+Geometry: None
+Feature Count: 72
+Layer SRS WKT:
+(unknown)
+id_0: Real (0.0)
+dm_bst: Real (0.0)
+nam: String (0.0)
+dm_cent: String (0.0)
+dm_cmun: String (0.0)
+ara: Real (0.0)
+OGRFeature(SELECT):0
+  id_0 (Real) = 19
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 215020000
+
+OGRFeature(SELECT):1
+  id_0 (Real) = 20
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 283822000
+
+OGRFeature(SELECT):2
+  id_0 (Real) = 21
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 129014000
+
+OGRFeature(SELECT):3
+  id_0 (Real) = 22
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 55339700
+
+OGRFeature(SELECT):4
+  id_0 (Real) = 23
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 171099000
+
+OGRFeature(SELECT):5
+  id_0 (Real) = 35
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 114883000
+
+OGRFeature(SELECT):6
+  id_0 (Real) = 51
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mites entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 77054300
+
+OGRFeature(SELECT):7
+  id_0 (Real) = 59
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 15852500
+
+OGRFeature(SELECT):8
+  id_0 (Real) = 60
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 16519600
+
+OGRFeature(SELECT):9
+  id_0 (Real) = 61
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 7609160
+
+OGRFeature(SELECT):10
+  id_0 (Real) = 62
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 9813130
+
+OGRFeature(SELECT):11
+  id_0 (Real) = 63
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 46983300
+
+OGRFeature(SELECT):12
+  id_0 (Real) = 64
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 2304420
+
+OGRFeature(SELECT):13
+  id_0 (Real) = 66
+  dm_bst (Real) = 4
+  nam (String) = Zona sin Jurisdicción Territorial entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 5728890
+
+OGRFeature(SELECT):14
+  id_0 (Real) = 69
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 205255000
+
+OGRFeature(SELECT):15
+  id_0 (Real) = 70
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 6771910
+
+OGRFeature(SELECT):16
+  id_0 (Real) = 72
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 3511250
+
+OGRFeature(SELECT):17
+  id_0 (Real) = 74
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 51006900
+
+OGRFeature(SELECT):18
+  id_0 (Real) = 75
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 29215900
+
+OGRFeature(SELECT):19
+  id_0 (Real) = 76
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 563711
+
+OGRFeature(SELECT):20
+  id_0 (Real) = 77
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 43172.2
+
+OGRFeature(SELECT):21
+  id_0 (Real) = 78
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 4258970
+
+OGRFeature(SELECT):22
+  id_0 (Real) = 79
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 3389540
+
+OGRFeature(SELECT):23
+  id_0 (Real) = 80
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 6620700
+
+OGRFeature(SELECT):24
+  id_0 (Real) = 81
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 815447000
+
+OGRFeature(SELECT):25
+  id_0 (Real) = 82
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 4836040
+
+OGRFeature(SELECT):26
+  id_0 (Real) = 86
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 48821000
+
+OGRFeature(SELECT):27
+  id_0 (Real) = 88
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 140457000
+
+OGRFeature(SELECT):28
+  id_0 (Real) = 89
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 356167000
+
+OGRFeature(SELECT):29
+  id_0 (Real) = 92
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 9485230
+
+OGRFeature(SELECT):30
+  id_0 (Real) = 108
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 135934000
+
+OGRFeature(SELECT):31
+  id_0 (Real) = 109
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 327617000
+
+OGRFeature(SELECT):32
+  id_0 (Real) = 111
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 258127000
+
+OGRFeature(SELECT):33
+  id_0 (Real) = 113
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 310887000
+
+OGRFeature(SELECT):34
+  id_0 (Real) = 114
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 6701300
+
+OGRFeature(SELECT):35
+  id_0 (Real) = 115
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 203782000
+
+OGRFeature(SELECT):36
+  id_0 (Real) = 124
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 256904000
+
+OGRFeature(SELECT):37
+  id_0 (Real) = 125
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 43665800
+
+OGRFeature(SELECT):38
+  id_0 (Real) = 126
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 401057000
+
+OGRFeature(SELECT):39
+  id_0 (Real) = 127
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 16145000
+
+OGRFeature(SELECT):40
+  id_0 (Real) = 129
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 35043400
+
+OGRFeature(SELECT):41
+  id_0 (Real) = 140
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 249126000
+
+OGRFeature(SELECT):42
+  id_0 (Real) = 147
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 7220800
+
+OGRFeature(SELECT):43
+  id_0 (Real) = 149
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 49651500
+
+OGRFeature(SELECT):44
+  id_0 (Real) = 154
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 22495900
+
+OGRFeature(SELECT):45
+  id_0 (Real) = 155
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 13556600
+
+OGRFeature(SELECT):46
+  id_0 (Real) = 158
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 878500
+
+OGRFeature(SELECT):47
+  id_0 (Real) = 159
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 10664600
+
+OGRFeature(SELECT):48
+  id_0 (Real) = 160
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 36203500
+
+OGRFeature(SELECT):49
+  id_0 (Real) = 165
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 2947110
+
+OGRFeature(SELECT):50
+  id_0 (Real) = 204
+  dm_bst (Real) = 4
+  nam (String) = Zona sin Jurisdicción Territorial entre los Municipios Marí­a Fréites-Cedeño
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 14770000
+
+OGRFeature(SELECT):51
+  id_0 (Real) = 216
+  dm_bst (Real) = 4
+  nam (String) = Zona sin Jurisdicción Territorial entre los Municipios Zamora-Carlos Arvelo
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 7760050
+
+OGRFeature(SELECT):52
+  id_0 (Real) = 225
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 33661000
+
+OGRFeature(SELECT):53
+  id_0 (Real) = 226
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 7164170
+
+OGRFeature(SELECT):54
+  id_0 (Real) = 227
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 205036
+
+OGRFeature(SELECT):55
+  id_0 (Real) = 228
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 37024.9
+
+OGRFeature(SELECT):56
+  id_0 (Real) = 229
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 261059
+
+OGRFeature(SELECT):57
+  id_0 (Real) = 231
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 1675.36
+
+OGRFeature(SELECT):58
+  id_0 (Real) = 232
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 23631.7
+
+OGRFeature(SELECT):59
+  id_0 (Real) = 233
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 4471.12
+
+OGRFeature(SELECT):60
+  id_0 (Real) = 275
+  dm_bst (Real) = 4
+  nam (String) = Zona sin Jurisdicción Territorial entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 4368790
+
+OGRFeature(SELECT):61
+  id_0 (Real) = 283
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 53467100
+
+OGRFeature(SELECT):62
+  id_0 (Real) = 287
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 232585000
+
+OGRFeature(SELECT):63
+  id_0 (Real) = 377
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 418301000
+
+OGRFeature(SELECT):64
+  id_0 (Real) = 383
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 85354400
+
+OGRFeature(SELECT):65
+  id_0 (Real) = 384
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 536969000
+
+OGRFeature(SELECT):66
+  id_0 (Real) = 386
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 316425000
+
+OGRFeature(SELECT):67
+  id_0 (Real) = 388
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 00
+  dm_cmun (String) = 00
+  ara (Real) = 1671430000
+
+OGRFeature(SELECT):68
+  id_0 (Real) = 189
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolivariano Libertador
+  dm_cent (String) = 01
+  dm_cmun (String) = 01
+  ara (Real) = 381799000
+
+OGRFeature(SELECT):69
+  id_0 (Real) = 202
+  dm_bst (Real) = 3
+  nam (String) = Zona de Sobreposición de Lí­mite entre Municipios
+  dm_cent (String) = 03
+  dm_cmun (String) = 00
+  ara (Real) = 32797800
+
+OGRFeature(SELECT):70
+  id_0 (Real) = 353
+  dm_bst (Real) = 1
+  nam (String) = Municipio Vargas
+  dm_cent (String) = 24
+  dm_cmun (String) = 24
+  ara (Real) = 1190040000
+
+OGRFeature(SELECT):71
+  id_0 (Real) = 408
+  dm_bst (Real) = (null)
+  nam (String) = GUAYANA ESEQUIBA
+  dm_cent (String) = 26
+  dm_cmun (String) = 01
+  ara (Real) = 143684000000
+

@@ -1,0 +1,3396 @@
+INFO: Open of `data/territorio/analisis/igvsb_municipal/Limites_municipales_de_venezuela_IGVSB_WGS84/Limites_municipales_de_venezuela_IGVSB_WGS84.shp'
+      using driver `ESRI Shapefile' successful.
+
+Layer name: SELECT
+Geometry: None
+Feature Count: 338
+Layer SRS WKT:
+(unknown)
+id_0: Real (0.0)
+dm_bst: Real (0.0)
+nam: String (0.0)
+dm_cent: String (0.0)
+dm_cmun: String (0.0)
+ara: Real (0.0)
+dm_acc: Real (0.0)
+sag: String (0.0)
+OGRFeature(SELECT):0
+  id_0 (Real) = 189
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolivariano Libertador
+  dm_cent (String) = 01
+  dm_cmun (String) = 01
+  ara (Real) = 381799000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):1
+  id_0 (Real) = 30
+  dm_bst (Real) = 1
+  nam (String) = Municipio Autónomo Alto Orinoco
+  dm_cent (String) = 02
+  dm_cmun (String) = 01
+  ara (Real) = 49964500000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):2
+  id_0 (Real) = 31
+  dm_bst (Real) = 1
+  nam (String) = Municipio Autónomo Atabapo
+  dm_cent (String) = 02
+  dm_cmun (String) = 02
+  ara (Real) = 25543900000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):3
+  id_0 (Real) = 34
+  dm_bst (Real) = 1
+  nam (String) = Municipio Autónomo Atures
+  dm_cent (String) = 02
+  dm_cmun (String) = 03
+  ara (Real) = 4071400000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):4
+  id_0 (Real) = 349
+  dm_bst (Real) = 1
+  nam (String) = Municipio Fernando de Peñalver
+  dm_cent (String) = 02
+  dm_cmun (String) = 03
+  ara (Real) = 754046000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):5
+  id_0 (Real) = 32
+  dm_bst (Real) = 1
+  nam (String) = Municipio Autónomo Autana
+  dm_cent (String) = 02
+  dm_cmun (String) = 04
+  ara (Real) = 15210500000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):6
+  id_0 (Real) = 29
+  dm_bst (Real) = 1
+  nam (String) = Municipio Autónomo Maroa
+  dm_cent (String) = 02
+  dm_cmun (String) = 05
+  ara (Real) = 12892100000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):7
+  id_0 (Real) = 33
+  dm_bst (Real) = 1
+  nam (String) = Municipio Autónomo Manapiare
+  dm_cent (String) = 02
+  dm_cmun (String) = 06
+  ara (Real) = 34051000000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):8
+  id_0 (Real) = 28
+  dm_bst (Real) = 1
+  nam (String) = Municipio Autónomo Rí­o Negro
+  dm_cent (String) = 02
+  dm_cmun (String) = 07
+  ara (Real) = 40373500000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):9
+  id_0 (Real) = 200
+  dm_bst (Real) = 1
+  nam (String) = Municipio Anaco
+  dm_cent (String) = 03
+  dm_cmun (String) = 01
+  ara (Real) = 818733000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):10
+  id_0 (Real) = 201
+  dm_bst (Real) = 1
+  nam (String) = Municipio Aragua
+  dm_cent (String) = 03
+  dm_cmun (String) = 02
+  ara (Real) = 3208350000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):11
+  id_0 (Real) = 205
+  dm_bst (Real) = 1
+  nam (String) = Municipio Francisco del Carmen Carvajal
+  dm_cent (String) = 03
+  dm_cmun (String) = 04
+  ara (Real) = 181602000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):12
+  id_0 (Real) = 210
+  dm_bst (Real) = 1
+  nam (String) = Municipio Francisco de Miranda
+  dm_cent (String) = 03
+  dm_cmun (String) = 05
+  ara (Real) = 5181260000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):13
+  id_0 (Real) = 345
+  dm_bst (Real) = 1
+  nam (String) = Municipio Guanta
+  dm_cent (String) = 03
+  dm_cmun (String) = 06
+  ara (Real) = 70806700
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):14
+  id_0 (Real) = 197
+  dm_bst (Real) = 1
+  nam (String) = Municipio Independencia
+  dm_cent (String) = 03
+  dm_cmun (String) = 07
+  ara (Real) = 6760240000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):15
+  id_0 (Real) = 346
+  dm_bst (Real) = 1
+  nam (String) = Municipio Juan Antonio Sotillo
+  dm_cent (String) = 03
+  dm_cmun (String) = 08
+  ara (Real) = 232981000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):16
+  id_0 (Real) = 203
+  dm_bst (Real) = 1
+  nam (String) = Municipio Juan Manuel Cajigal
+  dm_cent (String) = 03
+  dm_cmun (String) = 09
+  ara (Real) = 1909600000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):17
+  id_0 (Real) = 194
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Gregorio Monagas
+  dm_cent (String) = 03
+  dm_cmun (String) = 10
+  ara (Real) = 9770150000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):18
+  id_0 (Real) = 208
+  dm_bst (Real) = 1
+  nam (String) = Municipio Libertad
+  dm_cent (String) = 03
+  dm_cmun (String) = 11
+  ara (Real) = 2126540000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):19
+  id_0 (Real) = 207
+  dm_bst (Real) = 1
+  nam (String) = Municipio Manuel Ezequiel Bruzual
+  dm_cent (String) = 03
+  dm_cmun (String) = 12
+  ara (Real) = 1655040000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):20
+  id_0 (Real) = 209
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pedro Marí­a Fréites
+  dm_cent (String) = 03
+  dm_cmun (String) = 13
+  ara (Real) = 7967390000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):21
+  id_0 (Real) = 206
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pí­ritu
+  dm_cent (String) = 03
+  dm_cmun (String) = 14
+  ara (Real) = 204349000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):22
+  id_0 (Real) = 195
+  dm_bst (Real) = 1
+  nam (String) = Municipio San José de Guanipa
+  dm_cent (String) = 03
+  dm_cmun (String) = 15
+  ara (Real) = 1022600000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):23
+  id_0 (Real) = 350
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Juan de Capistrano
+  dm_cent (String) = 03
+  dm_cmun (String) = 16
+  ara (Real) = 118610000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):24
+  id_0 (Real) = 199
+  dm_bst (Real) = 1
+  nam (String) = Municipio Santa Ana
+  dm_cent (String) = 03
+  dm_cmun (String) = 17
+  ara (Real) = 806620000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):25
+  id_0 (Real) = 348
+  dm_bst (Real) = 1
+  nam (String) = Municipio Simón Bolí­var
+  dm_cent (String) = 03
+  dm_cmun (String) = 18
+  ara (Real) = 1702360000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):26
+  id_0 (Real) = 196
+  dm_bst (Real) = 1
+  nam (String) = Municipio Simón Rodrí­guez
+  dm_cent (String) = 03
+  dm_cmun (String) = 19
+  ara (Real) = 674779000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):27
+  id_0 (Real) = 198
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sir Arthur Mc Gregor
+  dm_cent (String) = 03
+  dm_cmun (String) = 20
+  ara (Real) = 1360940000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):28
+  id_0 (Real) = 347
+  dm_bst (Real) = 1
+  nam (String) = Municipio Turí­stico Diego Bautista Urbaneja
+  dm_cent (String) = 03
+  dm_cmun (String) = 21
+  ara (Real) = 13022100
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):29
+  id_0 (Real) = 16
+  dm_bst (Real) = 1
+  nam (String) = Municipio Achaguas
+  dm_cent (String) = 04
+  dm_cmun (String) = 01
+  ara (Real) = 14078100000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):30
+  id_0 (Real) = 17
+  dm_bst (Real) = 1
+  nam (String) = Municipio Biruaca
+  dm_cent (String) = 04
+  dm_cmun (String) = 02
+  ara (Real) = 977675000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):31
+  id_0 (Real) = 18
+  dm_bst (Real) = 1
+  nam (String) = Municipio Muñoz
+  dm_cent (String) = 04
+  dm_cmun (String) = 03
+  ara (Real) = 7853330000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):32
+  id_0 (Real) = 14
+  dm_bst (Real) = 1
+  nam (String) = Municipio Paéz
+  dm_cent (String) = 04
+  dm_cmun (String) = 04
+  ara (Real) = 12274900000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):33
+  id_0 (Real) = 13
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pedro Camejo
+  dm_cent (String) = 04
+  dm_cmun (String) = 05
+  ara (Real) = 21160200000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):34
+  id_0 (Real) = 12
+  dm_bst (Real) = 1
+  nam (String) = Municipio Rómulo Gallegos
+  dm_cent (String) = 04
+  dm_cmun (String) = 06
+  ara (Real) = 12085300000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):35
+  id_0 (Real) = 15
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Fernando
+  dm_cent (String) = 04
+  dm_cmun (String) = 07
+  ara (Real) = 5657650000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):36
+  id_0 (Real) = 99
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolí­var
+  dm_cent (String) = 05
+  dm_cmun (String) = 01
+  ara (Real) = 59991900
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):37
+  id_0 (Real) = 90
+  dm_bst (Real) = 1
+  nam (String) = Municipio Camatagua
+  dm_cent (String) = 05
+  dm_cmun (String) = 02
+  ara (Real) = 913673000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):38
+  id_0 (Real) = 387
+  dm_bst (Real) = 1
+  nam (String) = Municipio Girardot
+  dm_cent (String) = 05
+  dm_cmun (String) = 03
+  ara (Real) = 317249000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):39
+  id_0 (Real) = 95
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Ángel Lamas
+  dm_cent (String) = 05
+  dm_cmun (String) = 04
+  ara (Real) = 27289900
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):40
+  id_0 (Real) = 104
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Félix Ribas
+  dm_cent (String) = 05
+  dm_cmun (String) = 05
+  ara (Real) = 391256000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):41
+  id_0 (Real) = 101
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Rafael Revenga
+  dm_cent (String) = 05
+  dm_cmun (String) = 06
+  ara (Real) = 183452000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):42
+  id_0 (Real) = 96
+  dm_bst (Real) = 1
+  nam (String) = Municipio Libertador
+  dm_cent (String) = 05
+  dm_cmun (String) = 07
+  ara (Real) = 89316400
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):43
+  id_0 (Real) = 102
+  dm_bst (Real) = 1
+  nam (String) = Municipio Mario Briceño Iragorry
+  dm_cent (String) = 05
+  dm_cmun (String) = 08
+  ara (Real) = 64343000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):44
+  id_0 (Real) = 91
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Casimiro
+  dm_cent (String) = 05
+  dm_cmun (String) = 09
+  ara (Real) = 511727000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):45
+  id_0 (Real) = 93
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Sebastián
+  dm_cent (String) = 05
+  dm_cmun (String) = 10
+  ara (Real) = 510941000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):46
+  id_0 (Real) = 354
+  dm_bst (Real) = 1
+  nam (String) = Municipio Santiago Mariño
+  dm_cent (String) = 05
+  dm_cmun (String) = 11
+  ara (Real) = 509114000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):47
+  id_0 (Real) = 100
+  dm_bst (Real) = 1
+  nam (String) = Municipio Santos Michelena
+  dm_cent (String) = 05
+  dm_cmun (String) = 12
+  ara (Real) = 216368000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):48
+  id_0 (Real) = 97
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 05
+  dm_cmun (String) = 13
+  ara (Real) = 65319200
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):49
+  id_0 (Real) = 355
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tovar
+  dm_cent (String) = 05
+  dm_cmun (String) = 14
+  ara (Real) = 288543000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):50
+  id_0 (Real) = 103
+  dm_bst (Real) = 1
+  nam (String) = Municipio Urdaneta
+  dm_cent (String) = 05
+  dm_cmun (String) = 15
+  ara (Real) = 1667620000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):51
+  id_0 (Real) = 94
+  dm_bst (Real) = 1
+  nam (String) = Municipio Zamora
+  dm_cent (String) = 05
+  dm_cmun (String) = 16
+  ara (Real) = 688828000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):52
+  id_0 (Real) = 98
+  dm_bst (Real) = 1
+  nam (String) = Municipio Francisco Linares Alcántara
+  dm_cent (String) = 05
+  dm_cmun (String) = 17
+  ara (Real) = 23911500
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):53
+  id_0 (Real) = 356
+  dm_bst (Real) = 1
+  nam (String) = Municipio Ocumare de La Costa de Oro
+  dm_cent (String) = 05
+  dm_cmun (String) = 18
+  ara (Real) = 401047000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):54
+  id_0 (Real) = 122
+  dm_bst (Real) = 1
+  nam (String) = Municipio Alberto Arvelo Torrealba
+  dm_cent (String) = 06
+  dm_cmun (String) = 01
+  ara (Real) = 805672000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):55
+  id_0 (Real) = 123
+  dm_bst (Real) = 1
+  nam (String) = Municipio Antonio José de Sucre
+  dm_cent (String) = 06
+  dm_cmun (String) = 02
+  ara (Real) = 3172350000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):56
+  id_0 (Real) = 110
+  dm_bst (Real) = 1
+  nam (String) = Municipio Arismendi
+  dm_cent (String) = 06
+  dm_cmun (String) = 03
+  ara (Real) = 7652750000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):57
+  id_0 (Real) = 117
+  dm_bst (Real) = 1
+  nam (String) = Municipio Barinas
+  dm_cent (String) = 06
+  dm_cmun (String) = 04
+  ara (Real) = 3501730000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):58
+  id_0 (Real) = 120
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolí­var
+  dm_cent (String) = 06
+  dm_cmun (String) = 05
+  ara (Real) = 1110650000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):59
+  id_0 (Real) = 121
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cruz Paredes
+  dm_cent (String) = 06
+  dm_cmun (String) = 06
+  ara (Real) = 846187000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):60
+  id_0 (Real) = 107
+  dm_bst (Real) = 1
+  nam (String) = Municipio Ezequiel Zamora
+  dm_cent (String) = 06
+  dm_cmun (String) = 07
+  ara (Real) = 4015650000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):61
+  id_0 (Real) = 118
+  dm_bst (Real) = 1
+  nam (String) = Municipio Obispos
+  dm_cent (String) = 06
+  dm_cmun (String) = 08
+  ara (Real) = 1857910000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):62
+  id_0 (Real) = 119
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pedraza
+  dm_cent (String) = 06
+  dm_cmun (String) = 09
+  ara (Real) = 6147960000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):63
+  id_0 (Real) = 116
+  dm_bst (Real) = 1
+  nam (String) = Municipio Rojas
+  dm_cent (String) = 06
+  dm_cmun (String) = 10
+  ara (Real) = 1668670000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):64
+  id_0 (Real) = 112
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sosa
+  dm_cent (String) = 06
+  dm_cmun (String) = 11
+  ara (Real) = 3426910000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):65
+  id_0 (Real) = 105
+  dm_bst (Real) = 1
+  nam (String) = Municipio Andrés Eloy Blanco
+  dm_cent (String) = 06
+  dm_cmun (String) = 12
+  ara (Real) = 1819550000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):66
+  id_0 (Real) = 106
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Antonio Paéz
+  dm_cent (String) = 06
+  dm_cmun (String) = 13
+  ara (Real) = 993398000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):67
+  id_0 (Real) = 10
+  dm_bst (Real) = 1
+  nam (String) = Municipio Caroní­
+  dm_cent (String) = 07
+  dm_cmun (String) = 01
+  ara (Real) = 1665470000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):68
+  id_0 (Real) = 3
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cedeño
+  dm_cent (String) = 07
+  dm_cmun (String) = 02
+  ara (Real) = 49423400000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):69
+  id_0 (Real) = 2
+  dm_bst (Real) = 1
+  nam (String) = Municipio El Callao
+  dm_cent (String) = 07
+  dm_cmun (String) = 03
+  ara (Real) = 2280430000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):70
+  id_0 (Real) = 1
+  dm_bst (Real) = 1
+  nam (String) = Municipio Gran Sabana
+  dm_cent (String) = 07
+  dm_cmun (String) = 04
+  ara (Real) = 34648200000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):71
+  id_0 (Real) = 8
+  dm_bst (Real) = 1
+  nam (String) = Municipio Heres
+  dm_cent (String) = 07
+  dm_cmun (String) = 05
+  ara (Real) = 7505140000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):72
+  id_0 (Real) = 9
+  dm_bst (Real) = 1
+  nam (String) = Municipio Piar
+  dm_cent (String) = 07
+  dm_cmun (String) = 06
+  ara (Real) = 15505900000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):73
+  id_0 (Real) = 6
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolivariano Angostura
+  dm_cent (String) = 07
+  dm_cmun (String) = 07
+  ara (Real) = 57716000000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):74
+  id_0 (Real) = 4
+  dm_bst (Real) = 1
+  nam (String) = Municipio Roscio
+  dm_cent (String) = 07
+  dm_cmun (String) = 08
+  ara (Real) = 7274300000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):75
+  id_0 (Real) = 5
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sifontes
+  dm_cent (String) = 07
+  dm_cmun (String) = 09
+  ara (Real) = 25708200000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):76
+  id_0 (Real) = 7
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 07
+  dm_cmun (String) = 10
+  ara (Real) = 49891700000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):77
+  id_0 (Real) = 11
+  dm_bst (Real) = 1
+  nam (String) = Municipio Padre Pedro Chien
+  dm_cent (String) = 07
+  dm_cmun (String) = 11
+  ara (Real) = 3724380000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):78
+  id_0 (Real) = 224
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bejuma
+  dm_cent (String) = 08
+  dm_cmun (String) = 01
+  ara (Real) = 558535000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):79
+  id_0 (Real) = 211
+  dm_bst (Real) = 1
+  nam (String) = Municipio Carlos Arvelo
+  dm_cent (String) = 08
+  dm_cmun (String) = 02
+  ara (Real) = 875560000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):80
+  id_0 (Real) = 219
+  dm_bst (Real) = 1
+  nam (String) = Municipio Diego Ibarra
+  dm_cent (String) = 08
+  dm_cmun (String) = 03
+  ara (Real) = 80937500
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):81
+  id_0 (Real) = 223
+  dm_bst (Real) = 1
+  nam (String) = Municipio Guacara
+  dm_cent (String) = 08
+  dm_cmun (String) = 04
+  ara (Real) = 181332000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):82
+  id_0 (Real) = 358
+  dm_bst (Real) = 1
+  nam (String) = Municipio Juan José Mora
+  dm_cent (String) = 08
+  dm_cmun (String) = 05
+  ara (Real) = 541178000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):83
+  id_0 (Real) = 217
+  dm_bst (Real) = 1
+  nam (String) = Municipio Libertador
+  dm_cent (String) = 08
+  dm_cmun (String) = 06
+  ara (Real) = 540917000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):84
+  id_0 (Real) = 213
+  dm_bst (Real) = 1
+  nam (String) = Municipio Los Guayos
+  dm_cent (String) = 08
+  dm_cmun (String) = 07
+  ara (Real) = 66917800
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):85
+  id_0 (Real) = 214
+  dm_bst (Real) = 1
+  nam (String) = Municipio Miranda
+  dm_cent (String) = 08
+  dm_cmun (String) = 08
+  ara (Real) = 187088000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):86
+  id_0 (Real) = 218
+  dm_bst (Real) = 1
+  nam (String) = Municipio Montalbán
+  dm_cent (String) = 08
+  dm_cmun (String) = 09
+  ara (Real) = 136418000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):87
+  id_0 (Real) = 220
+  dm_bst (Real) = 1
+  nam (String) = Municipio Naguanagua
+  dm_cent (String) = 08
+  dm_cmun (String) = 10
+  ara (Real) = 198888000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):88
+  id_0 (Real) = 357
+  dm_bst (Real) = 1
+  nam (String) = Municipio Puerto Cabello
+  dm_cent (String) = 08
+  dm_cmun (String) = 11
+  ara (Real) = 489126000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):89
+  id_0 (Real) = 222
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Diego
+  dm_cent (String) = 08
+  dm_cmun (String) = 12
+  ara (Real) = 114878000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):90
+  id_0 (Real) = 221
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Joaquí­n
+  dm_cent (String) = 08
+  dm_cmun (String) = 13
+  ara (Real) = 135061000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):91
+  id_0 (Real) = 215
+  dm_bst (Real) = 1
+  nam (String) = Municipio Valencia
+  dm_cent (String) = 08
+  dm_cmun (String) = 14
+  ara (Real) = 166550000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):92
+  id_0 (Real) = 212
+  dm_bst (Real) = 1
+  nam (String) = Municipio Miguel Peña
+  dm_cent (String) = 08
+  dm_cmun (String) = 15
+  ara (Real) = 633276000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):93
+  id_0 (Real) = 241
+  dm_bst (Real) = 1
+  nam (String) = Municipio Anzoátegui
+  dm_cent (String) = 09
+  dm_cmun (String) = 01
+  ara (Real) = 792901000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):94
+  id_0 (Real) = 240
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tinaquillo
+  dm_cent (String) = 09
+  dm_cmun (String) = 02
+  ara (Real) = 676021000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):95
+  id_0 (Real) = 230
+  dm_bst (Real) = 1
+  nam (String) = Municipio Girardot
+  dm_cent (String) = 09
+  dm_cmun (String) = 03
+  ara (Real) = 3229030000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):96
+  id_0 (Real) = 238
+  dm_bst (Real) = 1
+  nam (String) = Municipio Lima Blanco
+  dm_cent (String) = 09
+  dm_cmun (String) = 04
+  ara (Real) = 162698000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):97
+  id_0 (Real) = 237
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pao de San Juan Bautista
+  dm_cent (String) = 09
+  dm_cmun (String) = 05
+  ara (Real) = 4762020000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):98
+  id_0 (Real) = 234
+  dm_bst (Real) = 1
+  nam (String) = Municipio Ricaurte
+  dm_cent (String) = 09
+  dm_cmun (String) = 06
+  ara (Real) = 956495000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):99
+  id_0 (Real) = 235
+  dm_bst (Real) = 1
+  nam (String) = Municipio Rómulo Gallegos
+  dm_cent (String) = 09
+  dm_cmun (String) = 07
+  ara (Real) = 918078000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):100
+  id_0 (Real) = 239
+  dm_bst (Real) = 1
+  nam (String) = Municipio Ezequiel Zamora
+  dm_cent (String) = 09
+  dm_cmun (String) = 08
+  ara (Real) = 1414270000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):101
+  id_0 (Real) = 236
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tinaco
+  dm_cent (String) = 09
+  dm_cmun (String) = 09
+  ara (Real) = 1059380000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):102
+  id_0 (Real) = 395
+  dm_bst (Real) = 1
+  nam (String) = Municipio Antonio Dí­az
+  dm_cent (String) = 10
+  dm_cmun (String) = 01
+  ara (Real) = 21161500000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):103
+  id_0 (Real) = 393
+  dm_bst (Real) = 1
+  nam (String) = Municipio Casacoima
+  dm_cent (String) = 10
+  dm_cmun (String) = 02
+  ara (Real) = 2721700000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):104
+  id_0 (Real) = 392
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pedernales
+  dm_cent (String) = 10
+  dm_cmun (String) = 03
+  ara (Real) = 3827810000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):105
+  id_0 (Real) = 394
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tucupita
+  dm_cent (String) = 10
+  dm_cmun (String) = 04
+  ara (Real) = 10974900000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):106
+  id_0 (Real) = 361
+  dm_bst (Real) = 1
+  nam (String) = Municipio Acosta
+  dm_cent (String) = 11
+  dm_cmun (String) = 01
+  ara (Real) = 847279000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):107
+  id_0 (Real) = 39
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolí­var
+  dm_cent (String) = 11
+  dm_cmun (String) = 02
+  ara (Real) = 409901000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):108
+  id_0 (Real) = 389
+  dm_bst (Real) = 1
+  nam (String) = Municipio Buchivacoa
+  dm_cent (String) = 11
+  dm_cmun (String) = 03
+  ara (Real) = 2947420000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):109
+  id_0 (Real) = 26
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cacique Manaure
+  dm_cent (String) = 11
+  dm_cmun (String) = 04
+  ara (Real) = 228214000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):110
+  id_0 (Real) = 366
+  dm_bst (Real) = 1
+  nam (String) = Municipio Carirubana
+  dm_cent (String) = 11
+  dm_cmun (String) = 05
+  ara (Real) = 677891000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):111
+  id_0 (Real) = 364
+  dm_bst (Real) = 1
+  nam (String) = Municipio Colina
+  dm_cent (String) = 11
+  dm_cmun (String) = 06
+  ara (Real) = 569108000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):112
+  id_0 (Real) = 36
+  dm_bst (Real) = 1
+  nam (String) = Municipio Dabajuro
+  dm_cent (String) = 11
+  dm_cmun (String) = 07
+  ara (Real) = 1033580000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):113
+  id_0 (Real) = 38
+  dm_bst (Real) = 1
+  nam (String) = Municipio Democracia
+  dm_cent (String) = 11
+  dm_cmun (String) = 08
+  ara (Real) = 2720560000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):114
+  id_0 (Real) = 367
+  dm_bst (Real) = 1
+  nam (String) = Municipio Falcón
+  dm_cent (String) = 11
+  dm_cmun (String) = 09
+  ara (Real) = 1794690000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):115
+  id_0 (Real) = 25
+  dm_bst (Real) = 1
+  nam (String) = Municipio Federación
+  dm_cent (String) = 11
+  dm_cmun (String) = 10
+  ara (Real) = 1325140000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):116
+  id_0 (Real) = 41
+  dm_bst (Real) = 1
+  nam (String) = Municipio Jacura
+  dm_cent (String) = 11
+  dm_cmun (String) = 11
+  ara (Real) = 2201530000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):117
+  id_0 (Real) = 365
+  dm_bst (Real) = 1
+  nam (String) = Municipio Los Taques
+  dm_cent (String) = 11
+  dm_cmun (String) = 12
+  ara (Real) = 246825000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):118
+  id_0 (Real) = 369
+  dm_bst (Real) = 1
+  nam (String) = Municipio Mauroa
+  dm_cent (String) = 11
+  dm_cmun (String) = 13
+  ara (Real) = 2108640000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):119
+  id_0 (Real) = 390
+  dm_bst (Real) = 1
+  nam (String) = Municipio Miranda
+  dm_cent (String) = 11
+  dm_cmun (String) = 14
+  ara (Real) = 2187870000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):120
+  id_0 (Real) = 368
+  dm_bst (Real) = 1
+  nam (String) = Municipio Urumaco
+  dm_cent (String) = 11
+  dm_cmun (String) = 14
+  ara (Real) = 902358000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):121
+  id_0 (Real) = 360
+  dm_bst (Real) = 1
+  nam (String) = Municipio Monseñor Iturriza
+  dm_cent (String) = 11
+  dm_cmun (String) = 15
+  ara (Real) = 981507000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):122
+  id_0 (Real) = 24
+  dm_bst (Real) = 1
+  nam (String) = Municipio Palmasola
+  dm_cent (String) = 11
+  dm_cmun (String) = 16
+  ara (Real) = 97007000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):123
+  id_0 (Real) = 40
+  dm_bst (Real) = 1
+  nam (String) = Municipio Petit
+  dm_cent (String) = 11
+  dm_cmun (String) = 17
+  ara (Real) = 1155270000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):124
+  id_0 (Real) = 391
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pí­ritu
+  dm_cent (String) = 11
+  dm_cmun (String) = 18
+  ara (Real) = 1298510000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):125
+  id_0 (Real) = 42
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Francisco
+  dm_cent (String) = 11
+  dm_cmun (String) = 19
+  ara (Real) = 365850000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):126
+  id_0 (Real) = 359
+  dm_bst (Real) = 1
+  nam (String) = Municipio Silva
+  dm_cent (String) = 11
+  dm_cmun (String) = 20
+  ara (Real) = 791420000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):127
+  id_0 (Real) = 37
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 11
+  dm_cmun (String) = 21
+  ara (Real) = 805243000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):128
+  id_0 (Real) = 362
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tocópero
+  dm_cent (String) = 11
+  dm_cmun (String) = 22
+  ara (Real) = 100765000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):129
+  id_0 (Real) = 27
+  dm_bst (Real) = 1
+  nam (String) = Municipio Unión
+  dm_cent (String) = 11
+  dm_cmun (String) = 23
+  ara (Real) = 1103280000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):130
+  id_0 (Real) = 363
+  dm_bst (Real) = 1
+  nam (String) = Municipio Zamora
+  dm_cent (String) = 11
+  dm_cmun (String) = 25
+  ara (Real) = 732596000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):131
+  id_0 (Real) = 43
+  dm_bst (Real) = 1
+  nam (String) = Municipio Camaguán
+  dm_cent (String) = 12
+  dm_cmun (String) = 01
+  ara (Real) = 1429960000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):132
+  id_0 (Real) = 54
+  dm_bst (Real) = 1
+  nam (String) = Municipio Chaguaramas
+  dm_cent (String) = 12
+  dm_cmun (String) = 02
+  ara (Real) = 2327940000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):133
+  id_0 (Real) = 46
+  dm_bst (Real) = 1
+  nam (String) = Municipio El Socorro
+  dm_cent (String) = 12
+  dm_cmun (String) = 03
+  ara (Real) = 2986890000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):134
+  id_0 (Real) = 44
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Gerónimo de Guayabal
+  dm_cent (String) = 12
+  dm_cmun (String) = 04
+  ara (Real) = 4083660000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):135
+  id_0 (Real) = 49
+  dm_bst (Real) = 1
+  nam (String) = Municipio Leonardo Infante
+  dm_cent (String) = 12
+  dm_cmun (String) = 05
+  ara (Real) = 10121700000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):136
+  id_0 (Real) = 47
+  dm_bst (Real) = 1
+  nam (String) = Municipio Las Mercedes
+  dm_cent (String) = 12
+  dm_cmun (String) = 06
+  ara (Real) = 8065700000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):137
+  id_0 (Real) = 53
+  dm_bst (Real) = 1
+  nam (String) = Municipio Julián Mellado
+  dm_cent (String) = 12
+  dm_cmun (String) = 07
+  ara (Real) = 2110460000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):138
+  id_0 (Real) = 48
+  dm_bst (Real) = 1
+  nam (String) = Municipio Francisco de Miranda
+  dm_cent (String) = 12
+  dm_cmun (String) = 08
+  ara (Real) = 14119900000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):139
+  id_0 (Real) = 58
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Tadeo Monagas
+  dm_cent (String) = 12
+  dm_cmun (String) = 09
+  ara (Real) = 3441280000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):140
+  id_0 (Real) = 55
+  dm_bst (Real) = 1
+  nam (String) = Municipio Ortí­z
+  dm_cent (String) = 12
+  dm_cmun (String) = 10
+  ara (Real) = 4163510000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):141
+  id_0 (Real) = 52
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Félix Ribas
+  dm_cent (String) = 12
+  dm_cmun (String) = 11
+  ara (Real) = 2241990000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):142
+  id_0 (Real) = 57
+  dm_bst (Real) = 1
+  nam (String) = Municipio Juan Germán Roscio
+  dm_cent (String) = 12
+  dm_cmun (String) = 12
+  ara (Real) = 1856010000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):143
+  id_0 (Real) = 56
+  dm_bst (Real) = 1
+  nam (String) = Municipio San José de Guaribe
+  dm_cent (String) = 12
+  dm_cmun (String) = 13
+  ara (Real) = 1145660000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):144
+  id_0 (Real) = 45
+  dm_bst (Real) = 1
+  nam (String) = Municipio Santa Marí­a de Ipire
+  dm_cent (String) = 12
+  dm_cmun (String) = 14
+  ara (Real) = 4317110000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):145
+  id_0 (Real) = 50
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pedro Zaraza
+  dm_cent (String) = 12
+  dm_cmun (String) = 15
+  ara (Real) = 3065900000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):146
+  id_0 (Real) = 65
+  dm_bst (Real) = 1
+  nam (String) = Municipio Andrés Eloy Blanco
+  dm_cent (String) = 13
+  dm_cmun (String) = 01
+  ara (Real) = 662985000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):147
+  id_0 (Real) = 83
+  dm_bst (Real) = 1
+  nam (String) = Municipio Crespo
+  dm_cent (String) = 13
+  dm_cmun (String) = 02
+  ara (Real) = 732486000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):148
+  id_0 (Real) = 84
+  dm_bst (Real) = 1
+  nam (String) = Municipio Iribarren
+  dm_cent (String) = 13
+  dm_cmun (String) = 03
+  ara (Real) = 2683090000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):149
+  id_0 (Real) = 73
+  dm_bst (Real) = 1
+  nam (String) = Municipio Jiménez
+  dm_cent (String) = 13
+  dm_cmun (String) = 04
+  ara (Real) = 886519000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):150
+  id_0 (Real) = 67
+  dm_bst (Real) = 1
+  nam (String) = Municipio Morón
+  dm_cent (String) = 13
+  dm_cmun (String) = 05
+  ara (Real) = 2274140000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):151
+  id_0 (Real) = 71
+  dm_bst (Real) = 1
+  nam (String) = Municipio Palavecino
+  dm_cent (String) = 13
+  dm_cmun (String) = 06
+  ara (Real) = 257556000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):152
+  id_0 (Real) = 68
+  dm_bst (Real) = 1
+  nam (String) = Municipio Simón Planas
+  dm_cent (String) = 13
+  dm_cmun (String) = 07
+  ara (Real) = 856272000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):153
+  id_0 (Real) = 85
+  dm_bst (Real) = 1
+  nam (String) = Municipio Torres
+  dm_cent (String) = 13
+  dm_cmun (String) = 08
+  ara (Real) = 6617510000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):154
+  id_0 (Real) = 87
+  dm_bst (Real) = 1
+  nam (String) = Municipio Urdaneta
+  dm_cent (String) = 13
+  dm_cmun (String) = 09
+  ara (Real) = 3603130000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):155
+  id_0 (Real) = 270
+  dm_bst (Real) = 1
+  nam (String) = Municipio Alberto Adriani
+  dm_cent (String) = 14
+  dm_cmun (String) = 01
+  ara (Real) = 687725000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):156
+  id_0 (Real) = 271
+  dm_bst (Real) = 1
+  nam (String) = Municipio Andrés Bello
+  dm_cent (String) = 14
+  dm_cmun (String) = 02
+  ara (Real) = 401884000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):157
+  id_0 (Real) = 266
+  dm_bst (Real) = 1
+  nam (String) = Municipio Antonio Pinto Salinas
+  dm_cent (String) = 14
+  dm_cmun (String) = 03
+  ara (Real) = 358142000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):158
+  id_0 (Real) = 264
+  dm_bst (Real) = 1
+  nam (String) = Municipio Aricagua
+  dm_cent (String) = 14
+  dm_cmun (String) = 04
+  ara (Real) = 817771000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):159
+  id_0 (Real) = 263
+  dm_bst (Real) = 1
+  nam (String) = Municipio Arzobispo Chacón
+  dm_cent (String) = 14
+  dm_cmun (String) = 05
+  ara (Real) = 1690560000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):160
+  id_0 (Real) = 268
+  dm_bst (Real) = 1
+  nam (String) = Municipio Campo Elí­as
+  dm_cent (String) = 14
+  dm_cmun (String) = 06
+  ara (Real) = 639354000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):161
+  id_0 (Real) = 277
+  dm_bst (Real) = 1
+  nam (String) = Municipio Caracciolo Parra Olmedo
+  dm_cent (String) = 14
+  dm_cmun (String) = 07
+  ara (Real) = 650842000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):162
+  id_0 (Real) = 276
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cardenal Quintero
+  dm_cent (String) = 14
+  dm_cmun (String) = 08
+  ara (Real) = 355506000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):163
+  id_0 (Real) = 262
+  dm_bst (Real) = 1
+  nam (String) = Municipio Guaraque
+  dm_cent (String) = 14
+  dm_cmun (String) = 09
+  ara (Real) = 544609000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):164
+  id_0 (Real) = 280
+  dm_bst (Real) = 1
+  nam (String) = Municipio Julio César Salas
+  dm_cent (String) = 14
+  dm_cmun (String) = 10
+  ara (Real) = 62922000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):165
+  id_0 (Real) = 281
+  dm_bst (Real) = 1
+  nam (String) = Municipio Justo Briceño
+  dm_cent (String) = 14
+  dm_cmun (String) = 11
+  ara (Real) = 487315000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):166
+  id_0 (Real) = 272
+  dm_bst (Real) = 1
+  nam (String) = Municipio Libertador
+  dm_cent (String) = 14
+  dm_cmun (String) = 12
+  ara (Real) = 812942000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):167
+  id_0 (Real) = 279
+  dm_bst (Real) = 1
+  nam (String) = Municipio Miranda
+  dm_cent (String) = 14
+  dm_cmun (String) = 13
+  ara (Real) = 421774000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):168
+  id_0 (Real) = 274
+  dm_bst (Real) = 1
+  nam (String) = Municipio Obispo Ramos de Lora
+  dm_cent (String) = 14
+  dm_cmun (String) = 14
+  ara (Real) = 331007000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):169
+  id_0 (Real) = 261
+  dm_bst (Real) = 1
+  nam (String) = Municipio Padre Noguera
+  dm_cent (String) = 14
+  dm_cmun (String) = 15
+  ara (Real) = 214732000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):170
+  id_0 (Real) = 278
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pueblo Llano
+  dm_cent (String) = 14
+  dm_cmun (String) = 16
+  ara (Real) = 93881900
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):171
+  id_0 (Real) = 273
+  dm_bst (Real) = 1
+  nam (String) = Municipio Rangel
+  dm_cent (String) = 14
+  dm_cmun (String) = 17
+  ara (Real) = 533694000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):172
+  id_0 (Real) = 335
+  dm_bst (Real) = 1
+  nam (String) = Municipio Rivas Dávila
+  dm_cent (String) = 14
+  dm_cmun (String) = 18
+  ara (Real) = 187459000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):173
+  id_0 (Real) = 269
+  dm_bst (Real) = 1
+  nam (String) = Municipio Santos Marquina
+  dm_cent (String) = 14
+  dm_cmun (String) = 19
+  ara (Real) = 162929000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):174
+  id_0 (Real) = 267
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 14
+  dm_cmun (String) = 20
+  ara (Real) = 956718000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):175
+  id_0 (Real) = 265
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tovar
+  dm_cent (String) = 14
+  dm_cmun (String) = 21
+  ara (Real) = 167853000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):176
+  id_0 (Real) = 382
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tulio Febres Cordero
+  dm_cent (String) = 14
+  dm_cmun (String) = 22
+  ara (Real) = 375667000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):177
+  id_0 (Real) = 334
+  dm_bst (Real) = 1
+  nam (String) = Municipio Zea
+  dm_cent (String) = 14
+  dm_cmun (String) = 23
+  ara (Real) = 136538000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):178
+  id_0 (Real) = 256
+  dm_bst (Real) = 1
+  nam (String) = Municipio Acevedo
+  dm_cent (String) = 15
+  dm_cmun (String) = 01
+  ara (Real) = 2081310000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):179
+  id_0 (Real) = 249
+  dm_bst (Real) = 1
+  nam (String) = Municipio Andrés Bello
+  dm_cent (String) = 15
+  dm_cmun (String) = 02
+  ara (Real) = 127222000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):180
+  id_0 (Real) = 255
+  dm_bst (Real) = 1
+  nam (String) = Municipio Baruta
+  dm_cent (String) = 15
+  dm_cmun (String) = 03
+  ara (Real) = 94438800
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):181
+  id_0 (Real) = 352
+  dm_bst (Real) = 1
+  nam (String) = Municipio Brión
+  dm_cent (String) = 15
+  dm_cmun (String) = 04
+  ara (Real) = 587671000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):182
+  id_0 (Real) = 250
+  dm_bst (Real) = 1
+  nam (String) = Municipio Buroz
+  dm_cent (String) = 15
+  dm_cmun (String) = 05
+  ara (Real) = 220502000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):183
+  id_0 (Real) = 248
+  dm_bst (Real) = 1
+  nam (String) = Municipio Carrizal
+  dm_cent (String) = 15
+  dm_cmun (String) = 06
+  ara (Real) = 30142000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):184
+  id_0 (Real) = 259
+  dm_bst (Real) = 1
+  nam (String) = Municipio Chacao
+  dm_cent (String) = 15
+  dm_cmun (String) = 07
+  ara (Real) = 16010900
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):185
+  id_0 (Real) = 247
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cristóbal Rojas
+  dm_cent (String) = 15
+  dm_cmun (String) = 08
+  ara (Real) = 164072000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):186
+  id_0 (Real) = 254
+  dm_bst (Real) = 1
+  nam (String) = Municipio El Hatillo
+  dm_cent (String) = 15
+  dm_cmun (String) = 09
+  ara (Real) = 114948000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):187
+  id_0 (Real) = 253
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolivariano Guaicaipuro
+  dm_cent (String) = 15
+  dm_cmun (String) = 10
+  ara (Real) = 804545000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):188
+  id_0 (Real) = 246
+  dm_bst (Real) = 1
+  nam (String) = Municipio Independencia
+  dm_cent (String) = 15
+  dm_cmun (String) = 11
+  ara (Real) = 338723000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):189
+  id_0 (Real) = 242
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tomas Lander
+  dm_cent (String) = 15
+  dm_cmun (String) = 12
+  ara (Real) = 526425000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):190
+  id_0 (Real) = 252
+  dm_bst (Real) = 1
+  nam (String) = Municipio Los Salias
+  dm_cent (String) = 15
+  dm_cmun (String) = 13
+  ara (Real) = 58631600
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):191
+  id_0 (Real) = 351
+  dm_bst (Real) = 1
+  nam (String) = Municipio Páez
+  dm_cent (String) = 15
+  dm_cmun (String) = 14
+  ara (Real) = 1074430000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):192
+  id_0 (Real) = 251
+  dm_bst (Real) = 1
+  nam (String) = Municipio Paz Castillo
+  dm_cent (String) = 15
+  dm_cmun (String) = 15
+  ara (Real) = 436776000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):193
+  id_0 (Real) = 243
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pedro Gual
+  dm_cent (String) = 15
+  dm_cmun (String) = 16
+  ara (Real) = 1032300000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):194
+  id_0 (Real) = 257
+  dm_bst (Real) = 1
+  nam (String) = Municipio Plaza
+  dm_cent (String) = 15
+  dm_cmun (String) = 17
+  ara (Real) = 197535000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):195
+  id_0 (Real) = 245
+  dm_bst (Real) = 1
+  nam (String) = Municipio Simón Bolí­var
+  dm_cent (String) = 15
+  dm_cmun (String) = 18
+  ara (Real) = 162297000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):196
+  id_0 (Real) = 258
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 15
+  dm_cmun (String) = 19
+  ara (Real) = 180319000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):197
+  id_0 (Real) = 244
+  dm_bst (Real) = 1
+  nam (String) = Municipio Urdaneta
+  dm_cent (String) = 15
+  dm_cmun (String) = 20
+  ara (Real) = 308676000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):198
+  id_0 (Real) = 260
+  dm_bst (Real) = 1
+  nam (String) = Municipio Zamora
+  dm_cent (String) = 15
+  dm_cmun (String) = 21
+  ara (Real) = 447834000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):199
+  id_0 (Real) = 152
+  dm_bst (Real) = 1
+  nam (String) = Municipio Acosta
+  dm_cent (String) = 16
+  dm_cmun (String) = 01
+  ara (Real) = 459518000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):200
+  id_0 (Real) = 144
+  dm_bst (Real) = 1
+  nam (String) = Municipio Aguasay
+  dm_cent (String) = 16
+  dm_cmun (String) = 02
+  ara (Real) = 2418200000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):201
+  id_0 (Real) = 153
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolí­var
+  dm_cent (String) = 16
+  dm_cmun (String) = 03
+  ara (Real) = 278041000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):202
+  id_0 (Real) = 157
+  dm_bst (Real) = 1
+  nam (String) = Municipio Caripe
+  dm_cent (String) = 16
+  dm_cmun (String) = 04
+  ara (Real) = 645967000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):203
+  id_0 (Real) = 148
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cedeño
+  dm_cent (String) = 16
+  dm_cmun (String) = 05
+  ara (Real) = 2112650000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):204
+  id_0 (Real) = 146
+  dm_bst (Real) = 1
+  nam (String) = Municipio Ezequiel Zamora
+  dm_cent (String) = 16
+  dm_cmun (String) = 06
+  ara (Real) = 404631000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):205
+  id_0 (Real) = 143
+  dm_bst (Real) = 1
+  nam (String) = Municipio Libertador
+  dm_cent (String) = 16
+  dm_cmun (String) = 07
+  ara (Real) = 3217830000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):206
+  id_0 (Real) = 156
+  dm_bst (Real) = 1
+  nam (String) = Municipio Maturí­n
+  dm_cent (String) = 16
+  dm_cmun (String) = 08
+  ara (Real) = 12931900000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):207
+  id_0 (Real) = 151
+  dm_bst (Real) = 1
+  nam (String) = Municipio Piar
+  dm_cent (String) = 16
+  dm_cmun (String) = 09
+  ara (Real) = 1057970000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):208
+  id_0 (Real) = 150
+  dm_bst (Real) = 1
+  nam (String) = Municipio Punceres
+  dm_cent (String) = 16
+  dm_cmun (String) = 10
+  ara (Real) = 625790000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):209
+  id_0 (Real) = 145
+  dm_bst (Real) = 1
+  nam (String) = Municipio Santa Bárbara
+  dm_cent (String) = 16
+  dm_cmun (String) = 11
+  ara (Real) = 340219000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):210
+  id_0 (Real) = 141
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sotillo
+  dm_cent (String) = 16
+  dm_cmun (String) = 12
+  ara (Real) = 1726490000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):211
+  id_0 (Real) = 142
+  dm_bst (Real) = 1
+  nam (String) = Municipio Uracoa
+  dm_cent (String) = 16
+  dm_cmun (String) = 13
+  ara (Real) = 1730240000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):212
+  id_0 (Real) = 407
+  dm_bst (Real) = 1
+  nam (String) = Municipio Antolí­n del Campo
+  dm_cent (String) = 17
+  dm_cmun (String) = 01
+  ara (Real) = 62611200
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):213
+  id_0 (Real) = 396
+  dm_bst (Real) = 1
+  nam (String) = Municipio Arismendi
+  dm_cent (String) = 17
+  dm_cmun (String) = 02
+  ara (Real) = 50124200
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):214
+  id_0 (Real) = 403
+  dm_bst (Real) = 1
+  nam (String) = Municipio Dí­az
+  dm_cent (String) = 17
+  dm_cmun (String) = 03
+  ara (Real) = 140229000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):215
+  id_0 (Real) = 401
+  dm_bst (Real) = 1
+  nam (String) = Municipio Garcí­a
+  dm_cent (String) = 17
+  dm_cmun (String) = 04
+  ara (Real) = 66816300
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):216
+  id_0 (Real) = 406
+  dm_bst (Real) = 1
+  nam (String) = Municipio Gómez
+  dm_cent (String) = 17
+  dm_cmun (String) = 05
+  ara (Real) = 84270800
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):217
+  id_0 (Real) = 402
+  dm_bst (Real) = 1
+  nam (String) = Municipio Maneiro
+  dm_cent (String) = 17
+  dm_cmun (String) = 06
+  ara (Real) = 31625100
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):218
+  id_0 (Real) = 405
+  dm_bst (Real) = 1
+  nam (String) = Municipio Marcano
+  dm_cent (String) = 17
+  dm_cmun (String) = 07
+  ara (Real) = 35775700
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):219
+  id_0 (Real) = 400
+  dm_bst (Real) = 1
+  nam (String) = Municipio Mariño
+  dm_cent (String) = 17
+  dm_cmun (String) = 08
+  ara (Real) = 32817000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):220
+  id_0 (Real) = 404
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pení­nsula de Macanao
+  dm_cent (String) = 17
+  dm_cmun (String) = 09
+  ara (Real) = 289744000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):221
+  id_0 (Real) = 398
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tubores
+  dm_cent (String) = 17
+  dm_cmun (String) = 10
+  ara (Real) = 25129400
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):222
+  id_0 (Real) = 399
+  dm_bst (Real) = 1
+  nam (String) = Municipio Tubores
+  dm_cent (String) = 17
+  dm_cmun (String) = 10
+  ara (Real) = 148879000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):223
+  id_0 (Real) = 397
+  dm_bst (Real) = 1
+  nam (String) = Municipio Villalba
+  dm_cent (String) = 17
+  dm_cmun (String) = 11
+  ara (Real) = 58049300
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):224
+  id_0 (Real) = 295
+  dm_bst (Real) = 1
+  nam (String) = Municipio Agua Blanca
+  dm_cent (String) = 18
+  dm_cmun (String) = 01
+  ara (Real) = 229596000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):225
+  id_0 (Real) = 297
+  dm_bst (Real) = 1
+  nam (String) = Municipio Araure
+  dm_cent (String) = 18
+  dm_cmun (String) = 02
+  ara (Real) = 778247000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):226
+  id_0 (Real) = 291
+  dm_bst (Real) = 1
+  nam (String) = Municipio Esteller
+  dm_cent (String) = 18
+  dm_cmun (String) = 03
+  ara (Real) = 897821000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):227
+  id_0 (Real) = 289
+  dm_bst (Real) = 1
+  nam (String) = Municipio Guanare
+  dm_cent (String) = 18
+  dm_cmun (String) = 04
+  ara (Real) = 2322430000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):228
+  id_0 (Real) = 282
+  dm_bst (Real) = 1
+  nam (String) = Municipio Guanarito
+  dm_cent (String) = 18
+  dm_cmun (String) = 05
+  ara (Real) = 3560660000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):229
+  id_0 (Real) = 293
+  dm_bst (Real) = 1
+  nam (String) = Municipio Monseñor José Vicente de Unda
+  dm_cent (String) = 18
+  dm_cmun (String) = 06
+  ara (Real) = 260498000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):230
+  id_0 (Real) = 292
+  dm_bst (Real) = 1
+  nam (String) = Municipio Ospino
+  dm_cent (String) = 18
+  dm_cmun (String) = 07
+  ara (Real) = 1847060000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):231
+  id_0 (Real) = 294
+  dm_bst (Real) = 1
+  nam (String) = Municipio Paéz
+  dm_cent (String) = 18
+  dm_cmun (String) = 08
+  ara (Real) = 501180000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):232
+  id_0 (Real) = 284
+  dm_bst (Real) = 1
+  nam (String) = Municipio Papelón
+  dm_cent (String) = 18
+  dm_cmun (String) = 09
+  ara (Real) = 2536790000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):233
+  id_0 (Real) = 285
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Genaro de Boconoí­to
+  dm_cent (String) = 18
+  dm_cmun (String) = 10
+  ara (Real) = 1213390000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):234
+  id_0 (Real) = 296
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Rafael de Onoto
+  dm_cent (String) = 18
+  dm_cmun (String) = 11
+  ara (Real) = 220083000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):235
+  id_0 (Real) = 286
+  dm_bst (Real) = 1
+  nam (String) = Municipio Santa Rosalí­a
+  dm_cent (String) = 18
+  dm_cmun (String) = 12
+  ara (Real) = 1157360000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):236
+  id_0 (Real) = 288
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 18
+  dm_cmun (String) = 13
+  ara (Real) = 460873000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):237
+  id_0 (Real) = 290
+  dm_bst (Real) = 1
+  nam (String) = Municipio Turén
+  dm_cent (String) = 18
+  dm_cmun (String) = 14
+  ara (Real) = 1328910000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):238
+  id_0 (Real) = 338
+  dm_bst (Real) = 1
+  nam (String) = Municipio Andrés Eloy Blanco
+  dm_cent (String) = 19
+  dm_cmun (String) = 01
+  ara (Real) = 647273000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):239
+  id_0 (Real) = 333
+  dm_bst (Real) = 1
+  nam (String) = Municipio Arismendi
+  dm_cent (String) = 19
+  dm_cmun (String) = 03
+  ara (Real) = 704657000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):240
+  id_0 (Real) = 329
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bení­tez
+  dm_cent (String) = 19
+  dm_cmun (String) = 04
+  ara (Real) = 2844780000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):241
+  id_0 (Real) = 339
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bermúdez
+  dm_cent (String) = 19
+  dm_cmun (String) = 05
+  ara (Real) = 601082000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):242
+  id_0 (Real) = 343
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolí­var
+  dm_cent (String) = 19
+  dm_cmun (String) = 06
+  ara (Real) = 197494000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):243
+  id_0 (Real) = 330
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cajigal
+  dm_cent (String) = 19
+  dm_cmun (String) = 07
+  ara (Real) = 337351000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):244
+  id_0 (Real) = 340
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cruz Salmerón Acosta
+  dm_cent (String) = 19
+  dm_cmun (String) = 08
+  ara (Real) = 569362000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):245
+  id_0 (Real) = 328
+  dm_bst (Real) = 1
+  nam (String) = Municipio Libertador
+  dm_cent (String) = 19
+  dm_cmun (String) = 09
+  ara (Real) = 212716000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):246
+  id_0 (Real) = 331
+  dm_bst (Real) = 1
+  nam (String) = Municipio Mariño
+  dm_cent (String) = 19
+  dm_cmun (String) = 10
+  ara (Real) = 409274000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):247
+  id_0 (Real) = 342
+  dm_bst (Real) = 1
+  nam (String) = Municipio Mejí­a
+  dm_cent (String) = 19
+  dm_cmun (String) = 11
+  ara (Real) = 277080000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):248
+  id_0 (Real) = 327
+  dm_bst (Real) = 1
+  nam (String) = Municipio Montes
+  dm_cent (String) = 19
+  dm_cmun (String) = 12
+  ara (Real) = 980896000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):249
+  id_0 (Real) = 341
+  dm_bst (Real) = 1
+  nam (String) = Municipio Ribero
+  dm_cent (String) = 19
+  dm_cmun (String) = 13
+  ara (Real) = 1349950000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):250
+  id_0 (Real) = 344
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 19
+  dm_cmun (String) = 14
+  ara (Real) = 1504010000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):251
+  id_0 (Real) = 332
+  dm_bst (Real) = 1
+  nam (String) = Municipio Valdéz
+  dm_cent (String) = 19
+  dm_cmun (String) = 15
+  ara (Real) = 562451000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):252
+  id_0 (Real) = 310
+  dm_bst (Real) = 1
+  nam (String) = Municipio Andrés Bello
+  dm_cent (String) = 20
+  dm_cmun (String) = 01
+  ara (Real) = 92162700
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):253
+  id_0 (Real) = 319
+  dm_bst (Real) = 1
+  nam (String) = Municipio Antonio Rómulo Costa
+  dm_cent (String) = 20
+  dm_cmun (String) = 02
+  ara (Real) = 110207000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):254
+  id_0 (Real) = 320
+  dm_bst (Real) = 1
+  nam (String) = Municipio Ayacucho
+  dm_cent (String) = 20
+  dm_cmun (String) = 03
+  ara (Real) = 462710000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):255
+  id_0 (Real) = 306
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolí­var
+  dm_cent (String) = 20
+  dm_cmun (String) = 04
+  ara (Real) = 183038000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):256
+  id_0 (Real) = 305
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cárdenas
+  dm_cent (String) = 20
+  dm_cmun (String) = 05
+  ara (Real) = 248486000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):257
+  id_0 (Real) = 298
+  dm_bst (Real) = 1
+  nam (String) = Municipio Córdoba
+  dm_cent (String) = 20
+  dm_cmun (String) = 06
+  ara (Real) = 603186000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):258
+  id_0 (Real) = 301
+  dm_bst (Real) = 1
+  nam (String) = Municipio Fernández Feo
+  dm_cent (String) = 20
+  dm_cmun (String) = 07
+  ara (Real) = 1042460000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):259
+  id_0 (Real) = 313
+  dm_bst (Real) = 1
+  nam (String) = Municipio Francisco de Miranda
+  dm_cent (String) = 20
+  dm_cmun (String) = 08
+  ara (Real) = 263067000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):260
+  id_0 (Real) = 324
+  dm_bst (Real) = 1
+  nam (String) = Municipio Garcí­a de Hevia
+  dm_cent (String) = 20
+  dm_cmun (String) = 09
+  ara (Real) = 622774000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):261
+  id_0 (Real) = 308
+  dm_bst (Real) = 1
+  nam (String) = Municipio Guásimos
+  dm_cent (String) = 20
+  dm_cmun (String) = 10
+  ara (Real) = 33607600
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):262
+  id_0 (Real) = 307
+  dm_bst (Real) = 1
+  nam (String) = Municipio Independencia
+  dm_cent (String) = 20
+  dm_cmun (String) = 11
+  ara (Real) = 57502000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):263
+  id_0 (Real) = 323
+  dm_bst (Real) = 1
+  nam (String) = Municipio Jáuregui
+  dm_cent (String) = 20
+  dm_cmun (String) = 12
+  ara (Real) = 441855000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):264
+  id_0 (Real) = 316
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Marí­a Vargas
+  dm_cent (String) = 20
+  dm_cmun (String) = 13
+  ara (Real) = 188910000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):265
+  id_0 (Real) = 302
+  dm_bst (Real) = 1
+  nam (String) = Municipio Juní­n
+  dm_cent (String) = 20
+  dm_cmun (String) = 14
+  ara (Real) = 301078000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):266
+  id_0 (Real) = 309
+  dm_bst (Real) = 1
+  nam (String) = Municipio Libertad
+  dm_cent (String) = 20
+  dm_cmun (String) = 15
+  ara (Real) = 159052000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):267
+  id_0 (Real) = 304
+  dm_bst (Real) = 1
+  nam (String) = Municipio Libertador
+  dm_cent (String) = 20
+  dm_cmun (String) = 16
+  ara (Real) = 1120100000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):268
+  id_0 (Real) = 312
+  dm_bst (Real) = 1
+  nam (String) = Municipio Lobatera
+  dm_cent (String) = 20
+  dm_cmun (String) = 17
+  ara (Real) = 203017000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):269
+  id_0 (Real) = 315
+  dm_bst (Real) = 1
+  nam (String) = Municipio Michelena
+  dm_cent (String) = 20
+  dm_cmun (String) = 18
+  ara (Real) = 135809000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):270
+  id_0 (Real) = 325
+  dm_bst (Real) = 1
+  nam (String) = Municipio Panamericano
+  dm_cent (String) = 20
+  dm_cmun (String) = 19
+  ara (Real) = 305132000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):271
+  id_0 (Real) = 314
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pedro Marí­a Ureña
+  dm_cent (String) = 20
+  dm_cmun (String) = 20
+  ara (Real) = 171928000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):272
+  id_0 (Real) = 300
+  dm_bst (Real) = 1
+  nam (String) = Municipio Rafael Urdaneta
+  dm_cent (String) = 20
+  dm_cmun (String) = 21
+  ara (Real) = 183126000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):273
+  id_0 (Real) = 326
+  dm_bst (Real) = 1
+  nam (String) = Municipio Samuel Dario Maldonado
+  dm_cent (String) = 20
+  dm_cmun (String) = 22
+  ara (Real) = 510227000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):274
+  id_0 (Real) = 303
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Cristóbal
+  dm_cent (String) = 20
+  dm_cmun (String) = 23
+  ara (Real) = 233254000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):275
+  id_0 (Real) = 318
+  dm_bst (Real) = 1
+  nam (String) = Municipio Seboruco
+  dm_cent (String) = 20
+  dm_cmun (String) = 24
+  ara (Real) = 144476000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):276
+  id_0 (Real) = 322
+  dm_bst (Real) = 1
+  nam (String) = Municipio Simón Rodrí­guez
+  dm_cent (String) = 20
+  dm_cmun (String) = 25
+  ara (Real) = 64631500
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):277
+  id_0 (Real) = 311
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 20
+  dm_cmun (String) = 26
+  ara (Real) = 382993000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):278
+  id_0 (Real) = 299
+  dm_bst (Real) = 1
+  nam (String) = Municipio Torbes
+  dm_cent (String) = 20
+  dm_cmun (String) = 27
+  ara (Real) = 112564000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):279
+  id_0 (Real) = 317
+  dm_bst (Real) = 1
+  nam (String) = Municipio Uribante
+  dm_cent (String) = 20
+  dm_cmun (String) = 28
+  ara (Real) = 1354740000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):280
+  id_0 (Real) = 321
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Judas Tadeo
+  dm_cent (String) = 20
+  dm_cmun (String) = 29
+  ara (Real) = 249461000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):281
+  id_0 (Real) = 176
+  dm_bst (Real) = 1
+  nam (String) = Municipio Andrés Bello
+  dm_cent (String) = 21
+  dm_cmun (String) = 01
+  ara (Real) = 345387000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):282
+  id_0 (Real) = 170
+  dm_bst (Real) = 1
+  nam (String) = Municipio Boconó
+  dm_cent (String) = 21
+  dm_cmun (String) = 02
+  ara (Real) = 1577740000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):283
+  id_0 (Real) = 168
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolí­var
+  dm_cent (String) = 21
+  dm_cmun (String) = 03
+  ara (Real) = 242350000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):284
+  id_0 (Real) = 177
+  dm_bst (Real) = 1
+  nam (String) = Municipio Candelaria
+  dm_cent (String) = 21
+  dm_cmun (String) = 04
+  ara (Real) = 453780000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):285
+  id_0 (Real) = 178
+  dm_bst (Real) = 1
+  nam (String) = Municipio Carache
+  dm_cent (String) = 21
+  dm_cmun (String) = 05
+  ara (Real) = 1075890000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):286
+  id_0 (Real) = 163
+  dm_bst (Real) = 1
+  nam (String) = Municipio Escuque
+  dm_cent (String) = 21
+  dm_cmun (String) = 06
+  ara (Real) = 187199000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):287
+  id_0 (Real) = 179
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Felipe Máquez Cañizales
+  dm_cent (String) = 21
+  dm_cmun (String) = 07
+  ara (Real) = 753720000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):288
+  id_0 (Real) = 171
+  dm_bst (Real) = 1
+  nam (String) = Municipio Juan Vicente Campo Elí­as
+  dm_cent (String) = 21
+  dm_cmun (String) = 08
+  ara (Real) = 92042200
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):289
+  id_0 (Real) = 378
+  dm_bst (Real) = 1
+  nam (String) = Municipio La Ceiba
+  dm_cent (String) = 21
+  dm_cmun (String) = 09
+  ara (Real) = 500052000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):290
+  id_0 (Real) = 175
+  dm_bst (Real) = 1
+  nam (String) = Municipio Miranda
+  dm_cent (String) = 21
+  dm_cmun (String) = 10
+  ara (Real) = 419959000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):291
+  id_0 (Real) = 379
+  dm_bst (Real) = 1
+  nam (String) = Municipio Monte Carmelo
+  dm_cent (String) = 21
+  dm_cmun (String) = 11
+  ara (Real) = 328385000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):292
+  id_0 (Real) = 172
+  dm_bst (Real) = 1
+  nam (String) = Municipio Motatán
+  dm_cent (String) = 21
+  dm_cmun (String) = 12
+  ara (Real) = 137295000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):293
+  id_0 (Real) = 174
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pampán
+  dm_cent (String) = 21
+  dm_cmun (String) = 13
+  ara (Real) = 405689000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):294
+  id_0 (Real) = 169
+  dm_bst (Real) = 1
+  nam (String) = Municipio Pampanito
+  dm_cent (String) = 21
+  dm_cmun (String) = 14
+  ara (Real) = 102273000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):295
+  id_0 (Real) = 164
+  dm_bst (Real) = 1
+  nam (String) = Municipio Rafael Rangel
+  dm_cent (String) = 21
+  dm_cmun (String) = 15
+  ara (Real) = 126123000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):296
+  id_0 (Real) = 167
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Rafael de Carvajal
+  dm_cent (String) = 21
+  dm_cmun (String) = 16
+  ara (Real) = 86321900
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):297
+  id_0 (Real) = 173
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 21
+  dm_cmun (String) = 17
+  ara (Real) = 232164000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):298
+  id_0 (Real) = 166
+  dm_bst (Real) = 1
+  nam (String) = Municipio Trujillo
+  dm_cent (String) = 21
+  dm_cmun (String) = 18
+  ara (Real) = 498935000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):299
+  id_0 (Real) = 161
+  dm_bst (Real) = 1
+  nam (String) = Municipio Urdaneta
+  dm_cent (String) = 21
+  dm_cmun (String) = 19
+  ara (Real) = 545921000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):300
+  id_0 (Real) = 162
+  dm_bst (Real) = 1
+  nam (String) = Municipio Valera
+  dm_cent (String) = 21
+  dm_cmun (String) = 20
+  ara (Real) = 267631000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):301
+  id_0 (Real) = 184
+  dm_bst (Real) = 1
+  nam (String) = Municipio Arí­stides Bastidas
+  dm_cent (String) = 22
+  dm_cmun (String) = 01
+  ara (Real) = 71213000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):302
+  id_0 (Real) = 193
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bolí­var
+  dm_cent (String) = 22
+  dm_cmun (String) = 02
+  ara (Real) = 836396000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):303
+  id_0 (Real) = 185
+  dm_bst (Real) = 1
+  nam (String) = Municipio Bruzual
+  dm_cent (String) = 22
+  dm_cmun (String) = 03
+  ara (Real) = 382218000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):304
+  id_0 (Real) = 188
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cocorote
+  dm_cent (String) = 22
+  dm_cmun (String) = 04
+  ara (Real) = 105981000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):305
+  id_0 (Real) = 190
+  dm_bst (Real) = 1
+  nam (String) = Municipio Independencia
+  dm_cent (String) = 22
+  dm_cmun (String) = 05
+  ara (Real) = 85605900
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):306
+  id_0 (Real) = 180
+  dm_bst (Real) = 1
+  nam (String) = Municipio José Antonio Páez
+  dm_cent (String) = 22
+  dm_cmun (String) = 06
+  ara (Real) = 110803000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):307
+  id_0 (Real) = 182
+  dm_bst (Real) = 1
+  nam (String) = Municipio La Trinidad
+  dm_cent (String) = 22
+  dm_cmun (String) = 07
+  ara (Real) = 52199400
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):308
+  id_0 (Real) = 336
+  dm_bst (Real) = 1
+  nam (String) = Municipio Manuel Monge
+  dm_cent (String) = 22
+  dm_cmun (String) = 08
+  ara (Real) = 425416000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):309
+  id_0 (Real) = 187
+  dm_bst (Real) = 1
+  nam (String) = Municipio Nirgua
+  dm_cent (String) = 22
+  dm_cmun (String) = 09
+  ara (Real) = 1746470000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):310
+  id_0 (Real) = 181
+  dm_bst (Real) = 1
+  nam (String) = Municipio Peña
+  dm_cent (String) = 22
+  dm_cmun (String) = 10
+  ara (Real) = 422840000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):311
+  id_0 (Real) = 192
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Felipe
+  dm_cent (String) = 22
+  dm_cmun (String) = 11
+  ara (Real) = 478513000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):312
+  id_0 (Real) = 186
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 22
+  dm_cmun (String) = 12
+  ara (Real) = 140928000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):313
+  id_0 (Real) = 183
+  dm_bst (Real) = 1
+  nam (String) = Municipio Urachiche
+  dm_cent (String) = 22
+  dm_cmun (String) = 13
+  ara (Real) = 198261000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):314
+  id_0 (Real) = 191
+  dm_bst (Real) = 1
+  nam (String) = Municipio Veroes
+  dm_cent (String) = 22
+  dm_cmun (String) = 14
+  ara (Real) = 894456000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):315
+  id_0 (Real) = 337
+  dm_bst (Real) = 1
+  nam (String) = Municipio Almirante Padilla
+  dm_cent (String) = 23
+  dm_cmun (String) = 01
+  ara (Real) = 96928300
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):316
+  id_0 (Real) = 376
+  dm_bst (Real) = 1
+  nam (String) = Municipio Baralt
+  dm_cent (String) = 23
+  dm_cmun (String) = 02
+  ara (Real) = 1560250000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):317
+  id_0 (Real) = 372
+  dm_bst (Real) = 1
+  nam (String) = Municipio Cabimas
+  dm_cent (String) = 23
+  dm_cmun (String) = 03
+  ara (Real) = 575822000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):318
+  id_0 (Real) = 131
+  dm_bst (Real) = 1
+  nam (String) = Municipio Catatumbo
+  dm_cent (String) = 23
+  dm_cmun (String) = 04
+  ara (Real) = 4566630000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):319
+  id_0 (Real) = 128
+  dm_bst (Real) = 1
+  nam (String) = Municipio Colón
+  dm_cent (String) = 23
+  dm_cmun (String) = 05
+  ara (Real) = 1185370000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):320
+  id_0 (Real) = 385
+  dm_bst (Real) = 1
+  nam (String) = Municipio Francisco Javier Pulgar
+  dm_cent (String) = 23
+  dm_cmun (String) = 06
+  ara (Real) = 386719000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):321
+  id_0 (Real) = 137
+  dm_bst (Real) = 1
+  nam (String) = Municipio Jesús Enrique Lossada
+  dm_cent (String) = 23
+  dm_cmun (String) = 07
+  ara (Real) = 3130630000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):322
+  id_0 (Real) = 130
+  dm_bst (Real) = 1
+  nam (String) = Municipio Jesús Marí­a Semprúm
+  dm_cent (String) = 23
+  dm_cmun (String) = 08
+  ara (Real) = 5240260000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):323
+  id_0 (Real) = 133
+  dm_bst (Real) = 1
+  nam (String) = Municipio La Cañada de Urdaneta
+  dm_cent (String) = 23
+  dm_cmun (String) = 09
+  ara (Real) = 1808170000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):324
+  id_0 (Real) = 374
+  dm_bst (Real) = 1
+  nam (String) = Municipio Lagunillas
+  dm_cent (String) = 23
+  dm_cmun (String) = 10
+  ara (Real) = 936052000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):325
+  id_0 (Real) = 132
+  dm_bst (Real) = 1
+  nam (String) = Municipio Machiques de Perijá
+  dm_cent (String) = 23
+  dm_cmun (String) = 11
+  ara (Real) = 8472520000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):326
+  id_0 (Real) = 138
+  dm_bst (Real) = 1
+  nam (String) = Municipio Mara
+  dm_cent (String) = 23
+  dm_cmun (String) = 12
+  ara (Real) = 3151800000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):327
+  id_0 (Real) = 136
+  dm_bst (Real) = 1
+  nam (String) = Municipio Maracaibo
+  dm_cent (String) = 23
+  dm_cmun (String) = 13
+  ara (Real) = 366297000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):328
+  id_0 (Real) = 370
+  dm_bst (Real) = 1
+  nam (String) = Municipio Miranda
+  dm_cent (String) = 23
+  dm_cmun (String) = 14
+  ara (Real) = 1956020000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):329
+  id_0 (Real) = 139
+  dm_bst (Real) = 1
+  nam (String) = Municipio Indí­gena Bolivariano Guajira
+  dm_cent (String) = 23
+  dm_cmun (String) = 15
+  ara (Real) = 2164230000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):330
+  id_0 (Real) = 135
+  dm_bst (Real) = 1
+  nam (String) = Municipio Rosario de Perijá
+  dm_cent (String) = 23
+  dm_cmun (String) = 16
+  ara (Real) = 3417190000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):331
+  id_0 (Real) = 134
+  dm_bst (Real) = 1
+  nam (String) = Municipio San Francisco
+  dm_cent (String) = 23
+  dm_cmun (String) = 17
+  ara (Real) = 162001000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):332
+  id_0 (Real) = 371
+  dm_bst (Real) = 1
+  nam (String) = Municipio Santa Rita
+  dm_cent (String) = 23
+  dm_cmun (String) = 18
+  ara (Real) = 507774000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):333
+  id_0 (Real) = 373
+  dm_bst (Real) = 1
+  nam (String) = Municipio Simón Bolí­var
+  dm_cent (String) = 23
+  dm_cmun (String) = 19
+  ara (Real) = 231312000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):334
+  id_0 (Real) = 381
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 23
+  dm_cmun (String) = 20
+  ara (Real) = 336220000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):335
+  id_0 (Real) = 380
+  dm_bst (Real) = 1
+  nam (String) = Municipio Sucre
+  dm_cent (String) = 23
+  dm_cmun (String) = 20
+  ara (Real) = 183049000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):336
+  id_0 (Real) = 375
+  dm_bst (Real) = 1
+  nam (String) = Municipio Valmore Rodrí­guez
+  dm_cent (String) = 23
+  dm_cmun (String) = 21
+  ara (Real) = 1141750000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
+OGRFeature(SELECT):337
+  id_0 (Real) = 353
+  dm_bst (Real) = 1
+  nam (String) = Municipio Vargas
+  dm_cent (String) = 24
+  dm_cmun (String) = 24
+  ara (Real) = 1190040000
+  dm_acc (Real) = 1
+  sag (String) = Instituto Geográfico de Venezuela Simón Bolívar
+
