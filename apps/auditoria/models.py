@@ -102,6 +102,15 @@ class EventoAuditoria(models.Model):
         )
 
 
+def _json_default(o):
+    """Serializador de respaldo para json.dumps: UUID → str."""
+    if isinstance(o, uuid.UUID):
+        return str(o)
+    raise TypeError(
+        f"Object of type {o.__class__.__name__} is not JSON serializable"
+    )
+
+
 def calcular_hash(evento):
     """
     Calcula el hash SHA-256 determinista de un EventoAuditoria.
@@ -117,7 +126,7 @@ def calcular_hash(evento):
         "organizacion_id": str(evento.organizacion_id) if evento.organizacion_id else None,
         "accion": evento.accion,
         "tipo_objeto": evento.tipo_objeto,
-        "objeto_id": evento.objeto_id,
+        "objeto_id": str(evento.objeto_id) if evento.objeto_id else "",
         "resultado": evento.resultado,
         "justificacion": evento.justificacion,
         "direccion_ip": str(evento.direccion_ip) if evento.direccion_ip else None,
@@ -127,6 +136,10 @@ def calcular_hash(evento):
         "hash_anterior": evento.hash_anterior,
     }
     serialized = json.dumps(
-        payload, sort_keys=True, ensure_ascii=False, separators=(",", ":")
+        payload,
+        sort_keys=True,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        default=_json_default,
     )
     return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
