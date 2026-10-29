@@ -125,12 +125,13 @@ def recibir_reporte_publico(*, datos, request):
     )
 
     registrar_evento(
+        actor=None,
         accion="emergencia.reporte_publico",
         tipo_objeto="ReporteEmergencia",
         objeto_id=reporte.id,
         resultado=EventoAuditoria.Resultado.EXITOSO,
         justificacion="Recepción de reporte ciudadano.",
-        ip=ip,
+        direccion_ip=ip,
         agente_usuario=request.META.get("HTTP_USER_AGENT", "")[:500],
         metadatos={
             "origen": "portal_publico",

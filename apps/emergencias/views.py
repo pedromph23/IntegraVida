@@ -1,6 +1,8 @@
 import json
 
+from django.db.models import Q
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET
 from django.views.decorators.http import require_POST
 
@@ -103,10 +105,10 @@ def lista_emergencias(request):
         )
 
     if busqueda:
+        termino = busqueda.strip()
         queryset = queryset.filter(
-            ubicacion_texto__icontains=busqueda.strip()
-        ) | queryset.filter(
-            titulo__icontains=busqueda.strip()
+            Q(ubicacion_texto__icontains=termino)
+            | Q(titulo__icontains=termino)
         )
 
     try:
@@ -123,12 +125,27 @@ def lista_emergencias(request):
             status=400,
         )
 
+    try:
+        offset = int(request.GET.get("offset", "0"))
+    except (TypeError, ValueError):
+        return JsonResponse(
+            {"error": "El offset debe ser un entero mayor o igual a 0."},
+            status=400,
+        )
+
+    if offset < 0:
+        return JsonResponse(
+            {"error": "El offset debe ser un entero mayor o igual a 0."},
+            status=400,
+        )
+
     total = queryset.count()
-    resultados = queryset.order_by("-creada_en")[:limite]
+    resultados = queryset.order_by("-creada_en")[offset:offset + limite]
 
     return JsonResponse({
         "total": total,
         "limite": limite,
+        "offset": offset,
         "resultados": [
             _serializar_emergencia(emergencia)
             for emergencia in resultados
@@ -170,6 +187,7 @@ def estado_servicio_reportes(request):
     })
 
 
+@csrf_exempt
 @require_POST
 def crear_reporte_publico(request):
     """Recibe un reporte ciudadano sin exigir autenticación."""
@@ -177,7 +195,7 @@ def crear_reporte_publico(request):
 
     from apps.emergencias.services import recibir_reporte_publico
 
-    if request.content_type != "application/json":
+    if not (request.content_type or "").startswith("application/json"):
         return JsonResponse(
             {"error": "El contenido debe enviarse como application/json."},
             status=415,

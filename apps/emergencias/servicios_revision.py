@@ -73,7 +73,7 @@ def _auditar(*, accion, reporte, usuario, request, justificacion, estado,
         objeto_id=reporte.id,
         resultado=EventoAuditoria.Resultado.EXITOSO,
         justificacion=justificacion,
-        ip=request.META.get("REMOTE_ADDR") or None,
+        direccion_ip=request.META.get("REMOTE_ADDR") or None,
         agente_usuario=request.META.get("HTTP_USER_AGENT", "")[:500],
         metadatos={
             "origen": "revision_interna",
