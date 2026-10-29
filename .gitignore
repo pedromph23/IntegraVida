@@ -57,3 +57,10 @@ data/territorio/analisis/igvsb_municipal/
 # Cachés generadas dentro del análisis territorial.
 data/territorio/analisis/**/__pycache__/
 data/territorio/analisis/**/*.pyc
+
+# Backups manuales y temporales
+*.bak
+*.bak-*
+*.orig
+*.rej
+*~
