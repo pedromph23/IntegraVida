@@ -110,15 +110,25 @@
 | Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
 |---|---|---|---|---|---|
 | id | UUID | Sí | PK | AUD | — |
-| actor | FK Usuario | Sí | — | AUD | — |
-| organizacion_id | UUIDField | No | **Sin FK** | AUD | — |
-| accion | CharField(100) | Sí | — | AUD | — |
+| ocurrido_en | DateTimeField | Sí | default=now, index | AUD | — |
+| actor | FK Usuario | No | on_delete=**PROTECT** | AUD | — |
+| organizacion_id | UUIDField | No | index (sin FK) | AUD | — |
+| accion | CharField(100) | Sí | index | AUD | — |
 | tipo_objeto | CharField(100) | No | — | AUD | — |
 | objeto_id | CharField(100) | No | — | AUD | — |
-| resultado | CharField | Sí | TextChoices | AUD | — |
+| resultado | CharField(10) | Sí | TextChoices (EXITOSO/DENEGADO/ERROR) | AUD | — |
 | justificacion | CharField(500) | No | — | AUD | — |
+| direccion_ip | GenericIPAddressField | No | — | AUD | — |
 | agente_usuario | CharField(500) | No | — | AUD | — |
-| id_correlacion | CharField(100) | No | — | AUD | — |
+| id_correlacion | CharField(100) | No | index | AUD | — |
+| metadatos | JSONField | No | default=dict | AUD | — |
+| hash_anterior | CharField(64) | Sí | **UNIQUE**, index | AUD | — |
+| hash_actual | CharField(64) | Sí | **UNIQUE**, index | AUD | — |
 
-> **Faltantes (§7.3) — tarea de Fase 3:** `fecha_hora` (TIMESTAMPTZ), `ip_origen`, `hash_anterior`, `hash_actual`. Sin ellos no hay defensa contra alteración.
-> **Decisión pendiente:** `organizacion_id` sin FK — convertir a `ForeignKey(Organizacion, null=True, on_delete=PROTECT)` o justificar el UUIDField.
+> **Implementado en Fase 3 (commit `ec0accc`):** hash SHA-256 encadenado (§7.3),
+> inmutabilidad a nivel de modelo y manager, escritura atómica vía
+> `apps.auditoria.services.registrar_evento()` con `pg_advisory_xact_lock`.
+> **7 tests** cubren: genesis, cadena secuencial, determinismo del hash,
+> bloqueo de `update()`/`delete()` en instancia y en manager.
+> **Pendiente:** decisión sobre `organizacion_id` (UUIDField vs FK);
+> `docs/audit-and-security.md` con política completa (§7.5).
