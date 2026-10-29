@@ -46,6 +46,17 @@ INSTALLED_APPS = [
     'apps.organizaciones.apps.OrganizacionesConfig',
     'apps.auditoria.apps.AuditoriaConfig',
     'apps.territorio.apps.TerritorioConfig',
+    'apps.emergencias.apps.EmergenciasConfig',
+    'apps.configuracion.apps.ConfiguracionConfig',
+    'apps.reportes.apps.ReportesConfig',
+    'apps.notificaciones.apps.NotificacionesConfig',
+    'apps.distribucion.apps.DistribucionConfig',
+    'apps.inventario.apps.InventarioConfig',
+    'apps.derivaciones.apps.DerivacionesConfig',
+    'apps.triaje.apps.TriajeConfig',
+    'apps.pacientes.apps.PacientesConfig',
+    'apps.refugios.apps.RefugiosConfig',
+    'apps.hospitales.apps.HospitalesConfig',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +102,7 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT', '5432'),
         'CONN_MAX_AGE': 60,
         'TEST': {
-            'NAME': 'integravida_test_db',
+            'NAME': 'integravida_test_db_2',
         },
     }
 }
@@ -137,11 +148,12 @@ STATIC_URL = 'static/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+# En desarrollo, los correos se muestran en la consola.
+# El backend de producción se configurará mediante variables de entorno.
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend",
+)
 
 
 # Usuario personalizado; debe configurarse antes de la primera migración.

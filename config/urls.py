@@ -7,4 +7,12 @@ urlpatterns = [
         "api/interno/organizaciones/",
         include("apps.organizaciones.urls"),
     ),
+    path(
+        "api/interno/emergencias/",
+        include("apps.emergencias.urls_internas"),
+    ),
+    path(
+        "api/publico/emergencias/",
+        include("apps.emergencias.urls"),
+    ),
 ]

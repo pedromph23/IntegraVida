@@ -1,0 +1,202 @@
+"""Operaciones internas para revisar reportes ciudadanos."""
+
+from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import transaction
+
+from apps.auditoria.models import EventoAuditoria
+from apps.auditoria.services import registrar_evento
+from apps.emergencias.models import Emergencia, ReporteEmergencia
+from apps.organizaciones.services import puede_administrar_plataforma
+
+
+def puede_revisar_reportes(usuario):
+    """
+    La cola nacional solo está disponible para administradores de plataforma.
+
+    El acceso operativo por organización se habilitará cuando los reportes
+    tengan una asignación explícita y verificable de ámbito.
+    """
+    return puede_administrar_plataforma(usuario)
+
+
+def _exigir_permiso_revision(usuario):
+    """Impide modificar reportes sin autorización nacional."""
+    if not puede_revisar_reportes(usuario):
+        raise PermissionDenied(
+            "No tienes autorización para revisar reportes de emergencias."
+        )
+
+
+TRANSICIONES_PERMITIDAS = {
+    ReporteEmergencia.EstadoRevision.PENDIENTE: {
+        ReporteEmergencia.EstadoRevision.EN_REVISION,
+        ReporteEmergencia.EstadoRevision.DUPLICADO,
+        ReporteEmergencia.EstadoRevision.DESCARTADO,
+    },
+    ReporteEmergencia.EstadoRevision.EN_REVISION: {
+        ReporteEmergencia.EstadoRevision.DUPLICADO,
+        ReporteEmergencia.EstadoRevision.DESCARTADO,
+    },
+}
+
+
+def _validar_justificacion(valor, obligatoria=False):
+    if not isinstance(valor, str):
+        raise ValidationError({
+            "justificacion": "La justificación debe ser texto."
+        })
+
+    valor = valor.strip()
+
+    if obligatoria and not valor:
+        raise ValidationError({
+            "justificacion": (
+                "Debes explicar por qué se marca el reporte como duplicado "
+                "o descartado."
+            )
+        })
+
+    if len(valor) > 500:
+        raise ValidationError({
+            "justificacion": "No puede superar los 500 caracteres."
+        })
+
+    return valor
+
+
+def _auditar(*, accion, reporte, usuario, request, justificacion, estado,
+             tipo_operacion):
+    registrar_evento(
+        accion=accion,
+        actor=usuario,
+        tipo_objeto="ReporteEmergencia",
+        objeto_id=reporte.id,
+        resultado=EventoAuditoria.Resultado.EXITOSO,
+        justificacion=justificacion,
+        ip=request.META.get("REMOTE_ADDR") or None,
+        agente_usuario=request.META.get("HTTP_USER_AGENT", "")[:500],
+        metadatos={
+            "origen": "revision_interna",
+            "estado": str(estado) if estado is not None else None,
+            "tipo_operacion": tipo_operacion,
+        },
+    )
+
+
+@transaction.atomic
+def cambiar_estado_reporte(*, reporte_id, estado_nuevo, justificacion,
+                           usuario, request):
+    """Cambia el estado de revisión y registra la operación atómicamente."""
+    _exigir_permiso_revision(usuario)
+
+    estados_validos = set(ReporteEmergencia.EstadoRevision.values)
+
+    if estado_nuevo not in estados_validos:
+        raise ValidationError({
+            "estado_revision": "El estado de revisión no es válido."
+        })
+
+    if estado_nuevo == ReporteEmergencia.EstadoRevision.VINCULADO:
+        raise ValidationError({
+            "estado_revision": (
+                "Para vincular un reporte debes utilizar el endpoint de "
+                "vinculación y proporcionar una emergencia."
+            )
+        })
+
+    justificacion = _validar_justificacion(
+        justificacion,
+        obligatoria=estado_nuevo in {
+            ReporteEmergencia.EstadoRevision.DUPLICADO,
+            ReporteEmergencia.EstadoRevision.DESCARTADO,
+        },
+    )
+
+    reporte = (
+        ReporteEmergencia.objects
+        .select_for_update()
+        .get(pk=reporte_id)
+    )
+
+    if reporte.emergencia_id:
+        raise ValidationError({
+            "reporte": "El reporte ya está vinculado a una emergencia."
+        })
+
+    estados_siguientes = TRANSICIONES_PERMITIDAS.get(
+        reporte.estado_revision, set()
+    )
+    if estado_nuevo not in estados_siguientes:
+        raise ValidationError({
+            "estado_revision": (
+                "La transición solicitada no está permitida desde el estado "
+                f"{reporte.estado_revision}."
+            )
+        })
+
+    reporte.estado_revision = estado_nuevo
+    reporte.save(update_fields=["estado_revision"])
+
+    _auditar(
+        accion="emergencia.reporte_revision",
+        reporte=reporte,
+        usuario=usuario,
+        request=request,
+        justificacion=justificacion,
+        estado=estado_nuevo,
+        tipo_operacion="cambio_estado",
+    )
+
+    return reporte
+
+
+@transaction.atomic
+def vincular_reporte_emergencia(*, reporte_id, emergencia_id, justificacion,
+                                usuario, request):
+    """Vincula un reporte con una emergencia existente sin confirmarla."""
+    _exigir_permiso_revision(usuario)
+
+    justificacion = _validar_justificacion(justificacion)
+
+    reporte = (
+        ReporteEmergencia.objects
+        .select_for_update()
+        .get(pk=reporte_id)
+    )
+    emergencia = Emergencia.objects.get(pk=emergencia_id)
+
+    if emergencia.estado == Emergencia.Estado.DESCARTADA:
+        raise ValidationError({
+            "emergencia_id": "No se puede vincular a una emergencia descartada."
+        })
+
+    if reporte.emergencia_id:
+        raise ValidationError({
+            "reporte": "El reporte ya está vinculado a una emergencia."
+        })
+
+    if reporte.estado_revision not in {
+        ReporteEmergencia.EstadoRevision.PENDIENTE,
+        ReporteEmergencia.EstadoRevision.EN_REVISION,
+    }:
+        raise ValidationError({
+            "estado_revision": (
+                "Solo se pueden vincular reportes pendientes o en revisión."
+            )
+        })
+
+    reporte.emergencia = emergencia
+    reporte.estado_revision = ReporteEmergencia.EstadoRevision.VINCULADO
+    reporte.save(update_fields=["emergencia", "estado_revision"])
+
+    _auditar(
+        accion="emergencia.reporte_vinculado",
+        reporte=reporte,
+        usuario=usuario,
+        request=request,
+        justificacion=justificacion,
+        estado=ReporteEmergencia.EstadoRevision.VINCULADO,
+        tipo_operacion="vinculacion",
+    )
+
+    return reporte
