@@ -1,0 +1,130 @@
+# Modelo Entidad-Relación — IntegraVida
+
+> **Estado:** parcial — cubre las 5 entidades implementadas (Fase 1 retroactiva).
+> Las apps restantes se marcan como TBD y se documentarán al inicio de su fase.
+
+## Diagrama
+
+```mermaid
+erDiagram
+    USUARIO {
+        uuid id PK
+        string username
+        string email
+        boolean is_active
+    }
+    ORGANIZACION {
+        uuid id PK
+        string nombre
+        string tipo
+        string estado
+        string telefono_publico
+    }
+    MEMBRESIA {
+        uuid id PK
+        uuid usuario_id FK
+        uuid organizacion_id FK
+        string rol
+        string estado
+    }
+    ENTIDAD_FEDERAL {
+        uuid id PK
+        string nombre
+        string codigo UK
+        string tipo
+    }
+    MUNICIPIO {
+        uuid id PK
+        uuid entidad_federal_id FK
+        string nombre
+        string codigo
+    }
+    PARROQUIA {
+        uuid id PK
+        uuid municipio_id FK
+        string nombre
+        string codigo
+    }
+    EMERGENCIA {
+        uuid id PK
+        string titulo
+        string categoria
+        int gravedad
+        string estado
+        string ubicacion_texto
+        string referencia_lugar
+        geometry punto
+        uuid municipio_id FK
+        uuid parroquia_id FK
+        uuid reportada_por_id FK
+        uuid organizacion_id FK
+    }
+    REPORTE_EMERGENCIA {
+        uuid id PK
+        uuid emergencia_id FK
+        uuid reportante_id FK
+        string categoria
+        string ubicacion_texto
+        string referencia_lugar
+        geometry punto
+        uuid municipio_id FK
+        uuid parroquia_id FK
+        string canal
+        string estado_revision
+    }
+    EVENTO_AUDITORIA {
+        uuid id PK
+        uuid actor_id FK
+        uuid organizacion_id
+        string accion
+        string tipo_objeto
+        string objeto_id
+        string resultado
+        string justificacion
+        string agente_usuario
+        string id_correlacion
+    }
+
+    USUARIO ||--o{ MEMBRESIA : "tiene"
+    ORGANIZACION ||--o{ MEMBRESIA : "agrupa"
+    USUARIO ||--o{ EVENTO_AUDITORIA : "actua"
+    ENTIDAD_FEDERAL ||--o{ MUNICIPIO : "contiene"
+    MUNICIPIO ||--o{ PARROQUIA : "contiene"
+    MUNICIPIO ||--o{ EMERGENCIA : "ubica"
+    PARROQUIA ||--o{ EMERGENCIA : "ubica"
+    EMERGENCIA ||--o{ REPORTE_EMERGENCIA : "recibe"
+    ORGANIZACION ||--o{ EMERGENCIA : "declara"
+```
+
+## Entidades pendientes por fase
+
+| App | Fase del prompt §24 | Dependencias |
+|---|---|---|
+| `refugios` | Fase 5 | territorio |
+| `hospitales` | Fase 6 | organizaciones, territorio |
+| `pacientes` | Fase 6 | requiere `docs/privacy-and-retention.md` antes |
+| `triaje` | Fase 6 | pacientes |
+| `derivaciones` | Fase 7 | hospitales |
+| `inventario` | Fase 8 | organizaciones |
+| `distribucion` | Fase 8 | inventario |
+| `configuracion` | Fase 9 | — |
+| `reportes` | Fase 9 | transversal |
+
+## Clasificación por sensibilidad (§6.2)
+
+| Entidad | Clasificación predominante |
+|---|---|
+| EntidadFederal, Municipio, Parroquia | PUB |
+| Organizacion | PUB (institucional) |
+| Usuario | PER (con campos SEC) |
+| Membresia | OPE / PER |
+| Emergencia | OPE (con campos públicos autorizados) |
+| ReporteEmergencia | OPE / PER |
+| EventoAuditoria | AUD |
+
+## Pendiente de diseño antes de Fase 3
+
+- Añadir a `EventoAuditoria`: `fecha_hora` (TIMESTAMPTZ), `ip_origen`, `hash_anterior`, `hash_actual`.
+- Evaluar convertir `EventoAuditoria.organizacion_id` (UUIDField) en `ForeignKey(Organizacion, null=True, on_delete=PROTECT)`.
+- Definir `UniqueConstraint` en `Membresia(usuario, organizacion, rol)`.
+- Definir `UniqueConstraint` en `Municipio(entidad_federal, codigo)` y `Parroquia(municipio, codigo)`.
