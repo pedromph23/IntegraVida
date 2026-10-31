@@ -409,3 +409,28 @@ en Django ≥ 4.
 **Impacto:** bloqueante para Fase 7 (derivaciones requiere crear usuarios
 operadores sin email obligatorio). Se resuelve en Fase 6.3.1 antes de
 arrancar Fase 7.
+
+## Nota: `usuarios.Usuario.email` — bug corregido en Fase 6.3.1
+
+**Bug original (Fase 2–6.3):** `EmailField(unique=True)` sin `blank=True`.
+Dos usuarios sin email colisionaban en `""` con `IntegrityError`.
+
+**Fix aplicado en Fase 6.3.1:**
+
+    email = models.EmailField("correo electrónico", blank=True)
+    # Meta.constraints:
+    UniqueConstraint(
+        fields=["email"],
+        condition=~models.Q(email=""),
+        name="unique_usuario_email_nonempty",
+    )
+
+**Comportamiento actual:**
+- N usuarios con `email=""` → permitido.
+- Unicidad solo para emails no vacíos.
+- `blank=True` → formularios no exigen email.
+- `AbstractUser.email` restaurado a su semántica original.
+
+**Migración:** `usuarios.0002_remove_..._alter_...`.
+No requiere data migration (nunca existieron múltiples usuarios con
+`email=""` porque la constraint antigua lo impedía).
