@@ -2,17 +2,26 @@ import { test, expect } from '@playwright/test';
 
 /**
  * Verifica modo claro/oscuro/sistema (§4.2).
+ *
+ * Nota técnica: NO usamos `addInitScript` para limpiar localStorage en
+ * el beforeEach, porque se dispararía también en el `page.reload()` del
+ * test 9, borrando el valor que el test está tratando de verificar.
+ * En su lugar, limpiamos explícitamente al inicio de cada test con una
+ * navegación + evaluate + reload.
  */
 test.describe('Theme toggle — claro / oscuro / sistema', () => {
   test.beforeEach(async ({ page }) => {
-    // Limpiar preferencias entre tests
-    await page.addInitScript(() => {
-      localStorage.removeItem('iv-theme');
+    // Estado limpio al inicio de cada test:
+    await page.goto('/');
+    await page.evaluate(() => localStorage.removeItem('iv-theme'));
+    await page.reload();
+    // Esperar a que el script anti-FOUC haya aplicado data-theme
+    await page.waitForFunction(() => {
+      return document.documentElement.getAttribute('data-theme') !== null;
     });
   });
 
   test('data-theme existe en <html> al cargar (anti-FOUC)', async ({ page }) => {
-    await page.goto('/');
     const theme = await page.evaluate(() =>
       document.documentElement.getAttribute('data-theme')
     );
@@ -20,46 +29,53 @@ test.describe('Theme toggle — claro / oscuro / sistema', () => {
   });
 
   test('ciclo light → dark → system persiste en localStorage', async ({ page }) => {
-    await page.goto('/');
-
     const toggle = page.locator('[title*="Cambiar tema"]');
     await expect(toggle).toBeVisible();
 
-    // Estado inicial: system (o el que detecte)
+    // Estado inicial: null → system
     let stored = await page.evaluate(() => localStorage.getItem('iv-theme'));
-    // Puede ser null (system por defecto) o 'system'
     expect([null, 'system']).toContain(stored);
 
-    // Click 1: pasa a 'light'
+    // Click 1: system → light
     await toggle.click();
     stored = await page.evaluate(() => localStorage.getItem('iv-theme'));
     expect(stored).toBe('light');
 
-    // Click 2: pasa a 'dark'
+    // Click 2: light → dark
     await toggle.click();
     stored = await page.evaluate(() => localStorage.getItem('iv-theme'));
     expect(stored).toBe('dark');
 
-    // Click 3: vuelve a 'system'
+    // Click 3: dark → system
     await toggle.click();
     stored = await page.evaluate(() => localStorage.getItem('iv-theme'));
     expect(stored).toBe('system');
   });
 
   test('tema persiste tras recarga', async ({ page }) => {
-    await page.goto('/');
     const toggle = page.locator('[title*="Cambiar tema"]');
 
-    // Cambiar a dark
+    // Ciclo: system → light → dark
     await toggle.click();
     await toggle.click();
 
-    // Verificar localStorage
+    // Verificar localStorage antes de recargar
     const before = await page.evaluate(() => localStorage.getItem('iv-theme'));
     expect(before).toBe('dark');
 
+    // Verificar data-theme antes de recargar
+    const dataThemeBefore = await page.evaluate(() =>
+      document.documentElement.getAttribute('data-theme')
+    );
+    expect(dataThemeBefore).toBe('dark');
+
     // Recargar
     await page.reload();
+
+    // Esperar a que el anti-FOUC aplique el tema guardado
+    await page.waitForFunction(() => {
+      return document.documentElement.getAttribute('data-theme') === 'dark';
+    });
 
     // localStorage debe mantener 'dark'
     const after = await page.evaluate(() => localStorage.getItem('iv-theme'));
