@@ -80,11 +80,13 @@ from django.urls import reverse
 
 
 class LandingPageTests(DjangoTestCase):
+    """Landing del portal público (F1.a — home migrada a frontend/)."""
+
     def test_index_devuelve_200(self):
         r = self.client.get("/")
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, "IntegraVida")
-        self.assertContains(r, "API pública")
+        self.assertContains(r, "Encuentra ayuda ahora")
 
     def test_index_incluye_links_a_endpoints_publicos(self):
         r = self.client.get("/")

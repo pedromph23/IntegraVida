@@ -1,0 +1,50 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{% block title %}Panel — IntegraVida{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/dist/main.css' %}">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('iv-theme') || 'system';
+        var effective = t === 'system'
+          ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : t;
+        document.documentElement.setAttribute('data-theme', effective);
+      } catch (e) { /* noop */ }
+    })();
+  </script>
+</head>
+<body class="min-h-screen bg-surface text-text">
+  <div class="flex min-h-screen">
+    <aside class="w-64 border-r" style="border-color: var(--color-surface-raised);">
+      <div class="p-4 border-b" style="border-color: var(--color-surface-raised);">
+        <a href="{% url 'public:home' %}" class="text-lg font-semibold text-primary">
+          IntegraVida
+        </a>
+        <div class="text-xs text-text-muted">Panel institucional</div>
+      </div>
+      <nav class="p-2" aria-label="Navegación principal">
+        {% block sidebar %}{% endblock %}
+      </nav>
+    </aside>
+    <div class="flex-1 flex flex-col">
+      <header class="border-b px-6 py-3 flex items-center justify-between"
+              style="border-color: var(--color-surface-raised);">
+        <h1 class="text-lg font-medium">{% block heading %}{% endblock %}</h1>
+        <div class="flex items-center gap-3">
+          {% include "components/theme-toggle.html" %}
+        </div>
+      </header>
+      <main class="flex-1 p-6">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+  <script src="{% static 'js/dist/main.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

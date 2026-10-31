@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'apps.inventario.apps.InventarioConfig',
     'apps.reportes.apps.ReportesConfig',
     'apps.configuracion.apps.ConfiguracionConfig',
+    'frontend',
     # 'apps.notificaciones...' ELIMINADA — no está en §5 del prompt maestro.
     # Si se justifica, crear con su propio bloque CAMBIO: (§25).
 ]

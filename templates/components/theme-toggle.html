@@ -1,0 +1,10 @@
+<button type="button"
+        x-data="{ theme: (window.Alpine ? $store.theme.current : 'system') }"
+        @click="$store.theme.cycle(); theme = $store.theme.current"
+        :aria-label="'Tema actual: ' + theme"
+        class="btn btn-ghost p-2"
+        title="Cambiar tema (claro / oscuro / sistema)">
+  <span aria-hidden="true" x-show="theme === 'light'">☀</span>
+  <span aria-hidden="true" x-show="theme === 'dark'">☾</span>
+  <span aria-hidden="true" x-show="theme === 'system'">⌬</span>
+</button>

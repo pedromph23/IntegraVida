@@ -1,0 +1,44 @@
+{% extends "base/base_public.html" %}
+
+{% block title %}Sistema de diseño — IntegraVida{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-5xl px-4 py-12">
+  <h1 class="text-3xl font-bold text-primary mb-2">Sistema de diseño</h1>
+  <p class="text-text-muted mb-8">
+    Demo de los componentes base. Solo visible en DEBUG.
+  </p>
+
+  <div class="space-y-8">
+    <div>
+      <h2 class="text-xl font-semibold mb-3">Botones</h2>
+      <div class="flex flex-wrap gap-3">
+        <button class="btn btn-primary">Primario</button>
+        <button class="btn btn-secondary">Secundario</button>
+        <button class="btn btn-danger">Peligro</button>
+        <button class="btn btn-ghost">Ghost</button>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-semibold mb-3">Badges</h2>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-success">Activo</span>
+        <span class="badge badge-warning">Saturado</span>
+        <span class="badge badge-danger">Crítico</span>
+        <span class="badge badge-info">Info</span>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-semibold mb-3">Card</h2>
+      <div class="card p-6">
+        <h3 class="text-lg font-medium mb-2">Título de tarjeta</h3>
+        <p class="text-text-muted">
+          Contenido de la tarjeta. Los gradientes respetan contraste AA.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

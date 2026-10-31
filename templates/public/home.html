@@ -1,0 +1,45 @@
+{% extends "base/base_public.html" %}
+{% load static %}
+
+{% block title %}IntegraVida — Portal público{% endblock %}
+
+{% block content %}
+<section data-hero class="mx-auto max-w-7xl px-4 py-12 md:py-20">
+  <div data-hero-item>
+    <h1 class="text-4xl md:text-5xl font-bold text-primary mb-4">
+      Encuentra ayuda ahora
+    </h1>
+    <p class="text-lg text-text-muted max-w-2xl">
+      Consulta hospitales, refugios y alertas verificadas durante emergencias.
+      Sin registro, sin barreras.
+    </p>
+  </div>
+
+  <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="card p-6" data-hero-item>
+      <div class="text-3xl font-bold text-primary">{{ stats.emergencias_publicas }}</div>
+      <div class="text-sm text-text-muted mt-1">Emergencias públicas</div>
+    </div>
+    <div class="card p-6" data-hero-item>
+      <div class="text-3xl font-bold text-secondary">{{ stats.refugios_activos }}</div>
+      <div class="text-sm text-text-muted mt-1">Refugios activos</div>
+    </div>
+    <div class="card p-6" data-hero-item>
+      <div class="text-3xl font-bold text-accent">{{ stats.hospitales_activos }}</div>
+      <div class="text-sm text-text-muted mt-1">Hospitales activos</div>
+    </div>
+  </div>
+
+  <div class="mt-8 flex flex-wrap gap-3" data-hero-item>
+    <a href="/api/publico/emergencias/" class="btn btn-primary">
+      Ver emergencias →
+    </a>
+    <a href="/api/publico/refugios/" class="btn btn-secondary">
+      Ver refugios →
+    </a>
+    <a href="/api/publico/hospitales/" class="btn btn-ghost">
+      Ver hospitales →
+    </a>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{% block title %}IntegraVida{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static 'css/dist/main.css' %}">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('iv-theme') || 'system';
+        var effective = t === 'system'
+          ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : t;
+        document.documentElement.setAttribute('data-theme', effective);
+      } catch (e) { /* noop */ }
+    })();
+  </script>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  {% include "layouts/public_header.html" %}
+
+  <main id="main" class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include "layouts/public_footer.html" %}
+
+  <div id="toast-container" aria-live="polite" aria-atomic="true"
+       class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+
+  <script src="{% static 'js/dist/main.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
