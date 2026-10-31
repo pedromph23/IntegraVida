@@ -1,0 +1,22 @@
+[
+  {"id": 1, "codigo": "ALI-001", "nombre": "Arroz blanco",
+   "categoria": "alimento", "subcategoria": "Granos",
+   "unidad_medida": "kg", "es_perecedero": false,
+   "dias_vida_util_promedio": null},
+  {"id": 2, "codigo": "ALI-002", "nombre": "Leche en polvo",
+   "categoria": "alimento", "subcategoria": "Lácteos",
+   "unidad_medida": "kg", "es_perecedero": true,
+   "dias_vida_util_promedio": 365},
+  {"id": 3, "codigo": "ALI-003", "nombre": "Atún enlatado",
+   "categoria": "alimento", "subcategoria": "Enlatados",
+   "unidad_medida": "cajas", "es_perecedero": true,
+   "dias_vida_util_promedio": 730},
+  {"id": 4, "codigo": "MED-001", "nombre": "Paracetamol 500mg",
+   "categoria": "medico", "subcategoria": "Analgésicos",
+   "unidad_medida": "unidades", "es_perecedero": true,
+   "dias_vida_util_promedio": 1095},
+  {"id": 5, "codigo": "MED-002", "nombre": "Guantes de nitrilo (caja)",
+   "categoria": "medico", "subcategoria": "Curación",
+   "unidad_medida": "cajas", "es_perecedero": false,
+   "dias_vida_util_promedio": null}
+]
