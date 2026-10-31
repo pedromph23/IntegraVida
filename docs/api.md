@@ -153,3 +153,47 @@ Detalle por `codigo` (slug único).
 
 **404:** si no existe o no está en estado público. La respuesta es
 idéntica en ambos casos (no filtra existencia).
+
+## Hospitales (Fase 6.1.5)
+
+### `GET /api/publico/hospitales/`
+
+Lista hospitales operativos públicos.
+
+**Estados expuestos:** `DISPONIBLE`, `SATURADO`.
+**Estados ocultos:** `COLAPSADO`, `NO_OPERATIVO` (§5.6: evitar pánico y
+desincentivar atención por vías alternativas).
+
+**Query params opcionales:**
+- `tipo`: HOSPITAL/CLINICA/CENTRO_SALUD/AMBULATORIO.
+- `nivel`: NIVEL_I/II/III/IV.
+- `estado_operativo`: solo DISPONIBLE o SATURADO (otros → 400).
+- `municipio`, `parroquia`: `icontains` por nombre.
+- `servicio`: código de servicio con `disponible=True` en ese hospital.
+- `q`: búsqueda en nombre/dirección.
+- `limite` (default 50), `offset` (default 0).
+
+**Campos NO expuestos:** `organizacion`, `responsable`, `notas_internas`.
+
+**Estructura de recursos** — cada tipo es un objeto con `estado` y `actualizado_en`:
+
+```
+{
+  "uci": {"estado": "disponible", "actualizado_en": "2026-10-31T12:00:00-04:00"},
+  "urgencia": {"estado": "no_disponible", "actualizado_en": "..."},
+  "quirofano": {"estado": "sin_datos", "actualizado_en": null},
+  "hospitalizacion": {"estado": "disponible", "actualizado_en": "..."}
+}
+```
+
+**Estados posibles por recurso:**
+- `disponible`: hay plazas y el dato fue actualizado hace < 2 h.
+- `no_disponible`: 0 plazas libres, actualizado recientemente.
+- `sin_datos`: sin registro, capacidad_total=0, o último dato > 2 h.
+
+**NO se publican números exactos** (ej. `3 camas UCI`) por §5.6:
+genera avalanchas y expectativas falsas si el dato no es fresco.
+
+### `GET /api/publico/hospitales/{codigo}/`
+
+Detalle por slug. 404 uniforme para inexistente o no público.
