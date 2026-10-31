@@ -249,3 +249,37 @@ Stack: **Laravel 9 (PHP 8) + Eloquent ORM**.
 - Fase 8 completada: 8.1 (Insumo + Almacen), 8.2 (Lote + Stock +
   Movimiento + FEFO), 8.3.1 (Transferencia), 8.3.2 (Entrega).
 - 199 tests verdes en el proyecto (52 inventario + 147 otros apps).
+
+## Hallazgos del análisis de NUTRILINK (Fase 8)
+
+Repositorio clonado en `~/analisis-origen/nutrilink` (fuera de `integravida/`).
+Stack: **Laravel 9 (PHP 8) + Eloquent ORM**.
+
+### Archivos analizados
+- `database/migrations/2026_09_07_000001_create_shelters_and_supplies_tables.php`
+- `database/migrations/2026_09_07_000002_create_movements_and_transfers_tables.php`
+- `README.md` (descripción funcional)
+
+### Archivos descartados explícitamente
+- `app/Services/InventoryOptimizationService.php` — EOQ, Newsvendor, ABC. **Prohibido** §3.5, §3.6, §15.
+- `app/Services/GoogleAuthenticatorService.php` — 2FA retirado en el propio NUTRILINK.
+- `app/Console/Commands/NeonSetup.php`, `app/Database/Connectors/NeonPostgresConnector.php` — específico de Neon.
+
+### Matriz de decisiones
+
+| Elemento | Veredicto | Se toma | Se descarta |
+|---|---|---|---|
+| `supplies` | Adoptar | codigo, nombre, categoria, subcategoria, unidad_medida, es_perecedero→requiere_vencimiento, dias_vida_util→vida_util_dias | clasificacion_abc, EOQ, Newsvendor, costos, lead time |
+| `inventory_batches` | **Corregir** | numero_lote, cantidad_disponible, fecha_vencimiento | Colgaba de stock por almacén; IntegraVida lo hace global por (insumo, codigo) |
+| `inventory_movements` | Adoptar extendido | stock_anterior, stock_nuevo, tipo, motivo, referencia | Ahora inmutable con `NotAllowed` |
+| `supply_transfers` | Adoptar extendido | estados, prioridad, fechas | Sin máquina formal → ahora con `TRANSICIONES_PERMITIDAS` |
+| `cantidad Decimal(14,2)` | **Corregir** | — | Decimal(12,3) para gramos |
+
+### Errores del original documentados
+1. **Lote por almacén, no global** → UniqueConstraint(insumo, codigo).
+2. **Decimal(14,2)** insuficiente → Decimal(12,3).
+3. **Kardex sin inmutabilidad formal** → `Movimiento.save/delete` bloquean.
+4. **FEFO sin lock por stock** → `select_for_update(of=("self",))` sobre Stock.
+
+### Cierre
+Fase 8 completa: 8.1 (Insumo + Almacen), 8.2 (Lote + Stock + Movimiento + FEFO), 8.3.1 (Transferencia), 8.3.2 (Entrega). 199 tests verdes.
