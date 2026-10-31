@@ -106,7 +106,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.environ.get('DB_NAME', 'integravida_db'),
-        'USER': os.environ.get('DB_USER', 'integravida'),
+        # Producción: DB_USER_APP tiene DML limitado (no DDL).
+        # Migraciones: DB_USER_MIGRATOR ejecuta DDL. Local: DB_USER fallback.
+        'USER': os.environ.get(
+            'DB_USER_APP', os.environ.get('DB_USER', 'integravida')
+        ),
         'PASSWORD': os.environ.get('DB_PASSWORD', ''),
         'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
         'PORT': os.environ.get('DB_PORT', '5432'),
