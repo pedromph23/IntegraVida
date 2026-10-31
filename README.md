@@ -222,3 +222,87 @@ Antes de cada commit:
 IntegraVida continúa en desarrollo y no debe considerarse listo para
 coordinar emergencias reales hasta completar las pruebas operativas,
 la revisión de seguridad y la preparación del despliegue.
+## Estado del proyecto
+
+**Fase:** 11 de 11 — producción preparada, deployment diferido a autorización.
+
+| Métrica | Valor |
+|---|---|
+| Apps con modelos | 12 |
+| Modelos | ~50 |
+| Endpoints públicos | 7 |
+| Endpoints internos | 5 |
+| Tests automatizados | 246 |
+| Documentos en `docs/` | 12 |
+| Migraciones aplicadas | 20 |
+| Commits en `main` | ~45 |
+
+## Cómo ejecutar
+
+### Local (desarrollo)
+
+    # Activar entorno
+    source .venv/bin/activate
+
+    # Variables de entorno
+    cp .env.example .env
+    # Editar .env con DJANGO_SECRET_KEY, DB_PASSWORD, FIELD_ENCRYPTION_KEY
+
+    # Migraciones
+    python manage.py migrate
+
+    # Tests
+    python manage.py test
+
+    # Servidor
+    python manage.py runserver
+
+### Producción
+
+Ver `docs/deployment.md` para el procedimiento completo.
+
+## Endpoints públicos (sin registro)
+
+    GET  /api/publico/emergencias/
+    GET  /api/publico/emergencias/{uuid}/
+    POST /api/publico/emergencias/reportes/
+    GET  /api/publico/emergencias/reportes/estado/
+    GET  /api/publico/refugios/
+    GET  /api/publico/refugios/{codigo}/
+    GET  /api/publico/hospitales/
+    GET  /api/publico/hospitales/{codigo}/
+
+## Endpoints internos (autenticados)
+
+    GET  /api/interno/organizaciones/
+    GET  /api/interno/emergencias/...
+    GET  /api/interno/reportes/inventario-critico/
+    GET  /api/interno/reportes/capacidad-operativa/
+
+## Comandos operativos
+
+    # Backup
+    bash scripts/backup_daily.sh
+
+    # Verificar integridad de auditoría
+    python manage.py verify_audit_chain
+
+    # Prueba de restauración
+    bash scripts/restore_test.sh
+
+    # Migración desde repos origen (piloto)
+    python manage.py migrate_cobijo_vzla --fixture=... --organizacion=<uuid>
+    python manage.py migrate_nutrilink --fixture=... --organizacion=<uuid>
+
+## Documentación
+
+Toda la documentación está en `docs/`:
+
+- **Análisis:** `analisis-origen.md`
+- **Diseño:** `entity-relationship.md`, `data-dictionary.md`
+- **Seguridad:** `permissions.md`, `audit-and-security.md`, `privacy-and-retention.md`
+- **API:** `api.md`
+- **Testing:** `testing.md`
+- **Migración:** `migration-plan.md`
+- **Operación:** `deployment.md`, `operations.md`, `architecture.md`
+- **Incidentes:** `incidents/TEMPLATE.md`
