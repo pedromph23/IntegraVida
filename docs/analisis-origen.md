@@ -133,3 +133,67 @@ Aporta dos ideas nuevas respecto a nuestro `Emergencia`:
 - `RegistroVersion`: snapshots completos por cambio. Podría añadirse
   como mejora opcional en Fase 5.5 para permitir "cómo era este refugio
   en fecha X". No es bloqueante.
+
+## Hallazgos del análisis de Sistema Derivación Hospitalaria
+
+Repositorio clonado en `~/analisis-origen/sistema-derivacion-hospitalaria`
+(fuera de `integravida/`). Stack: **Node.js + Express + Sequelize (SQL) + React**.
+
+### Archivos leídos
+
+- `backend/src/models/Hospital.js`
+- `backend/src/models/index.js`
+- `backend/src/models/Paciente.js`
+- `backend/src/models/Traslado.js`
+- `frontend/src/schemas/hospital.schemas.js`
+
+### Archivos descartados explícitamente
+
+- `backend/src/services/optimization.service.js` — **Prohibido** §3.6, §15.
+- Todo `frontend/src/components/` — interfaz visual.
+- `backend/src/config/` — conexión y seeder.
+- `backend/src/controllers/`, `backend/src/routes/` — lógica de HTTP.
+
+### Matriz de decisiones
+
+| Elemento original | Veredicto | Qué se toma | Qué se descarta |
+|---|---|---|---|
+| `Hospital.nivel` (Nivel I-IV) | Adoptar | `TextChoices` con valores venezolanos | STRING libre |
+| `Hospital.camas_*_totales` / `*_libres` | Rediseñar | Modelo `RecursoHospitalario` + `RegistroDisponibilidad` | Columnas mutables directas |
+| `Hospital.estado_operativo` | Adoptar corregido | `DISPONIBLE/SATURADO/COLAPSADO/NO_OPERATIVO` | Inconsistencia con `INACTIVO` del frontend |
+| `Hospital.latitud` + `longitud` | Rediseñar | `PointField` único | Campos separados |
+| `Hospital` sin `organizacion`, `responsable`, `municipio` | Corregir | Añadir FK PROTECT | Ausencia |
+| `Paciente.triage` como campo | **Descartar** | `Triaje` como entidad separada en Fase 6.3 | Campo en Paciente |
+| `Paciente.edad` | **Descartar** | `fecha_nacimiento` + property `edad` | Campo edad mutable |
+| `Paciente.requiere_uci/quirofano` | **Descartar** | Van en `Triaje` (Fase 6.3) | Campos en Paciente |
+| `Paciente.nombre` (un solo campo) | Rediseñar | `nombres` + `apellidos` separados | Nombre único |
+| `Traslado.tiempo_estimado_min` / `distancia_km` / `score_prioridad` | **Descartar** | — | **Prohibido** §3.6/§15 |
+| `Traslado.estado` (ASIGNADO/EN_CAMINO/COMPLETADO/CANCELADO) | Adoptar | `TextChoices` en `Derivacion` (Fase 7) | — |
+| Relación `Traslado.belongsTo(Hospital, origen/destino)` | Adoptar | `Derivacion` con `hospital_origen` + `hospital_destino` | — |
+
+### Errores del original documentados
+
+1. **`Paciente.triage` como atributo** — viola §5.8. En IntegraVida el triaje
+   es una entidad con historial propio (Fase 6.3).
+2. **`Paciente.edad`** en vez de `fecha_nacimiento` — error de modelado.
+3. **`requiere_uci` / `requiere_quirofano`** como campos del paciente —
+   son necesidades detectadas en un evento de triaje.
+4. **`score_prioridad` / `distancia_km` / `tiempo_estimado_min`** en
+   `Traslado` — módulo de optimización prohibido (§3.6, §15).
+5. **Inconsistencia** `NO_OPERATIVO` (backend) vs `INACTIVO` (frontend) —
+   se define una sola versión en IntegraVida.
+6. **Ausencia de `organizacion`** FK — sin aislamiento entre instituciones.
+7. **`latitud` / `longitud` separados** — usamos `PointField` coherente con
+   `Emergencia` y `Refugio`.
+8. **`cedula` + `nombre`** en el mismo modelo sin clasificación explícita de
+   sensibilidad — en IntegraVida se clasifican como PER con control de acceso.
+
+### Pendiente
+
+- [ ] Fase 6.1: implementar `Hospital`, `Servicio`, `HospitalServicio`,
+      `RecursoHospitalario`, `RegistroDisponibilidad`.
+- [ ] Fase 6.2: `Paciente`, `Episodio`, `ContactoEmergencia` (requiere
+      decisión de cifrado).
+- [ ] Fase 6.3: `Triaje`, `Reevaluacion`.
+- [ ] Fase 7: `Derivacion`, `TransicionEstado` (aquí se aplica el ciclo
+      ASIGNADO → EN_CAMINO → COMPLETADO → CANCELADO).

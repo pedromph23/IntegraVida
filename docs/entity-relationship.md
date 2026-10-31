@@ -123,6 +123,51 @@ erDiagram
         uuid registrado_por_id FK
         datetime creado_en
     }
+    HOSPITAL {
+        uuid id PK
+        string codigo UK
+        string nombre
+        string tipo
+        string nivel
+        uuid organizacion_id FK
+        uuid responsable_id FK
+        geometry ubicacion
+        string direccion
+        uuid municipio_id FK
+        uuid parroquia_id FK
+        string estado_operativo
+        string telefono_publico
+    }
+    SERVICIO {
+        uuid id PK
+        string codigo UK
+        string nombre
+        string tipo
+        boolean activo
+    }
+    HOSPITAL_SERVICIO {
+        uuid id PK
+        uuid hospital_id FK
+        uuid servicio_id FK
+        boolean disponible
+    }
+    RECURSO_HOSPITALARIO {
+        uuid id PK
+        uuid hospital_id FK
+        string tipo
+        int capacidad_total
+        int disponible
+    }
+    REGISTRO_DISPONIBILIDAD {
+        uuid id PK
+        uuid recurso_id FK
+        int cantidad_anterior
+        int cantidad_nueva
+        int diferencia
+        uuid registrado_por_id FK
+        datetime creado_en
+    }
+
 
     USUARIO ||--o{ MEMBRESIA : "tiene"
     ORGANIZACION ||--o{ MEMBRESIA : "agrupa"
@@ -140,6 +185,15 @@ erDiagram
     REFUGIO ||--o{ NECESIDAD : "requiere"
     REFUGIO ||--o{ REGISTRO_OCUPACION : "registra"
     USUARIO ||--o{ REGISTRO_OCUPACION : "registra"
+    ORGANIZACION ||--o{ HOSPITAL : "administra"
+    USUARIO ||--o{ HOSPITAL : "responsable"
+    MUNICIPIO ||--o{ HOSPITAL : "ubica"
+    PARROQUIA ||--o{ HOSPITAL : "ubica"
+    HOSPITAL ||--o{ HOSPITAL_SERVICIO : "ofrece"
+    SERVICIO ||--o{ HOSPITAL_SERVICIO : "en"
+    HOSPITAL ||--o{ RECURSO_HOSPITALARIO : "tiene"
+    RECURSO_HOSPITALARIO ||--o{ REGISTRO_DISPONIBILIDAD : "registra"
+    USUARIO ||--o{ REGISTRO_DISPONIBILIDAD : "registra"
 ```
 
 ## Entidades pendientes por fase
@@ -147,7 +201,7 @@ erDiagram
 | App | Fase del prompt §24 | Dependencias |
 |---|---|---|
 | `refugios` | **✅ Fase 5 — implementado** | — |
-| `hospitales` | Fase 6 | organizaciones, territorio |
+| `hospitales` | **Fase 6.1 — implementado** | — |
 | `pacientes` | Fase 6 | requiere `docs/privacy-and-retention.md` antes |
 | `triaje` | Fase 6 | pacientes |
 | `derivaciones` | Fase 7 | hospitales |

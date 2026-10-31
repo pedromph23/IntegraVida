@@ -194,3 +194,80 @@
 > **Historial inmutable.** Solo se crea desde `registrar_ocupacion()`.
 > El admin no permite crear ni modificar manualmente.
 > Cada registro va acompañado de un `EventoAuditoria` encadenado.
+
+## 13. `hospitales.Hospital`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| codigo | SlugField(100) | Sí | **UNIQUE** | PUB | Sí |
+| nombre | CharField(200) | Sí | — | PUB | Sí |
+| tipo | CharField(20) | Sí | TextChoices | PUB | Sí |
+| nivel | CharField(15) | Sí | TextChoices (Nivel I-IV) | PUB | Sí |
+| organizacion | FK Organizacion | Sí | on_delete=PROTECT | OPE | Sí |
+| responsable | FK Usuario | No | on_delete=PROTECT | OPE | Sí |
+| ubicacion | PointField | No | SRID 4326 | PUB | Sí |
+| direccion | CharField(300) | Sí | — | PUB | Sí |
+| referencia_lugar | CharField(250) | No | — | PUB | Sí |
+| municipio | FK Municipio | No | on_delete=PROTECT | PUB | Sí |
+| parroquia | FK Parroquia | No | on_delete=PROTECT | PUB | Sí |
+| telefono_publico | CharField(30) | No | — | PUB | Sí |
+| correo_publico | EmailField | No | — | PUB | Sí |
+| notas_internas | TextField | No | — | OPE | Sí |
+| estado_operativo | CharField(20) | Sí | TextChoices, index | PUB | Sí |
+| creado_en | DateTimeField | Sí | auto_now_add | OPE | — |
+| actualizado_en | DateTimeField | Sí | auto_now | OPE | — |
+
+## 14. `hospitales.Servicio`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| codigo | SlugField(80) | Sí | **UNIQUE** | PUB | — |
+| nombre | CharField(150) | Sí | — | PUB | — |
+| tipo | CharField(15) | Sí | SERVICIO/ESPECIALIDAD | PUB | — |
+| activo | Boolean | Sí | default=True | PUB | — |
+
+## 15. `hospitales.HospitalServicio`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| hospital | FK Hospital | Sí | on_delete=PROTECT | OPE | Sí |
+| servicio | FK Servicio | Sí | on_delete=PROTECT | OPE | Sí |
+| disponible | Boolean | Sí | default=True | PUB | Sí |
+| notas | TextField | No | — | OPE | Sí |
+| actualizado_en | DateTimeField | Sí | auto_now | OPE | — |
+
+> **UniqueConstraint(hospital, servicio).** Un hospital no puede declarar el
+> mismo servicio dos veces.
+
+## 16. `hospitales.RecursoHospitalario`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| hospital | FK Hospital | Sí | on_delete=PROTECT | OPE | Sí |
+| tipo | CharField(20) | Sí | UCI/URGENCIA/QUIROFANO/HOSPITALIZACION | PUB | Sí |
+| capacidad_total | PositiveInteger | Sí | default=0 | PUB | Sí |
+| disponible | PositiveInteger | Sí | default=0, <= capacidad_total | PUB | Sí |
+| actualizado_en | DateTimeField | Sí | auto_now | OPE | — |
+
+> **CheckConstraint:** `disponible <= capacidad_total`.
+> **UniqueConstraint(hospital, tipo).**
+
+## 17. `hospitales.RegistroDisponibilidad`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| recurso | FK RecursoHospitalario | Sí | on_delete=PROTECT | OPE | Sí |
+| cantidad_anterior | PositiveInteger | Sí | — | OPE | Sí |
+| cantidad_nueva | PositiveInteger | Sí | — | OPE | Sí |
+| diferencia | Integer | Sí | puede ser negativo | OPE | Sí |
+| registrado_por | FK Usuario | No | on_delete=PROTECT | PER | Sí |
+| notas | TextField | No | — | OPE | Sí |
+| creado_en | DateTimeField | Sí | auto_now_add, index | OPE | — |
+
+> **Historial inmutable.** Solo `registrar_disponibilidad()` crea registros.
+> El admin no permite crear, modificar ni eliminar.

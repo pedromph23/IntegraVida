@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'apps.territorio.apps.TerritorioConfig',
     'apps.emergencias.apps.EmergenciasConfig',
     'apps.refugios.apps.RefugiosConfig',
+    'apps.hospitales.apps.HospitalesConfig',
     # 'apps.notificaciones...' ELIMINADA — no está en §5 del prompt maestro.
     # Si se justifica, crear con su propio bloque CAMBIO: (§25).
 ]
