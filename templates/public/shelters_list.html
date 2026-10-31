@@ -63,6 +63,23 @@
     </div>
   </form>
 
+  {% if map_markers %}
+    <section class="mb-6" aria-label="Mapa de resultados">
+      <div id="map"
+           data-markers='{{ map_markers|safe }}'
+           data-tile-server="{{ TILE_SERVER_URL|default:'' }}"
+           data-tile-attribution="{{ TILE_SERVER_ATTRIBUTION|default:'' }}"
+           style="height: 400px; width: 100%;"
+           class="rounded-xl overflow-hidden border"
+           role="application"
+           aria-label="Mapa con los resultados de la búsqueda">
+      </div>
+      <p class="text-xs text-text-muted mt-1">
+        {{ map_markers|length }} punto{{ map_markers|length|pluralize }} en el mapa.
+      </p>
+    </section>
+  {% endif %}
+
   {% if refugios %}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {% for refugio in refugios %}

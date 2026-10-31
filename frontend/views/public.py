@@ -107,7 +107,21 @@ def hospitals_list(request):
     from apps.hospitales.views import _serializar_hospital
     hospitales = [_serializar_hospital(h, ahora) for h in queryset]
 
+    # Markers para el mapa (F2.e)
+    map_markers = []
+    for h in queryset:
+        if h.ubicacion:
+            map_markers.append({
+                "lat": h.ubicacion.y,
+                "lng": h.ubicacion.x,
+                "titulo": h.nombre,
+                "subtitulo": h.direccion,
+                "url": f"/hospitales/{h.codigo}/",
+                "categoria": "HOSPITAL",
+            })
+
     return render(request, "public/hospitals_list.html", {
+        "map_markers": map_markers,
         "hospitales": hospitales,
         "total": len(hospitales),
         "filtros": {
@@ -188,7 +202,21 @@ def shelters_list(request):
     from apps.refugios.views import _serializar_refugio
     refugios = [_serializar_refugio(r) for r in queryset]
 
+    # Markers para el mapa (F2.e)
+    map_markers = []
+    for r in queryset:
+        if r.ubicacion:
+            map_markers.append({
+                "lat": r.ubicacion.y,
+                "lng": r.ubicacion.x,
+                "titulo": r.nombre,
+                "subtitulo": r.direccion,
+                "url": f"/refugios/{r.codigo}/",
+                "categoria": "REFUGIO",
+            })
+
     return render(request, "public/shelters_list.html", {
+        "map_markers": map_markers,
         "refugios": refugios,
         "total": len(refugios),
         "filtros": {
@@ -268,8 +296,22 @@ def alerts_list(request):
 
     alertas = [_serializar_emergencia(e) for e in queryset]
 
+    # Markers para el mapa (F2.e)
+    map_markers = []
+    for e in queryset:
+        if e.punto:
+            map_markers.append({
+                "lat": e.punto.y,
+                "lng": e.punto.x,
+                "titulo": e.titulo,
+                "subtitulo": e.ubicacion_texto,
+                "url": f"/alertas/{e.id}/",
+                "categoria": e.categoria,
+            })
+
     from apps.emergencias.models import Emergencia as EmergenciaModel
     return render(request, "public/alerts_list.html", {
+        "map_markers": map_markers,
         "alertas": alertas,
         "total": len(alertas),
         "filtros": {

@@ -22,6 +22,14 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
 # Clave para cifrado de campos clínicos (§11).
 # Independiente de SECRET_KEY: permite rotación sin invalidar sesiones.
 FIELD_ENCRYPTION_KEY = os.environ.get("FIELD_ENCRYPTION_KEY", "")
+
+# Servidor de tiles para Leaflet (F2.e).
+# Default VACÍO = sin requests externos (mapa con marcadores sobre fondo neutro).
+# En producción configurar p.ej. https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+TILE_SERVER_URL = os.environ.get("TILE_SERVER_URL", "")
+TILE_SERVER_ATTRIBUTION = os.environ.get(
+    "TILE_SERVER_ATTRIBUTION", ""
+)
 if not SECRET_KEY:
     # §13: no permitir arranque con secreto vacío
     raise ImproperlyConfigured(
@@ -93,6 +101,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'frontend.context_processors.map_config',
             ],
         },
     },

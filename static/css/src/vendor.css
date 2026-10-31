@@ -1,0 +1,13 @@
+/* Vendor CSS — dependencias npm que deben bundlearse localmente */
+
+/* Leaflet 1.9.4 — estilos para el mapa (F2.e) */
+@import "leaflet/dist/leaflet.css";
+
+/* Override: Leaflet usa z-index alto por defecto; ajustar para no
+   tapar modales y otros overlays del sistema de diseño. */
+.leaflet-pane { z-index: 10; }
+.leaflet-top, .leaflet-bottom { z-index: 20; }
+.leaflet-container {
+  background: var(--color-surface-raised);
+  border-radius: 0.75rem;
+}
