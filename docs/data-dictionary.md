@@ -132,3 +132,65 @@
 > bloqueo de `update()`/`delete()` en instancia y en manager.
 > **Pendiente:** decisión sobre `organizacion_id` (UUIDField vs FK);
 > `docs/audit-and-security.md` con política completa (§7.5).
+
+## 10. `refugios.Refugio`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| codigo | SlugField(100) | Sí | **UNIQUE** | PUB | Sí |
+| nombre | CharField(200) | Sí | — | PUB | Sí |
+| tipo | CharField(25) | Sí | TextChoices | PUB | Sí |
+| organizacion | FK Organizacion | Sí | on_delete=PROTECT | OPE | Sí |
+| responsable | FK Usuario | No | on_delete=PROTECT | OPE | Sí |
+| ubicacion | PointField | No | SRID 4326 | PUB | Sí |
+| direccion | CharField(300) | Sí | — | PUB | Sí |
+| referencia_lugar | CharField(250) | No | — | PUB | Sí |
+| municipio | FK Municipio | No | on_delete=PROTECT | PUB | Sí |
+| parroquia | FK Parroquia | No | on_delete=PROTECT | PUB | Sí |
+| capacidad_total | PositiveInteger | Sí | default=0 | PUB | Sí |
+| ocupacion_actual | PositiveInteger | Sí | default=0, <= capacidad_total | OPE | Sí |
+| servicios | JSONField | No | default=list | PUB | Sí |
+| estado_operativo | CharField(20) | Sí | TextChoices, index | PUB | Sí |
+| telefono_publico | CharField(30) | No | — | PUB | Sí |
+| correo_publico | EmailField | No | — | PUB | Sí |
+| notas_internas | TextField | No | — | OPE | Sí |
+| creado_en | DateTimeField | Sí | auto_now_add | OPE | — |
+| actualizado_en | DateTimeField | Sí | auto_now | OPE | — |
+
+> **CheckConstraint:** `ocupacion_actual <= capacidad_total`.
+> **`capacidad_disponible`** es una property calculada, **no** una columna.
+> Imposible que se desincronice.
+
+## 11. `refugios.Necesidad`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| refugio | FK Refugio | Sí | on_delete=PROTECT | OPE | Sí |
+| categoria | CharField(20) | Sí | TextChoices | PUB | Sí |
+| descripcion | TextField | Sí | — | OPE | Sí |
+| prioridad | PositiveSmallInt | Sí | 1-4 (IntegerChoices) | PUB | Sí |
+| cantidad_estimada | CharField(100) | No | — | PUB | Sí |
+| cubierta | Boolean | Sí | default=False, index | PUB | Sí |
+| cubierta_en | DateTimeField | No | — | OPE | Sí |
+| creada_en | DateTimeField | Sí | auto_now_add | OPE | — |
+| actualizada_en | DateTimeField | Sí | auto_now | OPE | — |
+
+## 12. `refugios.RegistroOcupacion`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| refugio | FK Refugio | Sí | on_delete=PROTECT | OPE | Sí |
+| cantidad_anterior | PositiveInt | Sí | — | OPE | Sí |
+| cantidad_nueva | PositiveInt | Sí | — | OPE | Sí |
+| diferencia | Integer | Sí | puede ser negativo | OPE | Sí |
+| fuente | CharField(15) | Sí | MANUAL/IMPORTACION/AJUSTE | OPE | Sí |
+| notas | TextField | No | — | OPE | Sí |
+| registrado_por | FK Usuario | No | on_delete=PROTECT | PER | Sí |
+| creado_en | DateTimeField | Sí | auto_now_add, index | OPE | — |
+
+> **Historial inmutable.** Solo se crea desde `registrar_ocupacion()`.
+> El admin no permite crear ni modificar manualmente.
+> Cada registro va acompañado de un `EventoAuditoria` encadenado.

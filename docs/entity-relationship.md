@@ -85,6 +85,45 @@ erDiagram
         string id_correlacion
     }
 
+    REFUGIO {
+        uuid id PK
+        string codigo UK
+        string nombre
+        string tipo
+        uuid organizacion_id FK
+        uuid responsable_id FK
+        geometry ubicacion
+        string direccion
+        uuid municipio_id FK
+        uuid parroquia_id FK
+        int capacidad_total
+        int ocupacion_actual
+        json servicios
+        string estado_operativo
+        string telefono_publico
+    }
+    NECESIDAD {
+        uuid id PK
+        uuid refugio_id FK
+        string categoria
+        string descripcion
+        int prioridad
+        string cantidad_estimada
+        boolean cubierta
+        datetime cubierta_en
+    }
+    REGISTRO_OCUPACION {
+        uuid id PK
+        uuid refugio_id FK
+        int cantidad_anterior
+        int cantidad_nueva
+        int diferencia
+        string fuente
+        text notas
+        uuid registrado_por_id FK
+        datetime creado_en
+    }
+
     USUARIO ||--o{ MEMBRESIA : "tiene"
     ORGANIZACION ||--o{ MEMBRESIA : "agrupa"
     USUARIO ||--o{ EVENTO_AUDITORIA : "actua"
@@ -94,13 +133,20 @@ erDiagram
     PARROQUIA ||--o{ EMERGENCIA : "ubica"
     EMERGENCIA ||--o{ REPORTE_EMERGENCIA : "recibe"
     ORGANIZACION ||--o{ EMERGENCIA : "declara"
+    ORGANIZACION ||--o{ REFUGIO : "administra"
+    USUARIO ||--o{ REFUGIO : "responsable"
+    MUNICIPIO ||--o{ REFUGIO : "ubica"
+    PARROQUIA ||--o{ REFUGIO : "ubica"
+    REFUGIO ||--o{ NECESIDAD : "requiere"
+    REFUGIO ||--o{ REGISTRO_OCUPACION : "registra"
+    USUARIO ||--o{ REGISTRO_OCUPACION : "registra"
 ```
 
 ## Entidades pendientes por fase
 
 | App | Fase del prompt §24 | Dependencias |
 |---|---|---|
-| `refugios` | Fase 5 | territorio |
+| `refugios` | **✅ Fase 5 — implementado** | — |
 | `hospitales` | Fase 6 | organizaciones, territorio |
 | `pacientes` | Fase 6 | requiere `docs/privacy-and-retention.md` antes |
 | `triaje` | Fase 6 | pacientes |

@@ -28,7 +28,7 @@
 | NUTRILINK | Inventario, lotes, vencimientos | TBD | Fase 8 | FEFO obligatorio §5.10 |
 | NUTRILINK | Movimientos y transferencias | TBD | Fase 8 | Transaccionalidad obligatoria §10 |
 | NUTRILINK | Distribución y entregas | TBD | Fase 8 | — |
-| Cualquiera | **Optimización de rutas** | **Excluido** | — | **Prohibido** §3.6, §15 |
+| Cobijo VZLA | **Optimización de rutas** | **Excluido** | — | **Prohibido** §3.6, §15. App existe pero está vacía (3 líneas). |
 
 ## Decisiones de diseño tomadas hasta la fecha
 
@@ -54,3 +54,82 @@
 
 No se migrarán datos reales de los sistemas de origen hasta completar Fase 10
 (§24) y contar con un procedimiento validado y aprobado (§16.1).
+
+## Hallazgos del análisis de Cobijo VZLA (Fase 0, retroactivo)
+
+Repositorio clonado en `~/analisis-origen/cobijo_vzla` (fuera de `integravida/`).
+
+### Estructura de apps
+
+| App | Líneas en `models.py` | Contenido |
+|---|---|---|
+| `core` | 505 | Modelos de dominio principal (a analizar) |
+| `emergencias` | 172 | Comparable al nuestro |
+| `reportes` | 59 | Reportes ciudadanos |
+| `publico` | 3 | Vacía |
+| `mapa` | 3 | Vacía |
+| `optimizacion` | 3 | **Vacía. Descartado por §3.6/§15.** |
+
+### Apps descartadas explícitamente
+
+- **`optimizacion`**: aunque la carpeta existe, está vacía. El prompt §3.6
+  y §15 prohíben el módulo de optimización de rutas. No se implementará en
+  IntegraVida bajo ninguna forma.
+
+### Pendiente de este análisis
+
+- [ ] Leer `apps/core/models.py` y extraer qué entidades son relevantes.
+- [ ] Leer `apps/reportes/models.py` (cabe completo, 59 líneas).
+- [ ] Comparar `apps/emergencias/models.py` con `apps/emergencias/models.py` de IntegraVida.
+
+## Hallazgos del análisis de `core/models.py` (Cobijo VZLA)
+
+Analizados selectivamente los modelos relevantes. Los modelos de
+optimización (`Simulacion`, `ResultadoOptimizacion`, `SitioCandidato`)
+**no se leyeron** por §3.6/§15.
+
+### Matriz de decisiones
+
+| Modelo original | Veredicto | Qué se toma | Qué se descarta |
+|---|---|---|---|
+| `UbicacionParroquiaMixin` | Descartar | — | Auto-asignación en `save()` con queries |
+| `PuntoDemanda` | Descartar | — | Concepto de optimización de rutas |
+| `RefugioExistente` | Rediseñar | constraint `disponible ≤ total`, properties, índices | `capacidad_disponible` mutable, `operativo` boolean, `SET_NULL`, falta de org/responsable/necesidades |
+| `ZonaAfectada` | Considerar Fase 5.5 | `geom` Polygon, conteos heridos/fallecidos/damnificados | — |
+| `RegistroAuditoria` | No copiar | — | Nuestro `EventoAuditoria` con hash es superior |
+| `RegistroVersion` | Mejora futura | Idea de snapshots históricos | Implementación completa |
+| `Simulacion` / `ResultadoOptimizacion` / `SitioCandidato` | **Prohibido** | — | §3.6, §15 del prompt |
+
+### Modelo `RefugioExistente` — hallazgos específicos
+
+**Lo útil:**
+- `constraint capacidad_disponible <= capacidad_total` (copiar a nuestro `Refugio`)
+- Properties `lat`, `lng`, `porcentaje_ocupacion`, `esta_lleno`
+- `servicios` como `JSONField(default=list)` con validación de catálogo
+- `ubicacion` como `PointField(srid=4326)`
+- Índices en `operativo` y `parroquia`
+
+**Lo mejorable:**
+- `capacidad_disponible` mutable → **race condition** (§10). Nuestra solución:
+  `ocupacion_actual` + `RegistroOcupacion` + `select_for_update()`.
+- `operativo` boolean → usar `TextChoices` con estados operativos.
+- `parroquia` con `SET_NULL` → `PROTECT` + añadir `municipio` y `entidad_federal`.
+- Faltan: `organizacion` FK, `responsable` FK, `necesidades`, `creado_en`,
+  `actualizado_en`, `codigo`.
+
+### Modelo `ZonaAfectada` — para considerar en Fase 5.5
+
+Aporta dos ideas nuevas respecto a nuestro `Emergencia`:
+1. `geom = PolygonField(srid=4326)` en lugar de `punto = PointField`.
+   Una emergencia puede afectar un área, no solo un punto.
+2. Conteos humanitarios: `heridos`, `fallecidos`, `damnificados`.
+
+**No se implementa en Fase 5.** Se evalúa en Fase 5.5 o Fase 6.
+
+### Modelos de versionado — para Fase 5.5
+
+- `RegistroAuditoria` del original: sin hash, sin inmutabilidad.
+  Nuestro `EventoAuditoria` es estrictamente superior.
+- `RegistroVersion`: snapshots completos por cambio. Podría añadirse
+  como mejora opcional en Fase 5.5 para permitir "cómo era este refugio
+  en fecha X". No es bloqueante.
