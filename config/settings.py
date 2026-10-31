@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'apps.derivaciones.apps.DerivacionesConfig',
     'apps.inventario.apps.InventarioConfig',
     'apps.reportes.apps.ReportesConfig',
+    'apps.configuracion.apps.ConfiguracionConfig',
     # 'apps.notificaciones...' ELIMINADA — no está en §5 del prompt maestro.
     # Si se justifica, crear con su propio bloque CAMBIO: (§25).
 ]
