@@ -69,3 +69,7 @@ data/territorio/analisis/**/*.pyc
 node_modules/
 .npm/
 npm-debug.log*
+
+# Frontend — dist SÍ se versiona (deployment sin npm)
+!static/css/dist/
+!static/js/dist/

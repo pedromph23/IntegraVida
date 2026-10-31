@@ -12,7 +12,10 @@
     "lint:templates": "djlint --check ./templates --profile=django",
     "lint": "npm run lint:templates",
     "check:no-cdn": "bash ./scripts/check-no-cdn.sh",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test:e2e": "playwright test",
+    "test:e2e:update": "playwright test --update-snapshots",
+    "test:e2e:report": "playwright show-report"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1",
