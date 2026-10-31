@@ -22,20 +22,6 @@ class Usuario(AbstractUser):
                 name="unique_usuario_email_nonempty",
             ),
         ]
-        constraints = [
-            models.UniqueConstraint(
-                fields=["email"],
-                condition=~models.Q(email=""),
-                name="unique_usuario_email_nonempty",
-            ),
-        ]
-        constraints = [
-            models.UniqueConstraint(
-                fields=["email"],
-                condition=~models.Q(email=""),
-                name="unique_usuario_email_nonempty",
-            ),
-        ]
 
     def __str__(self):
         return self.get_full_name() or self.username
