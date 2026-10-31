@@ -162,3 +162,68 @@ class TransicionTransferenciaAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+# ── Entregas ──────────────────────────────────────────────────────
+
+from apps.inventario.models import (
+    DetalleEntrega, Entrega, TransicionEntrega,
+)
+
+
+class DetalleEntregaInline(admin.TabularInline):
+    model = DetalleEntrega
+    extra = 0
+    autocomplete_fields = ("insumo", "lote")
+    fields = ("insumo", "lote", "cantidad", "cantidad_entregada")
+    readonly_fields = ("cantidad_entregada",)
+
+
+class TransicionEntregaInline(admin.TabularInline):
+    model = TransicionEntrega
+    extra = 0
+    can_delete = False
+    fields = ("estado_anterior", "estado_nuevo", "usuario", "motivo", "creado_en")
+    readonly_fields = fields
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(Entrega)
+class EntregaAdmin(admin.ModelAdmin):
+    list_display = (
+        "codigo", "almacen_origen", "refugio", "hospital",
+        "destinatario_texto", "estado", "solicitada_en",
+    )
+    list_filter = ("estado", "almacen_origen")
+    search_fields = ("codigo", "motivo", "destinatario_texto")
+    readonly_fields = (
+        "id", "solicitada_en", "enviada_en", "recibida_en",
+        "creado_en", "actualizado_en",
+    )
+    inlines = [DetalleEntregaInline, TransicionEntregaInline]
+    date_hierarchy = "solicitada_en"
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(TransicionEntrega)
+class TransicionEntregaAdmin(admin.ModelAdmin):
+    list_display = (
+        "entrega", "estado_anterior", "estado_nuevo", "usuario", "creado_en",
+    )
+    readonly_fields = (
+        "id", "entrega", "estado_anterior", "estado_nuevo",
+        "usuario", "motivo", "creado_en",
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False

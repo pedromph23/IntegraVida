@@ -666,3 +666,47 @@ con tipo `TRANSFERENCIA_ENTRADA`.
 
 **Cancelación con restauración:** si la transferencia estaba `EN_TRANSITO`,
 cancela genera `Movimiento.ENTRADA` en el origen por cada `cantidad_despachada`.
+
+## 32. `inventario.Entrega`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| codigo | SlugField(80) | Sí | UNIQUE | OPE | Sí |
+| almacen_origen | FK Almacen | Sí | PROTECT | OPE | Sí |
+| refugio | FK Refugio | No | PROTECT | OPE | Sí |
+| hospital | FK Hospital | No | PROTECT | OPE | Sí |
+| destinatario_texto | CharField(300) | No | — | OPE | Sí |
+| estado | CharField(15) | Sí | BORRADOR/ENVIADA/RECIBIDA/CANCELADA | OPE | Sí |
+| motivo | TextField | Sí | — | OPE | Sí |
+| solicitada_por / enviada_por / recibida_por | FK Usuario | Varía | PROTECT | PER | Sí |
+| solicitada_en / enviada_en / recibida_en | DateTimeField | Varía | — | OPE | — |
+| notas | TextField | No | — | OPE | Sí |
+
+> **CheckConstraint `entrega_con_destino`:** al menos uno de
+> `refugio`, `hospital` o `destinatario_texto` no vacío.
+> **CheckConstraint `entrega_no_ambos_refugio_hospital`:**
+> `refugio` y `hospital` nunca simultáneos.
+>
+> **Diferencia con Transferencia:** el destino NO tiene `Stock`. Es un
+> punto de consumo humanitario. Al enviar, solo se descuenta del origen
+> (`Movimiento.SALIDA`). Al recibir, solo se actualiza `recibida_en`.
+>
+> **Estados:** BORRADOR → ENVIADA → RECIBIDA / CANCELADA.
+> Simplificado respecto a Transferencia: no hay APROBADA separada
+> porque la entrega humanitaria se envía en un solo paso operativo.
+
+## 33. `inventario.DetalleEntrega`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| entrega | FK Entrega | Sí | PROTECT | OPE | Sí |
+| insumo | FK Insumo | Sí | PROTECT | OPE | Sí |
+| lote | FK Lote | Sí | PROTECT | OPE | Sí |
+| cantidad | Decimal(12,3) | Sí | > 0 | OPE | Sí |
+| cantidad_entregada | Decimal(12,3) | Sí | default=0 | OPE | Sí |
+
+## 34. `inventario.TransicionEntrega`
+
+Análogo a `TransicionTransferencia`. Historial inmutable.
