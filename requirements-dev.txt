@@ -1,0 +1,2 @@
+# Herramientas de desarrollo y CI (no van a producción)
+djlint==1.34.1

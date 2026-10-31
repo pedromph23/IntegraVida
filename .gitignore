@@ -64,3 +64,8 @@ data/territorio/analisis/**/*.pyc
 *.orig
 *.rej
 *~
+
+# Frontend — node_modules no va al repo, dist SÍ
+node_modules/
+.npm/
+npm-debug.log*

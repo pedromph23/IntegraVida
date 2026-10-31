@@ -1,0 +1,47 @@
+:root {
+  --color-primary: #7A1F2B;
+  --color-primary-strong: #A8323F;
+  --color-secondary: #1F7A5A;
+  --color-accent: #D98C1F;
+  --color-danger: #B3261E;
+  --color-surface: #FFFFFF;
+  --color-surface-raised: #F7F5F2;
+  --color-surface-overlay: #FFFFFF;
+  --color-text: #1A1A1A;
+  --color-text-muted: #5A5A5A;
+  --gradient-hero: linear-gradient(135deg, #7A1F2B 0%, #A8323F 50%, #D98C1F 100%);
+  --gradient-calm: linear-gradient(135deg, #1F7A5A 0%, #2FA37A 100%);
+  --gradient-emergency: linear-gradient(135deg, #B3261E 0%, #E5484D 100%);
+  --gradient-surface: linear-gradient(135deg, #F7F5F2 0%, #FFFFFF 100%);
+}
+
+[data-theme="dark"] {
+  --color-primary: #C14A57;
+  --color-primary-strong: #E56B75;
+  --color-secondary: #3FBF8F;
+  --color-accent: #F2B544;
+  --color-danger: #E5484D;
+  --color-surface: #121212;
+  --color-surface-raised: #1E1E1E;
+  --color-surface-overlay: #2A2A2A;
+  --color-text: #F5F5F5;
+  --color-text-muted: #B0B0B0;
+  --gradient-hero: linear-gradient(135deg, #4A1219 0%, #7A1F2B 50%, #A06A14 100%);
+  --gradient-calm: linear-gradient(135deg, #145C43 0%, #1F7A5A 100%);
+  --gradient-emergency: linear-gradient(135deg, #6A1410 0%, #B3261E 100%);
+  --gradient-surface: linear-gradient(135deg, #1E1E1E 0%, #121212 100%);
+}
+
+html { color-scheme: light dark; }
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body { transition: none; }
+}

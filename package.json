@@ -1,0 +1,31 @@
+{
+  "name": "integravida-frontend",
+  "version": "0.12.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:css": "tailwindcss -i ./static/css/src/main.css -o ./static/css/dist/main.css --watch",
+    "build:css": "NODE_ENV=production tailwindcss -i ./static/css/src/main.css -o ./static/css/dist/main.css --minify",
+    "dev:js": "esbuild ./static/js/src/main.js --bundle --outfile=./static/js/dist/main.js --sourcemap --watch",
+    "build:js": "esbuild ./static/js/src/main.js --bundle --outfile=./static/js/dist/main.js --minify --sourcemap",
+    "build": "npm run build:css && npm run build:js",
+    "lint:templates": "djlint --check ./templates --profile=django",
+    "lint": "npm run lint:templates",
+    "check:no-cdn": "bash ./scripts/check-no-cdn.sh",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "autoprefixer": "10.4.20",
+    "cssnano": "7.0.6",
+    "esbuild": "0.28.2",
+    "postcss": "8.5.32",
+    "tailwindcss": "3.4.15"
+  },
+  "dependencies": {
+    "alpinejs": "3.14.3",
+    "gsap": "3.12.5",
+    "htmx.org": "2.0.4",
+    "leaflet": "1.9.4"
+  }
+}

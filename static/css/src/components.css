@@ -1,0 +1,59 @@
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium;
+    transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+  }
+  .btn:focus-visible {
+    @apply outline-none ring-2 ring-offset-2 ring-accent ring-offset-surface;
+  }
+  .btn-primary {
+    @apply text-white shadow-sm;
+    background: var(--gradient-hero);
+  }
+  .btn-primary:hover { @apply shadow-md -translate-y-0.5; }
+  .btn-secondary {
+    @apply text-white shadow-sm;
+    background: var(--gradient-calm);
+  }
+  .btn-secondary:hover { @apply shadow-md -translate-y-0.5; }
+  .btn-danger {
+    @apply text-white shadow-sm;
+    background: var(--gradient-emergency);
+  }
+  .btn-danger:hover { @apply shadow-md -translate-y-0.5; }
+  .btn-ghost {
+    @apply bg-transparent;
+    color: var(--color-text);
+  }
+  .btn-ghost:hover { background-color: var(--color-surface-raised); }
+
+  .card {
+    @apply rounded-xl shadow-sm;
+    background-color: var(--color-surface-raised);
+    border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+  }
+  .card-hover { transition: transform 150ms ease, box-shadow 150ms ease; }
+  .card-hover:hover { @apply -translate-y-0.5 shadow-md; }
+
+  .input {
+    @apply w-full rounded-lg px-3 py-2;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid color-mix(in srgb, var(--color-text) 20%, transparent);
+  }
+  .input::placeholder { color: var(--color-text-muted); }
+  .input:focus { @apply outline-none ring-2 ring-accent; border-color: transparent; }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .badge-success { @apply bg-secondary-500/10 text-secondary-600; }
+  .badge-warning { @apply bg-accent-500/10 text-accent-600; }
+  .badge-danger { @apply bg-danger-500/10 text-danger-600; }
+  .badge-info { @apply bg-primary-500/10 text-primary-600; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary:hover, .btn-secondary:hover, .btn-danger:hover,
+  .card-hover:hover { @apply translate-y-0; }
+}
