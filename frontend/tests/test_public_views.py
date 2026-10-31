@@ -16,10 +16,14 @@ class HomePublicaTests(TestCase):
         self.assertContains(r, "Hospitales activos")
 
     def test_home_enlaza_a_api_publica(self):
+        """Home enlaza a la API pública (emergencias, refugios) y al
+        portal HTML de hospitales. Los tres coexisten porque la API
+        sigue siendo el contrato (§api.md) y el portal HTML es UX."""
         r = self.client.get("/")
         self.assertContains(r, "/api/publico/emergencias/")
         self.assertContains(r, "/api/publico/refugios/")
-        self.assertContains(r, "/api/publico/hospitales/")
+        # Hospitales migró a portal HTML en F2.a
+        self.assertContains(r, "/hospitales/")
 
 
 class DesignSystemTests(TestCase):
