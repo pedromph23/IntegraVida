@@ -93,3 +93,72 @@ class MovimientoAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+# ── Transferencias ────────────────────────────────────────────────
+
+from apps.inventario.models import (
+    DetalleTransferencia, TransicionTransferencia, Transferencia,
+)
+
+
+class DetalleTransferenciaInline(admin.TabularInline):
+    model = DetalleTransferencia
+    extra = 0
+    autocomplete_fields = ("insumo", "lote_origen")
+    fields = (
+        "insumo", "lote_origen", "cantidad",
+        "cantidad_despachada", "cantidad_recibida",
+    )
+    readonly_fields = ("cantidad_despachada", "cantidad_recibida")
+
+
+class TransicionTransferenciaInline(admin.TabularInline):
+    model = TransicionTransferencia
+    extra = 0
+    can_delete = False
+    fields = ("estado_anterior", "estado_nuevo", "usuario", "motivo", "creado_en")
+    readonly_fields = fields
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(Transferencia)
+class TransferenciaAdmin(admin.ModelAdmin):
+    list_display = (
+        "codigo", "almacen_origen", "almacen_destino",
+        "prioridad", "estado", "solicitada_en",
+    )
+    list_filter = ("estado", "prioridad", "almacen_origen", "almacen_destino")
+    search_fields = ("codigo", "motivo")
+    readonly_fields = (
+        "id", "solicitada_en", "aprobada_en", "despachada_en",
+        "recibida_en", "creado_en", "actualizado_en",
+    )
+    inlines = [DetalleTransferenciaInline, TransicionTransferenciaInline]
+    date_hierarchy = "solicitada_en"
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(TransicionTransferencia)
+class TransicionTransferenciaAdmin(admin.ModelAdmin):
+    list_display = (
+        "transferencia", "estado_anterior", "estado_nuevo",
+        "usuario", "creado_en",
+    )
+    readonly_fields = (
+        "id", "transferencia", "estado_anterior", "estado_nuevo",
+        "usuario", "motivo", "creado_en",
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
