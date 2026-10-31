@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ nombre }} — {{ version }}</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #1a202c;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header {
+            background: #2c5282;
+            color: white;
+            padding: 2rem;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 0;
+        }
+        header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        header p { opacity: 0.9; font-size: 0.95rem; }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        main {
+            background: white;
+            padding: 2rem;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        section { margin-bottom: 2rem; }
+        section:last-child { margin-bottom: 0; }
+        h2 {
+            font-size: 1.15rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+        .stat {
+            background: #edf2f7;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #2c5282;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: #4a5568;
+            margin-top: 0.25rem;
+        }
+        .endpoints { list-style: none; }
+        .endpoints li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .endpoints li:last-child { border-bottom: none; }
+        .endpoints a {
+            color: #2b6cb0;
+            text-decoration: none;
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+        .endpoints a:hover { text-decoration: underline; }
+        .endpoints .label {
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+        footer {
+            text-align: center;
+            color: #718096;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+        .admin-link {
+            display: inline-block;
+            background: #2c5282;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .admin-link:hover { background: #2a4365; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{ nombre }}</h1>
+            <p>Conectando recursos y multiplicando esperanzas.</p>
+            <span class="badge">{{ entorno }} · {{ version }}</span>
+        </header>
+        <main>
+            <section>
+                <h2>Estado del sistema</h2>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">{{ stats.emergencias_publicas }}</div>
+                        <div class="stat-label">Emergencias públicas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">{{ stats.refugios_activos }}</div>
+                        <div class="stat-label">Refugios activos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">{{ stats.hospitales_activos }}</div>
+                        <div class="stat-label">Hospitales activos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">{{ stats.eventos_auditoria }}</div>
+                        <div class="stat-label">Eventos de auditoría</div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>API pública (sin registro)</h2>
+                <ul class="endpoints">
+                    {% for url, label in endpoints_publicos %}
+                    <li>
+                        <a href="{{ url }}">{{ url }}</a>
+                        <span class="label">{{ label }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section>
+                <h2>Administración</h2>
+                <p style="margin-bottom: 1rem; color: #4a5568;">
+                    Acceso institucional para gestión de recursos y datos.
+                </p>
+                <a href="/admin/" class="admin-link">Ir al panel de administración →</a>
+            </section>
+        </main>
+        <footer>
+            IntegraVida — Sistema de gestión humanitaria.
+            <br>
+            Health check: <a href="/health/" style="color: #2b6cb0;">/health/</a>
+        </footer>
+    </div>
+</body>
+</html>

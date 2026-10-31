@@ -69,3 +69,32 @@ class ReferenciaMigracionTests(TestCase):
         r.refresh_from_db()
         self.assertEqual(r.resultado_validacion, "VALIDADO")
         self.assertIsNotNone(r.identificador_destino)
+
+
+# ══════════════════════════════════════════════════════════════════
+# Landing page + health check (Fase 11.4)
+# ══════════════════════════════════════════════════════════════════
+
+from django.test import TestCase as DjangoTestCase
+from django.urls import reverse
+
+
+class LandingPageTests(DjangoTestCase):
+    def test_index_devuelve_200(self):
+        r = self.client.get("/")
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, "IntegraVida")
+        self.assertContains(r, "API pública")
+
+    def test_index_incluye_links_a_endpoints_publicos(self):
+        r = self.client.get("/")
+        self.assertContains(r, "/api/publico/emergencias/")
+        self.assertContains(r, "/api/publico/refugios/")
+        self.assertContains(r, "/api/publico/hospitales/")
+
+    def test_health_check_devuelve_ok(self):
+        r = self.client.get("/health/")
+        self.assertEqual(r.status_code, 200)
+        data = r.json()
+        self.assertEqual(data["status"], "ok")
+        self.assertEqual(data["service"], "integravida")
