@@ -171,7 +171,16 @@ de cualquier región.
 - **Fase 5 (refugios):** evaluar si se añade `Membresia.ambito_territorial`
   (UUIDField nullable con referencia a `EntidadFederal`). Decisión
   bloqueante antes de implementar refugios con múltiples sedes.
-- **Fase 6 (pacientes):** implementación obligatoria. El riesgo de
+- **Fase 6 (pacientes):** **IMPLEMENTADO en Fase 6.3** — se añadió
+      `Membresia.ambito_municipio` como FK nullable (PROTECT).
+      - Si `NULL`: sin restricción geográfica dentro de la organización.
+      - Si definido: solo accede a episodios cuyo hospital/refugio esté
+        en ese municipio.
+      - Ver `apps/pacientes/services.filtrar_episodios_por_ambito()`.
+      - Decisión híbrida B+C: no rompe membresías existentes, pero
+        permite granularidad cuando se necesite. Se reevalúa en Fase 7
+        si aparece necesidad de múltiples municipios por usuario
+        (requeriría M2M, no añadir campo).
   filtración clínica excede el costo de complejidad.
 
 ## 7. Roles pendientes por fase
