@@ -88,3 +88,68 @@ Ping publico del servicio.
 | 405 | Metodo no permitido |
 | 415 | Content-Type incorrecto |
 | 429 | Rate limit excedido |
+
+## Refugios (Fase 5.5)
+
+### `GET /api/publico/refugios/`
+
+Lista refugios operativos públicos.
+
+**Estados expuestos:** `ACTIVO`, `LLENO`.
+**Estados ocultos:** `MANTENIMIENTO`, `CERRADO`, `INACTIVO` (§5.5).
+
+**Query params opcionales:**
+- `tipo`: valor de `Refugio.Tipo`.
+- `estado_operativo`: solo `ACTIVO` o `LLENO` (otros → 400).
+- `municipio`: `icontains` por nombre.
+- `parroquia`: `icontains` por nombre.
+- `q`: búsqueda en `nombre` o `direccion` (máx 100 chars).
+- `limite` (default 50): 1–100.
+- `offset` (default 0): entero >= 0.
+
+**Campos NO expuestos:** `organizacion`, `responsable`, `notas_internas`.
+
+**Respuesta 200:**
+
+```
+{
+  "total": 5,
+  "limite": 50,
+  "offset": 0,
+  "resultados": [
+    {
+      "id": "uuid",
+      "codigo": "refugio-petare-1",
+      "nombre": "...",
+      "tipo": "REFUGIO",
+      "tipo_texto": "Refugio",
+      "direccion": "...",
+      "referencia_lugar": "",
+      "punto": {"latitud": 10.5, "longitud": -66.9},
+      "municipio": "Sucre",
+      "parroquia": "Petare",
+      "capacidad_total": 100,
+      "capacidad_disponible": 70,
+      "porcentaje_ocupacion": 30.0,
+      "esta_lleno": false,
+      "servicios": ["agua", "cocina"],
+      "estado_operativo": "ACTIVO",
+      "estado_operativo_texto": "Activo",
+      "telefono_publico": "...",
+      "correo_publico": "",
+      "ocupacion_actualizada_en": "2026-10-31T12:00:00-04:00"
+    }
+  ]
+}
+```
+
+`ocupacion_actualizada_en` es `null` si el refugio no ha tenido cambios de ocupación desde su creación.
+
+### `GET /api/publico/refugios/{codigo}/`
+
+Detalle por `codigo` (slug único).
+
+**200:** `{"refugio": {...}}` con los mismos campos del listado.
+
+**404:** si no existe o no está en estado público. La respuesta es
+idéntica en ambos casos (no filtra existencia).

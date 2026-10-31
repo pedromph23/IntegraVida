@@ -15,4 +15,8 @@ urlpatterns = [
         "api/publico/emergencias/",
         include("apps.emergencias.urls"),
     ),
+    path(
+        "api/publico/refugios/",
+        include("apps.refugios.urls"),
+    ),
 ]
