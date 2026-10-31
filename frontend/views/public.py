@@ -221,3 +221,95 @@ def shelter_detail(request, codigo):
     return render(request, "public/shelter_detail.html", {
         "refugio": _serializar_refugio(refugio),
     })
+
+
+@require_GET
+def alerts_list(request):
+    """Lista pública de alertas (emergencias verificadas)."""
+    from django.db.models import Q
+    from apps.emergencias.views import (
+        ESTADOS_PUBLICOS, _serializar_emergencia,
+    )
+
+    queryset = (
+        Emergencia.objects
+        .filter(estado__in=ESTADOS_PUBLICOS)
+        .select_related("municipio", "parroquia")
+    )
+
+    categoria = request.GET.get("categoria", "").strip()
+    if categoria:
+        queryset = queryset.filter(categoria=categoria)
+
+    gravedad = request.GET.get("gravedad", "").strip()
+    if gravedad:
+        try:
+            queryset = queryset.filter(gravedad=int(gravedad))
+        except (TypeError, ValueError):
+            pass
+
+    estado = request.GET.get("estado", "").strip()
+    if estado and estado in ESTADOS_PUBLICOS:
+        queryset = queryset.filter(estado=estado)
+
+    municipio = request.GET.get("municipio", "").strip()
+    if municipio:
+        queryset = queryset.filter(municipio__nombre__icontains=municipio)
+
+    q = request.GET.get("q", "").strip()[:100]
+    if q:
+        queryset = queryset.filter(
+            Q(ubicacion_texto__icontains=q) | Q(titulo__icontains=q)
+        )
+
+    queryset = queryset.order_by("-ocurrida_en", "-creada_en")[:60]
+
+    alertas = [_serializar_emergencia(e) for e in queryset]
+
+    from apps.emergencias.models import Emergencia as EmergenciaModel
+    return render(request, "public/alerts_list.html", {
+        "alertas": alertas,
+        "total": len(alertas),
+        "filtros": {
+            "categoria": categoria,
+            "gravedad": gravedad,
+            "estado": estado,
+            "municipio": municipio,
+            "q": q,
+        },
+        "opciones_categoria": [
+            (v, l) for v, l in EmergenciaModel.Categoria.choices
+        ],
+        "opciones_gravedad": [
+            ("1", "Baja"),
+            ("2", "Moderada"),
+            ("3", "Alta"),
+            ("4", "Crítica"),
+        ],
+        "opciones_estado": [
+            ("CONFIRMADA", "Confirmada"),
+            ("EN_ATENCION", "En atención"),
+            ("RESUELTA", "Resuelta"),
+        ],
+    })
+
+
+@require_GET
+def alert_detail(request, emergencia_id):
+    """Detalle público de una alerta por UUID."""
+    from apps.emergencias.views import (
+        ESTADOS_PUBLICOS, _serializar_emergencia,
+    )
+
+    try:
+        emergencia = (
+            Emergencia.objects
+            .select_related("municipio", "parroquia")
+            .get(id=emergencia_id, estado__in=ESTADOS_PUBLICOS)
+        )
+    except Emergencia.DoesNotExist:
+        raise Http404("Alerta no encontrada")
+
+    return render(request, "public/alert_detail.html", {
+        "alerta": _serializar_emergencia(emergencia),
+    })

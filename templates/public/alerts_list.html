@@ -1,0 +1,78 @@
+{% extends "base/base_public.html" %}
+
+{% block title %}Alertas y emergencias — IntegraVida{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-7xl px-4 py-8">
+
+  <header class="mb-6">
+    <nav aria-label="Migas de pan" class="text-sm mb-2">
+      <a href="{% url 'public:home' %}" class="text-text-muted hover:text-primary">← Inicio</a>
+    </nav>
+    <h1 class="text-3xl font-bold text-primary">Alertas y emergencias</h1>
+    <p class="text-text-muted mt-1">
+      {{ total }} alerta{{ total|pluralize }} activa{{ total|pluralize }} verificada{{ total|pluralize }}.
+      Solo se muestran eventos confirmados por las autoridades.
+    </p>
+  </header>
+
+  <form method="get" class="card p-4 mb-6" aria-label="Filtros de alertas">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+      <div>
+        <label for="f-q" class="block text-sm font-medium text-text mb-1">Buscar</label>
+        <input type="search" id="f-q" name="q" value="{{ filtros.q }}"
+               placeholder="Título o ubicación" class="input">
+      </div>
+      <div>
+        <label for="f-categoria" class="block text-sm font-medium text-text mb-1">Categoría</label>
+        <select id="f-categoria" name="categoria" class="input">
+          <option value="">Todas</option>
+          {% for v, l in opciones_categoria %}
+            <option value="{{ v }}" {% if v == filtros.categoria %}selected{% endif %}>{{ l }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="f-gravedad" class="block text-sm font-medium text-text mb-1">Gravedad</label>
+        <select id="f-gravedad" name="gravedad" class="input">
+          <option value="">Todas</option>
+          {% for v, l in opciones_gravedad %}
+            <option value="{{ v }}" {% if v == filtros.gravedad %}selected{% endif %}>{{ l }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="f-estado" class="block text-sm font-medium text-text mb-1">Estado</label>
+        <select id="f-estado" name="estado" class="input">
+          <option value="">Todos</option>
+          {% for v, l in opciones_estado %}
+            <option value="{{ v }}" {% if v == filtros.estado %}selected{% endif %}>{{ l }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="f-municipio" class="block text-sm font-medium text-text mb-1">Municipio</label>
+        <input type="text" id="f-municipio" name="municipio" value="{{ filtros.municipio }}"
+               placeholder="Nombre del municipio" class="input">
+      </div>
+      <div class="flex items-end gap-2">
+        <button type="submit" class="btn btn-primary w-full">Filtrar</button>
+        {% if filtros.q or filtros.categoria or filtros.gravedad or filtros.estado or filtros.municipio %}
+          <a href="{% url 'public:alerts-list' %}" class="btn btn-ghost">Limpiar</a>
+        {% endif %}
+      </div>
+    </div>
+  </form>
+
+  {% if alertas %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for alerta in alertas %}
+        {% include "components/alert_card.html" with alerta=alerta %}
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include "components/empty-state.html" with icon="⚠" title="Sin alertas activas" description="No hay alertas verificadas que coincidan con los filtros." action_label="Ver todas" action_url="/alertas/" %}
+  {% endif %}
+
+</section>
+{% endblock %}

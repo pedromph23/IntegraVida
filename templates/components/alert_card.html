@@ -1,0 +1,54 @@
+{% comment %}
+Uso:
+  {% include "components/alert_card.html" with alerta=alerta %}
+Parámetros:
+  alerta (dict) — salida de _serializar_emergencia()
+{% endcomment %}
+<article class="card card-hover p-5 flex flex-col h-full
+  {% if alerta.gravedad == 4 %}border-l-4 border-l-danger{% elif alerta.gravedad == 3 %}border-l-4 border-l-accent{% endif %}">
+  <header class="mb-3">
+    <div class="flex items-start justify-between gap-2">
+      <h2 class="text-lg font-semibold text-primary leading-tight flex-1">
+        <a href="{% url 'public:alert-detail' emergencia_id=alerta.id %}">
+          {{ alerta.titulo }}
+        </a>
+      </h2>
+      <span class="badge
+        {% if alerta.gravedad == 4 %}badge-danger
+        {% elif alerta.gravedad == 3 %}badge-warning
+        {% elif alerta.gravedad == 2 %}badge-info
+        {% else %}badge-success{% endif %}">
+        {{ alerta.gravedad_texto }}
+      </span>
+    </div>
+    <p class="text-sm text-text-muted mt-1">
+      {{ alerta.categoria_texto }}
+      · <span class="badge
+        {% if alerta.estado == 'CONFIRMADA' %}badge-danger
+        {% elif alerta.estado == 'EN_ATENCION' %}badge-warning
+        {% else %}badge-success{% endif %}">
+        {{ alerta.estado_texto }}
+      </span>
+    </p>
+  </header>
+
+  <div class="text-sm text-text space-y-1 flex-1">
+    <p>📍 {{ alerta.ubicacion }}</p>
+    {% if alerta.municipio or alerta.parroquia %}
+      <p class="text-text-muted">
+        {% if alerta.parroquia %}{{ alerta.parroquia }}{% endif %}
+        {% if alerta.parroquia and alerta.municipio %}, {% endif %}
+        {% if alerta.municipio %}{{ alerta.municipio }}{% endif %}
+      </p>
+    {% endif %}
+    {% if alerta.ocurrida_en %}
+      <p class="text-xs text-text-muted">🕒 {{ alerta.ocurrida_en|slice:":16" }}</p>
+    {% endif %}
+  </div>
+
+  <div class="mt-3 text-sm">
+    <a href="{% url 'public:alert-detail' emergencia_id=alerta.id %}" class="text-primary underline">
+      Ver detalle →
+    </a>
+  </div>
+</article>

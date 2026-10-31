@@ -9,6 +9,12 @@ urlpatterns = [
     path("design-system/", public.design_system, name="design-system"),
     path("hospitales/", public.hospitals_list, name="hospitals-list"),
     path("refugios/", public.shelters_list, name="shelters-list"),
+    path("alertas/", public.alerts_list, name="alerts-list"),
+    path(
+        "alertas/<uuid:emergencia_id>/",
+        public.alert_detail,
+        name="alert-detail",
+    ),
     path(
         "refugios/<slug:codigo>/",
         public.shelter_detail,

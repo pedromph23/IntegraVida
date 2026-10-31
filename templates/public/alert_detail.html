@@ -1,0 +1,81 @@
+{% extends "base/base_public.html" %}
+
+{% block title %}{{ alerta.titulo }} — IntegraVida{% endblock %}
+
+{% block content %}
+<article class="mx-auto max-w-4xl px-4 py-8">
+
+  <nav aria-label="Migas de pan" class="text-sm mb-4">
+    <a href="{% url 'public:home' %}" class="text-text-muted hover:text-primary">Inicio</a>
+    <span class="text-text-muted mx-1">/</span>
+    <a href="{% url 'public:alerts-list' %}" class="text-text-muted hover:text-primary">Alertas</a>
+    <span class="text-text-muted mx-1">/</span>
+    <span class="text-text">{{ alerta.titulo }}</span>
+  </nav>
+
+  <header class="mb-6">
+    <div class="flex items-start justify-between gap-3 flex-wrap">
+      <h1 class="text-3xl font-bold text-primary">{{ alerta.titulo }}</h1>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge
+          {% if alerta.gravedad == 4 %}badge-danger
+          {% elif alerta.gravedad == 3 %}badge-warning
+          {% elif alerta.gravedad == 2 %}badge-info
+          {% else %}badge-success{% endif %}">
+          Gravedad: {{ alerta.gravedad_texto }}
+        </span>
+        <span class="badge
+          {% if alerta.estado == 'CONFIRMADA' %}badge-danger
+          {% elif alerta.estado == 'EN_ATENCION' %}badge-warning
+          {% else %}badge-success{% endif %}">
+          {{ alerta.estado_texto }}
+        </span>
+      </div>
+    </div>
+    <p class="text-text-muted mt-2">
+      {{ alerta.categoria_texto }}
+      {% if alerta.ocurrida_en %}· Ocurrió: {{ alerta.ocurrida_en|slice:":16" }}{% endif %}
+    </p>
+  </header>
+
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <section class="card p-5 md:col-span-2">
+      <h2 class="text-lg font-semibold mb-3">Descripción</h2>
+      <p class="text-text whitespace-pre-line">{{ alerta.descripcion }}</p>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="text-lg font-semibold mb-3">Ubicación</h2>
+      <dl class="space-y-2 text-sm">
+        <div>
+          <dt class="text-text-muted">Lugar</dt>
+          <dd>{{ alerta.ubicacion }}</dd>
+        </div>
+        {% if alerta.referencia_lugar %}
+          <div>
+            <dt class="text-text-muted">Referencia</dt>
+            <dd>{{ alerta.referencia_lugar }}</dd>
+          </div>
+        {% endif %}
+        {% if alerta.parroquia or alerta.municipio %}
+          <div>
+            <dt class="text-text-muted">Ubicación administrativa</dt>
+            <dd>
+              {% if alerta.parroquia %}{{ alerta.parroquia }}{% endif %}
+              {% if alerta.parroquia and alerta.municipio %}, {% endif %}
+              {% if alerta.municipio %}{{ alerta.municipio }}{% endif %}
+            </dd>
+          </div>
+        {% endif %}
+      </dl>
+    </section>
+
+  </div>
+
+  <div class="mt-8 pt-6 border-t" style="border-color: color-mix(in srgb, var(--color-text) 10%, transparent);">
+    <a href="{% url 'public:alerts-list' %}" class="btn btn-ghost">← Volver a alertas</a>
+  </div>
+
+</article>
+{% endblock %}
