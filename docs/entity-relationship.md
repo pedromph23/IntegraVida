@@ -168,6 +168,37 @@ erDiagram
         datetime creado_en
     }
 
+    PACIENTE {
+        uuid id PK
+        string cedula
+        string cedula_hash UK
+        string nombres
+        string apellidos
+        date fecha_nacimiento
+        string sexo_biologico
+        string telefono
+        uuid cuenta_vinculada_id FK
+    }
+    CONTACTO_EMERGENCIA {
+        uuid id PK
+        uuid paciente_id FK
+        string nombre
+        string parentesco
+        string telefono
+        boolean es_principal
+    }
+    EPISODIO {
+        uuid id PK
+        uuid paciente_id FK
+        uuid hospital_id FK
+        uuid refugio_id FK
+        text motivo_consulta
+        string estado
+        datetime fecha_ingreso
+        datetime fecha_egreso
+        uuid registrado_por_id FK
+    }
+
 
     USUARIO ||--o{ MEMBRESIA : "tiene"
     ORGANIZACION ||--o{ MEMBRESIA : "agrupa"
@@ -194,6 +225,12 @@ erDiagram
     HOSPITAL ||--o{ RECURSO_HOSPITALARIO : "tiene"
     RECURSO_HOSPITALARIO ||--o{ REGISTRO_DISPONIBILIDAD : "registra"
     USUARIO ||--o{ REGISTRO_DISPONIBILIDAD : "registra"
+    PACIENTE ||--o{ CONTACTO_EMERGENCIA : "tiene"
+    PACIENTE ||--o{ EPISODIO : "tiene"
+    HOSPITAL ||--o{ EPISODIO : "atiende"
+    REFUGIO ||--o{ EPISODIO : "aloja"
+    USUARIO ||--o{ EPISODIO : "registra"
+    USUARIO ||--o| PACIENTE : "vinculado"
 ```
 
 ## Entidades pendientes por fase
@@ -202,7 +239,7 @@ erDiagram
 |---|---|---|
 | `refugios` | **✅ Fase 5 — implementado** | — |
 | `hospitales` | **Fase 6.1 — implementado** | — |
-| `pacientes` | Fase 6 | requiere `docs/privacy-and-retention.md` antes |
+| `pacientes` | **Fase 6.2 — implementado** | — |
 | `triaje` | Fase 6 | pacientes |
 | `derivaciones` | Fase 7 | hospitales |
 | `inventario` | Fase 8 | organizaciones |

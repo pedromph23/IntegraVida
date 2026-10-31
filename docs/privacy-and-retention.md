@@ -149,8 +149,12 @@ Este documento se revisa:
 
 ## 13. Pendientes de este documento
 
-- [ ] Definir si se aplica cifrado a nivel de campo para datos `CLI`
-      (decisión bloqueante para Fase 6).
+- [x] ~~Definir si se aplica cifrado a nivel de campo para datos `CLI`~~
+      **DECIDIDO en Fase 6.2:** cifrado diferido a Fase 11. Los campos
+      `PER`/`CLI` se almacenan plaintext en Fase 6.2, protegidos por LUKS
+      (producción) y HTTPS. `cedula_hash` (HMAC-SHA256) permite detección
+      de duplicados y búsqueda sin plaintext indexado. Migración a AES
+      en Fase 11 **sin schema change** (solo data migration).
 - [ ] Confirmar plazos legales según normativa venezolana vigente.
 - [ ] Diseñar el flujo de "derecho de acceso del titular".
 - [ ] Diseñar la interfaz administrativa para "modo extraordinario".

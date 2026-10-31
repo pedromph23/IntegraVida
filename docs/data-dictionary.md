@@ -271,3 +271,76 @@
 
 > **Historial inmutable.** Solo `registrar_disponibilidad()` crea registros.
 > El admin no permite crear, modificar ni eliminar.
+
+## 18. `pacientes.Paciente`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | PER | — |
+| cedula | CharField(20) | No | blank, plaintext | **PER** | Sí |
+| cedula_hash | CharField(64) | No | **UNIQUE**, index, nullable | **PER** (seudonimizado) | — |
+| nombres | CharField(200) | Sí | — | **PER** | Sí |
+| apellidos | CharField(200) | Sí | — | **PER** | Sí |
+| fecha_nacimiento | DateField | No | — | **PER** | Sí |
+| sexo_biologico | CharField(1) | Sí | F/M/I/N | **PER** | Sí |
+| telefono | CharField(30) | No | — | **PER** | Sí |
+| email | EmailField | No | — | **PER** | Sí |
+| cuenta_vinculada | FK Usuario | No | on_delete=SET_NULL | **PER** | Sí |
+| notas_internas | TextField | No | — | **CLI** | Sí |
+| creado_en | DateTimeField | Sí | auto_now_add | OPE | — |
+| actualizado_en | DateTimeField | Sí | auto_now | OPE | — |
+
+> **`cedula_hash`**: HMAC-SHA256 de la cédula normalizada (mayúsculas
+> alfanuméricas). Permite detectar duplicados y buscar por cédula sin
+> almacenar la cédula en claro indexada.
+>
+> **Cifrado diferido (decisión Fase 6.2):** los campos `PER` se almacenan
+> en plaintext en Fase 6.2, protegidos por LUKS en producción (Fase 11)
+> y HTTPS en tránsito. En Fase 11 se migran a cifrado a nivel de campo
+> (AES) sin cambiar el schema relacional. **Decisión documentada en
+> `docs/privacy-and-retention.md` §5.**
+>
+> **`__str__`**: `apellidos, nombres`. No incluye cédula (evita exposición
+> en logs de Django).
+
+## 19. `pacientes.ContactoEmergencia`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | PER | — |
+| paciente | FK Paciente | Sí | on_delete=PROTECT | PER | Sí |
+| nombre | CharField(200) | Sí | — | **PER** | Sí |
+| parentesco | CharField(20) | Sí | TextChoices | PER | Sí |
+| telefono | CharField(30) | Sí | — | **PER** | Sí |
+| es_principal | Boolean | Sí | default=False | PER | Sí |
+| creado_en | DateTimeField | Sí | auto_now_add | OPE | — |
+
+> **UniqueConstraint** parcial: un solo `es_principal=True` por paciente
+> (`condition=Q(es_principal=True)`). Múltiples contactos secundarios OK.
+
+## 20. `pacientes.Episodio`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | CLI | — |
+| paciente | FK Paciente | Sí | on_delete=PROTECT | CLI | Sí |
+| hospital | FK Hospital | No* | on_delete=PROTECT | OPE | Sí |
+| refugio | FK Refugio | No* | on_delete=PROTECT | OPE | Sí |
+| motivo_consulta | TextField | Sí | — | **CLI** | Sí |
+| estado | CharField(15) | Sí | TextChoices, index | CLI | Sí |
+| fecha_ingreso | DateTimeField | Sí | default=now | CLI | Sí |
+| fecha_egreso | DateTimeField | No | — | CLI | Sí |
+| registrado_por | FK Usuario | Sí | on_delete=PROTECT | PER | Sí |
+| notas_internas | TextField | No | — | **CLI** | Sí |
+| creado_en | DateTimeField | Sí | auto_now_add | OPE | — |
+| actualizado_en | DateTimeField | Sí | auto_now | OPE | — |
+
+> **`CheckConstraint` XOR (`episodio_uno_y_solo_un_centro`):**
+> exactamente uno de `hospital_id` o `refugio_id` debe estar presente.
+> Un episodio ambulatorio puro no está permitido en esta fase — requiere
+> al menos un centro (hospital o refugio).
+>
+> **`CheckConstraint` (`episodio_egreso_posterior_a_ingreso`):**
+> `fecha_egreso IS NULL OR fecha_egreso >= fecha_ingreso`.
+>
+> **Estados:** ABIERTO, EN_ATENCION, DERIVADO, CERRADO, FALLECIDO, ABANDONO.
