@@ -10,6 +10,12 @@ urlpatterns = [
     path("hospitales/", public.hospitals_list, name="hospitals-list"),
     path("refugios/", public.shelters_list, name="shelters-list"),
     path("alertas/", public.alerts_list, name="alerts-list"),
+    path("reportes/", public.report_create, name="report-create"),
+    path(
+        "reportes/<uuid:reporte_id>/",
+        public.report_tracking,
+        name="report-tracking",
+    ),
     path(
         "alertas/<uuid:emergencia_id>/",
         public.alert_detail,

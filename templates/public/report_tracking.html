@@ -1,0 +1,112 @@
+{% extends "base/base_public.html" %}
+
+{% block title %}Seguimiento de reporte — IntegraVida{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-2xl px-4 py-8">
+
+  <nav aria-label="Migas de pan" class="text-sm mb-2">
+    <a href="{% url 'public:home' %}" class="text-text-muted hover:text-primary">← Inicio</a>
+  </nav>
+
+  <header class="mb-6">
+    <h1 class="text-3xl font-bold text-primary">Seguimiento de reporte</h1>
+    <p class="text-text-muted mt-2">
+      Tu reporte fue recibido correctamente. Guarda este código para
+      consultar su estado más adelante.
+    </p>
+  </header>
+
+  <div class="card p-6 space-y-4">
+
+    <div>
+      <p class="text-sm text-text-muted mb-1">Código de seguimiento</p>
+      <div class="flex gap-2 items-center">
+        <code id="report-id" class="text-sm bg-surface-raised p-3 rounded flex-1 break-all font-mono">{{ reporte.id }}</code>
+        <button type="button" class="btn btn-ghost"
+                onclick="
+                  navigator.clipboard.writeText('{{ reporte.id }}').then(function() {
+                    var btn = event.target;
+                    var orig = btn.textContent;
+                    btn.textContent = '✓ Copiado';
+                    setTimeout(function(){ btn.textContent = orig; }, 2000);
+                  });
+                "
+                aria-label="Copiar código al portapapeles">
+          Copiar
+        </button>
+      </div>
+      <p class="text-xs text-text-muted mt-2">
+        Este código es la única forma de consultar tu reporte. No lo compartas públicamente.
+      </p>
+    </div>
+
+    <div class="pt-4 border-t" style="border-color: color-mix(in srgb, var(--color-text) 10%, transparent);">
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+        <div>
+          <dt class="text-text-muted">Categoría</dt>
+          <dd class="font-medium">{{ reporte.categoria_texto }}</dd>
+        </div>
+        <div>
+          <dt class="text-text-muted">Estado</dt>
+          <dd>
+            <span class="badge
+              {% if reporte.estado_revision == 'PENDIENTE' %}badge-info
+              {% elif reporte.estado_revision == 'EN_REVISION' %}badge-warning
+              {% elif reporte.estado_revision == 'VINCULADO' %}badge-success
+              {% else %}badge-info{% endif %}"
+              aria-live="polite">
+              {{ reporte.estado_revision_texto }}
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-text-muted">Recibido</dt>
+          <dd class="font-medium">{{ reporte.recibido_en|slice:":16" }}</dd>
+        </div>
+        {% if reporte.vinculado_publico and reporte.emergencia_publica %}
+          <div>
+            <dt class="text-text-muted">Vinculado a</dt>
+            <dd class="font-medium">
+              <a href="{% url 'public:alert-detail' emergencia_id=reporte.emergencia_publica.id %}"
+                 class="text-primary underline">
+                {{ reporte.emergencia_publica.titulo }} →
+              </a>
+            </dd>
+          </div>
+        {% elif reporte.vinculado %}
+          <div>
+            <dt class="text-text-muted">Vinculado</dt>
+            <dd class="text-sm text-text-muted">A una emergencia (no pública)</dd>
+          </div>
+        {% endif %}
+      </dl>
+    </div>
+
+  </div>
+
+  <div class="mt-6 space-y-2 text-sm">
+    <p class="text-text-muted">
+      <strong>Privacidad:</strong> por seguridad, esta página no muestra
+      la descripción ni la ubicación que enviaste. Solo el estado de revisión.
+    </p>
+    <p class="text-text-muted">
+      <strong>¿Qué significa cada estado?</strong>
+    </p>
+    <ul class="list-disc list-inside text-text-muted space-y-1 ml-2">
+      <li><strong>Pendiente:</strong> recibido, esperando revisión.</li>
+      <li><strong>En revisión:</strong> siendo evaluado por el equipo.</li>
+      <li><strong>Vinculado:</strong> confirmado y asociado a una emergencia.</li>
+      <li><strong>Duplicado / Descartado:</strong> no genera una alerta nueva.</li>
+    </ul>
+  </div>
+
+  <div class="mt-8 pt-6 border-t" style="border-color: color-mix(in srgb, var(--color-text) 10%, transparent);">
+    <div class="flex flex-wrap gap-2">
+      <a href="{% url 'public:report-create' %}" class="btn btn-primary">Hacer otro reporte</a>
+      <a href="{% url 'public:home' %}" class="btn btn-ghost">Volver al inicio</a>
+    </div>
+  </div>
+
+</section>
+{% endblock %}

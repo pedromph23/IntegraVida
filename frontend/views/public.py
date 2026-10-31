@@ -3,8 +3,10 @@
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.utils import timezone
 from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_http_methods
 
 from apps.emergencias.models import Emergencia
 from apps.hospitales.models import Hospital
@@ -313,3 +315,109 @@ def alert_detail(request, emergencia_id):
     return render(request, "public/alert_detail.html", {
         "alerta": _serializar_emergencia(emergencia),
     })
+
+
+@require_http_methods(["GET", "POST"])
+def report_create(request):
+    """Formulario HTML de reporte ciudadano + submit."""
+    from django.core.exceptions import ValidationError
+    from apps.emergencias.models import Emergencia
+    from apps.emergencias.services import recibir_reporte_publico
+
+    form_data = {
+        "categoria": "",
+        "descripcion": "",
+        "ubicacion_texto": "",
+        "referencia_lugar": "",
+    }
+    errors = {}
+    limitado = False
+
+    if request.method == "POST":
+        form_data = {
+            "categoria": request.POST.get("categoria", "").strip(),
+            "descripcion": request.POST.get("descripcion", "").strip(),
+            "ubicacion_texto": request.POST.get("ubicacion_texto", "").strip(),
+            "referencia_lugar": request.POST.get("referencia_lugar", "").strip(),
+        }
+
+        try:
+            reporte, limitado = recibir_reporte_publico(
+                datos=form_data,
+                request=request,
+            )
+            if not limitado and reporte is not None:
+                return redirect(
+                    "public:report-tracking",
+                    reporte_id=reporte.id,
+                )
+        except ValidationError as exc:
+            if hasattr(exc, "message_dict"):
+                errors = exc.message_dict
+            else:
+                errors = {"general": list(exc.messages)}
+
+    categorias = [(v, l) for v, l in Emergencia.Categoria.choices]
+
+    status = 200
+    if limitado:
+        status = 429
+
+    return render(
+        request,
+        "public/report_form.html",
+        {
+            "form_data": form_data,
+            "errors": errors,
+            "limitado": limitado,
+            "categorias": categorias,
+        },
+        status=status,
+    )
+
+
+@require_GET
+def report_tracking(request, reporte_id):
+    """Seguimiento público de un reporte por UUID (magic link)."""
+    from apps.emergencias.models import ReporteEmergencia
+
+    try:
+        reporte = ReporteEmergencia.objects.get(id=reporte_id)
+    except ReporteEmergencia.DoesNotExist:
+        raise Http404("Reporte no encontrado")
+
+    # Privacidad: solo exponer campos NO sensibles.
+    # NO se expone: descripcion, ubicacion_texto, referencia_lugar,
+    # reportante, punto. El UUID actúa como "magic link".
+    vinculado_publico = False
+    emergencia_publica = None
+
+    if reporte.emergencia_id is not None:
+        try:
+            emergencia = reporte.emergencia
+            if emergencia.estado in ESTADOS_EMERGENCIA_PUBLICOS:
+                vinculado_publico = True
+                emergencia_publica = {
+                    "id": str(emergencia.id),
+                    "titulo": emergencia.titulo,
+                }
+        except Emergencia.DoesNotExist:
+            pass
+
+    data = {
+        "id": str(reporte.id),
+        "categoria": reporte.categoria,
+        "categoria_texto": reporte.get_categoria_display(),
+        "estado_revision": reporte.estado_revision,
+        "estado_revision_texto": reporte.get_estado_revision_display(),
+        "recibido_en": reporte.recibido_en,
+        "vinculado": reporte.emergencia_id is not None,
+        "vinculado_publico": vinculado_publico,
+        "emergencia_publica": emergencia_publica,
+    }
+
+    return render(
+        request,
+        "public/report_tracking.html",
+        {"reporte": data},
+    )

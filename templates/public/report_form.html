@@ -1,0 +1,132 @@
+{% extends "base/base_public.html" %}
+
+{% block title %}Reportar emergencia — IntegraVida{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-2xl px-4 py-8">
+
+  <nav aria-label="Migas de pan" class="text-sm mb-2">
+    <a href="{% url 'public:home' %}" class="text-text-muted hover:text-primary">← Inicio</a>
+  </nav>
+
+  <header class="mb-6">
+    <h1 class="text-3xl font-bold text-primary">Reportar una emergencia</h1>
+    <p class="text-text-muted mt-2">
+      Tu reporte será recibido por el equipo de coordinación para su
+      verificación. No sustituye a los servicios de emergencia.
+    </p>
+  </header>
+
+  {% include "components/alert.html" with variant="warning" title="Si hay riesgo de vida" body="Llama al 911 o acude al centro de salud más cercano. Este formulario NO es un servicio de emergencia inmediata." %}
+
+  {% if limitado %}
+    <div class="mt-4">
+      {% include "components/alert.html" with variant="danger" title="Demasiados reportes" body="Has enviado varios reportes en poco tiempo. Espera unos minutos antes de enviar otro." dismissible=False %}
+    </div>
+  {% endif %}
+
+  {% if errors.general %}
+    <div class="mt-4">
+      {% include "components/alert.html" with variant="danger" title="Error al enviar" body=errors.general.0 dismissible=True %}
+    </div>
+  {% endif %}
+
+  <form method="post" class="mt-6 card p-6 space-y-4" data-validate>
+    {% csrf_token %}
+
+    <div>
+      <label for="f-categoria" class="block text-sm font-medium text-text mb-1">
+        Categoría <span class="text-danger" aria-hidden="true">*</span>
+      </label>
+      <select id="f-categoria" name="categoria" class="input" required
+              {% if errors.categoria %}aria-invalid="true" aria-describedby="err-categoria"{% endif %}>
+        <option value="">Selecciona una categoría</option>
+        {% for v, l in categorias %}
+          <option value="{{ v }}" {% if v == form_data.categoria %}selected{% endif %}>{{ l }}</option>
+        {% endfor %}
+      </select>
+      {% if errors.categoria %}
+        <ul id="err-categoria" class="text-xs text-danger-600 mt-1" role="alert">
+          {% for err in errors.categoria %}<li>{{ err }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="f-descripcion" class="block text-sm font-medium text-text mb-1">
+        Descripción <span class="text-danger" aria-hidden="true">*</span>
+      </label>
+      <textarea id="f-descripcion" name="descripcion" rows="5" class="input" required
+                maxlength="5000"
+                placeholder="Describe qué está pasando. No incluyas datos personales de terceros."
+                {% if errors.descripcion %}aria-invalid="true" aria-describedby="err-descripcion"{% endif %}>{{ form_data.descripcion }}</textarea>
+      <p class="text-xs text-text-muted mt-1">
+        Máximo 5000 caracteres. Evita nombres completos, cédulas o diagnósticos de otras personas.
+      </p>
+      {% if errors.descripcion %}
+        <ul id="err-descripcion" class="text-xs text-danger-600 mt-1" role="alert">
+          {% for err in errors.descripcion %}<li>{{ err }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="f-ubicacion" class="block text-sm font-medium text-text mb-1">
+        Ubicación <span class="text-danger" aria-hidden="true">*</span>
+      </label>
+      <input type="text" id="f-ubicacion" name="ubicacion_texto" class="input" required
+             maxlength="300"
+             placeholder="Ej: Av. Principal de Petare, frente al mercado"
+             value="{{ form_data.ubicacion_texto }}"
+             {% if errors.ubicacion_texto %}aria-invalid="true" aria-describedby="err-ubicacion"{% endif %}>
+      {% if errors.ubicacion_texto %}
+        <ul id="err-ubicacion" class="text-xs text-danger-600 mt-1" role="alert">
+          {% for err in errors.ubicacion_texto %}<li>{{ err }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+    <div>
+      <label for="f-referencia" class="block text-sm font-medium text-text mb-1">
+        Referencia adicional <span class="text-text-muted">(opcional)</span>
+      </label>
+      <input type="text" id="f-referencia" name="referencia_lugar" class="input"
+             maxlength="250"
+             placeholder="Punto de referencia para ubicar mejor el lugar"
+             value="{{ form_data.referencia_lugar }}"
+             {% if errors.referencia_lugar %}aria-invalid="true" aria-describedby="err-referencia"{% endif %}>
+      {% if errors.referencia_lugar %}
+        <ul id="err-referencia" class="text-xs text-danger-600 mt-1" role="alert">
+          {% for err in errors.referencia_lugar %}<li>{{ err }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+    <div class="flex items-center justify-between gap-3 pt-2">
+      <p class="text-xs text-text-muted">
+        Tu reporte será verificado antes de publicarse.
+      </p>
+      <button type="submit" class="btn btn-primary">
+        Enviar reporte
+      </button>
+    </div>
+  </form>
+
+  <section class="mt-8 pt-6 border-t" style="border-color: color-mix(in srgb, var(--color-text) 10%, transparent);">
+    <h2 class="text-lg font-semibold mb-2">¿Ya enviaste un reporte?</h2>
+    <p class="text-sm text-text-muted mb-3">
+      Consulta su estado con el código que recibiste al enviar tu reporte.
+    </p>
+    <form method="get" action="#" id="tracking-form" class="flex gap-2">
+      <input type="text" id="tracking-code" class="input flex-1"
+             placeholder="Pega tu código de seguimiento (UUID)"
+             aria-label="Código de seguimiento">
+      <button type="button" class="btn btn-ghost" onclick="
+        var code = document.getElementById('tracking-code').value.trim();
+        if (code) window.location.href = '/reportes/' + code + '/';
+      ">Consultar</button>
+    </form>
+  </section>
+
+</section>
+{% endblock %}
