@@ -23,4 +23,8 @@ urlpatterns = [
         "api/publico/hospitales/",
         include("apps.hospitales.urls"),
     ),
+    path(
+        "api/interno/reportes/",
+        include("apps.reportes.urls"),
+    ),
 ]
