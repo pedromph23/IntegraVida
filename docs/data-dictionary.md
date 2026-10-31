@@ -379,3 +379,33 @@
 > definida, restringe el acceso del usuario a episodios del municipio.
 > Afecta a `filtrar_episodios_por_ambito()` en
 > `apps/pacientes/services.py`.
+
+
+## Nota crítica: `usuarios.Usuario.email`
+
+**Bug estructural detectado en Fase 6.3:**
+
+El campo `email` tiene `unique=True` **sin `null=True` ni `blank=True`→NULL**.
+Resultado:
+- Múltiples usuarios sin email colisionan en `""` → `IntegrityError`.
+- En producción, el segundo operador creado sin email falla.
+- En tests, `setUpTestData` con 2+ usuarios sin email falla.
+
+**Detección:** Fase 6.3, tests de `AmbitoMembresiaTests` y `TriajeTests`
+con `IntegrityError: duplicate key value violates unique constraint "usuarios_usuario_email_key"`.
+
+**Fix propuesto (Fase 6.3.1):**
+
+Cambiar el campo a uno de:
+1. `EmailField(blank=True, null=True, unique=True)` — PostgreSQL trata
+   múltiples NULL como distintos, pero requiere migración de campo.
+2. `EmailField(blank=True)` + `UniqueConstraint(fields=["email"], condition=~Q(email=""))`
+   — mantiene unicidad cuando hay email, permite múltiples vacíos.
+
+**Opción recomendada:** (2). No cambia la semántica de `unique=True` para
+emails no vacíos, permite N usuarios sin email, y es la práctica estándar
+en Django ≥ 4.
+
+**Impacto:** bloqueante para Fase 7 (derivaciones requiere crear usuarios
+operadores sin email obligatorio). Se resuelve en Fase 6.3.1 antes de
+arrancar Fase 7.
