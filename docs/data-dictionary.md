@@ -344,3 +344,38 @@
 > `fecha_egreso IS NULL OR fecha_egreso >= fecha_ingreso`.
 >
 > **Estados:** ABIERTO, EN_ATENCION, DERIVADO, CERRADO, FALLECIDO, ABANDONO.
+
+## 21. `triaje.Triaje`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | CLI | — |
+| episodio | FK Episodio | Sí | on_delete=PROTECT | CLI | Sí |
+| clasificacion | CharField(10) | Sí | ROJO/AAMARILLO/VERDE, index | CLI | Sí |
+| signos_vitales | JSONField | No | default=dict | CLI | Sí |
+| observaciones | TextField | No | — | CLI | Sí |
+| evaluado_por | FK Usuario | Sí | on_delete=PROTECT | PER | Sí |
+| evaluado_en | DateTimeField | Sí | auto_now_add, index | CLI | — |
+| es_reevaluacion | Boolean | Sí | default=False | CLI | Sí |
+| motivo_reevaluacion | CharField(300) | No | obligatorio si es_reevaluacion | CLI | Sí |
+| vigente | Boolean | Sí | default=True, index | CLI | Sí |
+
+> **`UniqueConstraint` parcial** (`un_triaje_vigente_por_episodio`):
+> solo un triaje vigente por episodio. Los anteriores quedan como
+> históricos (`vigente=False`) pero nunca se borran.
+>
+> **Sistema de clasificación:** 3 niveles (ROJO/AAMARILLO/VERDE), basado
+> en la práctica común de servicios de urgencia venezolanos y en el repo
+> de origen `sistema-derivacion-hospitalaria`. Un proveedor puede adoptar
+> 4-5 niveles si su protocolo clínico lo exige; se actualiza el `TextChoices`.
+>
+> **Claves esperadas en `signos_vitales`:** `temperatura` (°C),
+> `frecuencia_cardiaca` (lpm), `frecuencia_respiratoria` (rpm),
+> `presion_arterial_sistolica` (mmHg), `presion_arterial_diastolica` (mmHg),
+> `saturacion_oxigeno` (%), `escala_glasgow` (3-15), `peso_kg`, `talla_cm`.
+> No hay validación estricta de claves en Fase 6.3 (JSONB flexible).
+>
+> **`Membresia.ambito_municipio`** (Fase 6.3): nueva FK nullable. Si
+> definida, restringe el acceso del usuario a episodios del municipio.
+> Afecta a `filtrar_episodios_por_ambito()` en
+> `apps/pacientes/services.py`.

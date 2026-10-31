@@ -75,6 +75,18 @@ class Membresia(models.Model):
     estado = models.CharField(
         max_length=10, choices=Estado.choices, default=Estado.PENDIENTE
     )
+    ambito_municipio = models.ForeignKey(
+        "territorio.Municipio",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="membresias_restringidas",
+        help_text=(
+            "Si está definido, la membresía solo accede a recursos "
+            "ubicados en este municipio. NULL = sin restricción "
+            "geográfica dentro de la organización."
+        ),
+    )
     creada_en = models.DateTimeField(auto_now_add=True)
     actualizada_en = models.DateTimeField(auto_now=True)
 

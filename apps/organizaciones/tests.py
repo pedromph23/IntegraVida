@@ -284,3 +284,67 @@ class OrganizacionesInternasAPITests(TestCase):
         respuesta = self.client.post(self.url, data={})
 
         self.assertEqual(respuesta.status_code, 405)
+
+
+# ══════════════════════════════════════════════════════════════════
+# Ámbito territorial de Membresía (Fase 6.3)
+# ══════════════════════════════════════════════════════════════════
+
+from django.contrib.auth import get_user_model
+from django.test import TestCase
+
+from apps.organizaciones.models import Membresia, Organizacion
+from apps.territorio.models import EntidadFederal, Municipio
+
+Usuario = get_user_model()
+
+
+class AmbitoMembresiaTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.org = Organizacion.objects.create(
+            nombre="Org Ámbito",
+            tipo=Organizacion.Tipo.HOSPITAL,
+            codigo="org-ambito",
+            estado=Organizacion.Estado.ACTIVA,
+        )
+        cls.entidad = EntidadFederal.objects.create(
+            nombre="Distrito Capital",
+            codigo="DC",
+            tipo=EntidadFederal.Tipo.ESTADO,
+        )
+        cls.municipio_a = Municipio.objects.create(
+            entidad_federal=cls.entidad,
+            nombre="Libertador",
+            codigo="DC-LIB",
+        )
+        cls.municipio_b = Municipio.objects.create(
+            entidad_federal=cls.entidad,
+            nombre="Chacao",
+            codigo="DC-CHA",
+        )
+        cls.usuario_sin = Usuario.objects.create_user(
+            username="sin-ambito", email="sin-ambito@test.local", password="x"
+        )
+        cls.usuario_con = Usuario.objects.create_user(
+            username="con-ambito", email="con-ambito@test.local", password="x"
+        )
+
+    def test_membresia_sin_ambito_default_null(self):
+        m = Membresia.objects.create(
+            usuario=self.usuario_sin,
+            organizacion=self.org,
+            rol=Membresia.Rol.SANITARIO,
+            estado=Membresia.Estado.ACTIVA,
+        )
+        self.assertIsNone(m.ambito_municipio)
+
+    def test_membresia_con_ambito(self):
+        m = Membresia.objects.create(
+            usuario=self.usuario_con,
+            organizacion=self.org,
+            rol=Membresia.Rol.SANITARIO,
+            estado=Membresia.Estado.ACTIVA,
+            ambito_municipio=self.municipio_a,
+        )
+        self.assertEqual(m.ambito_municipio, self.municipio_a)

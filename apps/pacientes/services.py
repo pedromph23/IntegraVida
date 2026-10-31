@@ -125,3 +125,66 @@ def buscar_paciente_por_cedula(cedula):
     if not hash_busqueda:
         return None
     return Paciente.objects.filter(cedula_hash=hash_busqueda).first()
+
+def filtrar_episodios_por_ambito(queryset, usuario):
+    """
+    Filtra un queryset de Episodios según el ámbito de las membresías del usuario.
+
+    Reglas (§8, §11):
+    - Superusuario: ve todos los episodios.
+    - Membresía ACTIVA con ambito_municipio NULL: ve todos los episodios de
+      su organización.
+    - Membresía ACTIVA con ambito_municipio definido: ve solo los episodios
+      cuyo hospital o refugio esté en ese municipio.
+    - Sin membresía: no ve nada.
+
+    Se combinan con OR: un usuario con múltiples membresías ve la unión.
+    """
+    from django.db.models import Q
+
+    from apps.organizaciones.models import Membresia
+    from apps.organizaciones.services import puede_administrar_plataforma
+
+    if puede_administrar_plataforma(usuario):
+        return queryset
+
+    if not getattr(usuario, "is_authenticated", False):
+        return queryset.none()
+
+    membresias = Membresia.objects.filter(
+        usuario=usuario,
+        estado=Membresia.Estado.ACTIVA,
+    ).values_list("organizacion_id", "ambito_municipio_id")
+
+    orgs_sin_restriccion = []
+    municipios_restringidos = []
+
+    for org_id, municipio_id in membresias:
+        if municipio_id is None:
+            orgs_sin_restriccion.append(org_id)
+        else:
+            municipios_restringidos.append(municipio_id)
+
+    if not orgs_sin_restriccion and not municipios_restringidos:
+        return queryset.none()
+
+    filtros = Q()
+    if orgs_sin_restriccion:
+        filtros |= Q(hospital__organizacion_id__in=orgs_sin_restriccion)
+        filtros |= Q(refugio__organizacion_id__in=orgs_sin_restriccion)
+    if municipios_restringidos:
+        filtros |= Q(
+            hospital__organizacion_id__in=[
+                m[0] for m in membresias if m[1] is not None
+            ],
+            hospital__municipio_id__in=municipios_restringidos,
+        )
+        filtros |= Q(
+            refugio__organizacion_id__in=[
+                m[0] for m in membresias if m[1] is not None
+            ],
+            refugio__municipio_id__in=municipios_restringidos,
+        )
+
+    return queryset.filter(filtros).distinct()
+

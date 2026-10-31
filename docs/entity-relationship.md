@@ -199,6 +199,18 @@ erDiagram
         uuid registrado_por_id FK
     }
 
+    TRIAJE {
+        uuid id PK
+        uuid episodio_id FK
+        string clasificacion
+        jsonb signos_vitales
+        text observaciones
+        uuid evaluado_por_id FK
+        datetime evaluado_en
+        boolean es_reevaluacion
+        boolean vigente
+    }
+
 
     USUARIO ||--o{ MEMBRESIA : "tiene"
     ORGANIZACION ||--o{ MEMBRESIA : "agrupa"
@@ -226,6 +238,8 @@ erDiagram
     RECURSO_HOSPITALARIO ||--o{ REGISTRO_DISPONIBILIDAD : "registra"
     USUARIO ||--o{ REGISTRO_DISPONIBILIDAD : "registra"
     PACIENTE ||--o{ CONTACTO_EMERGENCIA : "tiene"
+    EPISODIO ||--o{ TRIAJE : "tiene"
+    USUARIO ||--o{ TRIAJE : "evalua"
     PACIENTE ||--o{ EPISODIO : "tiene"
     HOSPITAL ||--o{ EPISODIO : "atiende"
     REFUGIO ||--o{ EPISODIO : "aloja"
@@ -240,7 +254,7 @@ erDiagram
 | `refugios` | **✅ Fase 5 — implementado** | — |
 | `hospitales` | **Fase 6.1 — implementado** | — |
 | `pacientes` | **Fase 6.2 — implementado** | — |
-| `triaje` | Fase 6 | pacientes |
+| `triaje` | **Fase 6.3 — implementado** | — |
 | `derivaciones` | Fase 7 | hospitales |
 | `inventario` | Fase 8 | organizaciones |
 | `distribucion` | Fase 8 | inventario |

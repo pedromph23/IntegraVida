@@ -323,3 +323,117 @@ class EpisodioTests(TestCase):
             registrado_por=self.usuario,
         )
         self.assertEqual(ep.estado, Episodio.Estado.ABIERTO)
+
+
+# ══════════════════════════════════════════════════════════════════
+# Filtro de ámbito para Episodios (Fase 6.3)
+# ══════════════════════════════════════════════════════════════════
+
+from apps.organizaciones.models import Membresia
+from apps.territorio.models import EntidadFederal, Municipio as Mun
+
+
+class FiltradoEpisodiosPorAmbitoTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.usuario_operador = Usuario.objects.create_user(
+            username="amb-op", email="amb-op@test.local", password="x"
+        )
+        cls.usuario_sin = Usuario.objects.create_user(
+            username="amb-sin", email="amb-sin@test.local", password="x"
+        )
+        cls.superuser = Usuario.objects.create_user(
+            username="amb-super", email="amb-super@test.local",
+            password="x", is_superuser=True
+        )
+        cls.org = Organizacion.objects.create(
+            nombre="Org Episodios",
+            tipo=Organizacion.Tipo.HOSPITAL,
+            codigo="org-ep",
+            estado=Organizacion.Estado.ACTIVA,
+        )
+        cls.entidad = EntidadFederal.objects.create(
+            nombre="Zulia", codigo="ZUL", tipo=EntidadFederal.Tipo.ESTADO,
+        )
+        cls.municipio_a = Mun.objects.create(
+            entidad_federal=cls.entidad, nombre="Maracaibo", codigo="ZUL-MAR",
+        )
+        cls.municipio_b = Mun.objects.create(
+            entidad_federal=cls.entidad, nombre="Cabimas", codigo="ZUL-CAB",
+        )
+        cls.hospital_a = Hospital.objects.create(
+            codigo="h-amb-a",
+            nombre="Hospital A",
+            tipo=Hospital.Tipo.HOSPITAL,
+            nivel=Hospital.Nivel.NIVEL_III,
+            organizacion=cls.org,
+            direccion="x",
+            municipio=cls.municipio_a,
+        )
+        cls.hospital_b = Hospital.objects.create(
+            codigo="h-amb-b",
+            nombre="Hospital B",
+            tipo=Hospital.Tipo.HOSPITAL,
+            nivel=Hospital.Nivel.NIVEL_III,
+            organizacion=cls.org,
+            direccion="y",
+            municipio=cls.municipio_b,
+        )
+        cls.paciente = crear_paciente(
+            nombres="Filtrado", apellidos="Test",
+            usuario=cls.usuario_operador,
+        )
+        cls.ep_a = Episodio.objects.create(
+            paciente=cls.paciente,
+            hospital=cls.hospital_a,
+            motivo_consulta="x",
+            registrado_por=cls.usuario_operador,
+        )
+        cls.ep_b = Episodio.objects.create(
+            paciente=cls.paciente,
+            hospital=cls.hospital_b,
+            motivo_consulta="y",
+            registrado_por=cls.usuario_operador,
+        )
+
+    def test_sin_membresia_no_ve_nada(self):
+        from apps.pacientes.services import filtrar_episodios_por_ambito
+        qs = filtrar_episodios_por_ambito(
+            Episodio.objects.all(), self.usuario_sin
+        )
+        self.assertEqual(qs.count(), 0)
+
+    def test_sin_ambito_ve_todo_lo_de_su_org(self):
+        Membresia.objects.create(
+            usuario=self.usuario_operador,
+            organizacion=self.org,
+            rol=Membresia.Rol.SANITARIO,
+            estado=Membresia.Estado.ACTIVA,
+        )
+        from apps.pacientes.services import filtrar_episodios_por_ambito
+        qs = filtrar_episodios_por_ambito(
+            Episodio.objects.all(), self.usuario_operador
+        )
+        self.assertEqual(qs.count(), 2)
+
+    def test_con_ambito_ve_solo_su_municipio(self):
+        Membresia.objects.create(
+            usuario=self.usuario_operador,
+            organizacion=self.org,
+            rol=Membresia.Rol.SANITARIO,
+            estado=Membresia.Estado.ACTIVA,
+            ambito_municipio=self.municipio_a,
+        )
+        from apps.pacientes.services import filtrar_episodios_por_ambito
+        qs = filtrar_episodios_por_ambito(
+            Episodio.objects.all(), self.usuario_operador
+        )
+        self.assertEqual(qs.count(), 1)
+        self.assertEqual(qs.first(), self.ep_a)
+
+    def test_superuser_ve_todo(self):
+        from apps.pacientes.services import filtrar_episodios_por_ambito
+        qs = filtrar_episodios_por_ambito(
+            Episodio.objects.all(), self.superuser
+        )
+        self.assertEqual(qs.count(), 2)
