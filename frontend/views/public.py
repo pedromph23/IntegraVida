@@ -147,3 +147,77 @@ def hospital_detail(request, codigo):
     return render(request, "public/hospital_detail.html", {
         "hospital": _serializar_hospital(hospital, timezone.now()),
     })
+
+
+@require_GET
+def shelters_list(request):
+    """Lista pública de refugios con filtros server-side."""
+    from apps.refugios.views import _queryset_publico
+
+    queryset = _queryset_publico()
+
+    tipo = request.GET.get("tipo", "").strip()
+    if tipo:
+        queryset = queryset.filter(tipo=tipo)
+
+    estado = request.GET.get("estado_operativo", "").strip()
+    if estado:
+        queryset = queryset.filter(estado_operativo=estado)
+
+    municipio = request.GET.get("municipio", "").strip()
+    if municipio:
+        queryset = queryset.filter(municipio__nombre__icontains=municipio)
+
+    # Filtro de disponibilidad: refugios con capacidad libre > 0
+    solo_con_lugar = request.GET.get("con_lugar") == "1"
+    if solo_con_lugar:
+        from django.db.models import F
+        queryset = queryset.filter(capacidad_total__gt=F("ocupacion_actual"))
+
+    q = request.GET.get("q", "").strip()[:100]
+    if q:
+        from django.db.models import Q
+        queryset = queryset.filter(
+            Q(nombre__icontains=q) | Q(direccion__icontains=q)
+        )
+
+    queryset = queryset.order_by("nombre")[:60]
+
+    from apps.refugios.views import _serializar_refugio
+    refugios = [_serializar_refugio(r) for r in queryset]
+
+    return render(request, "public/shelters_list.html", {
+        "refugios": refugios,
+        "total": len(refugios),
+        "filtros": {
+            "tipo": tipo,
+            "estado_operativo": estado,
+            "municipio": municipio,
+            "con_lugar": solo_con_lugar,
+            "q": q,
+        },
+        "opciones_tipo": [
+            ("REFUGIO", "Refugio"),
+            ("CENTRO_ACOPIO", "Centro de acopio"),
+            ("ALBERGUE_TEMPORAL", "Albergue temporal"),
+            ("OTRO", "Otro"),
+        ],
+        "opciones_estado": [
+            ("ACTIVO", "Activo"),
+            ("LLENO", "Lleno"),
+        ],
+    })
+
+
+@require_GET
+def shelter_detail(request, codigo):
+    """Detalle público de un refugio por código (slug)."""
+    from apps.refugios.views import _queryset_publico, _serializar_refugio
+    try:
+        refugio = _queryset_publico().get(codigo=codigo)
+    except Refugio.DoesNotExist:
+        raise Http404("Refugio no encontrado")
+
+    return render(request, "public/shelter_detail.html", {
+        "refugio": _serializar_refugio(refugio),
+    })

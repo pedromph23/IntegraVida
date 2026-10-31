@@ -1,0 +1,49 @@
+{% comment %}
+Uso:
+  {% include "components/shelter_card.html" with refugio=refugio %}
+{% endcomment %}
+<article class="card card-hover p-5 flex flex-col h-full">
+  <header class="mb-3">
+    <h2 class="text-lg font-semibold text-primary leading-tight">
+      <a href="{% url 'public:shelter-detail' codigo=refugio.codigo %}">
+        {{ refugio.nombre }}
+      </a>
+    </h2>
+    <p class="text-sm text-text-muted mt-1">
+      {{ refugio.tipo_texto }}
+      {% if refugio.estado_operativo %}
+        · <span class="badge {% if refugio.estado_operativo == 'ACTIVO' %}badge-success{% elif refugio.estado_operativo == 'LLENO' %}badge-warning{% else %}badge-info{% endif %}">
+          {{ refugio.estado_operativo_texto }}
+        </span>
+      {% endif %}
+    </p>
+  </header>
+
+  <div class="text-sm text-text space-y-1 flex-1">
+    <p>📍 {{ refugio.direccion }}</p>
+    {% if refugio.municipio or refugio.parroquia %}
+      <p class="text-text-muted">
+        {% if refugio.parroquia %}{{ refugio.parroquia }}{% endif %}
+        {% if refugio.parroquia and refugio.municipio %}, {% endif %}
+        {% if refugio.municipio %}{{ refugio.municipio }}{% endif %}
+      </p>
+    {% endif %}
+    {% if refugio.telefono_publico %}
+      <p>📞 <a href="tel:{{ refugio.telefono_publico }}" class="underline">{{ refugio.telefono_publico }}</a></p>
+    {% endif %}
+  </div>
+
+  <div class="mt-4 pt-3 border-t" style="border-color: color-mix(in srgb, var(--color-text) 10%, transparent);">
+    {% include "components/ocupacion_bar.html" with refugio=refugio %}
+    {% if refugio.servicios %}
+      <div class="mt-2 flex flex-wrap gap-1">
+        {% for s in refugio.servicios|slice:":5" %}
+          <span class="badge badge-info text-xs">{{ s }}</span>
+        {% endfor %}
+        {% if refugio.servicios|length > 5 %}
+          <span class="text-xs text-text-muted">+{{ refugio.servicios|length|add:"-5" }} más</span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</article>

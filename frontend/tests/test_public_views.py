@@ -21,7 +21,7 @@ class HomePublicaTests(TestCase):
         sigue siendo el contrato (§api.md) y el portal HTML es UX."""
         r = self.client.get("/")
         self.assertContains(r, "/api/publico/emergencias/")
-        self.assertContains(r, "/api/publico/refugios/")
+        self.assertContains(r, "/refugios/")
         # Hospitales migró a portal HTML en F2.a
         self.assertContains(r, "/hospitales/")
 

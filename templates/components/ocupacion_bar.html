@@ -1,0 +1,33 @@
+{% comment %}
+Uso:
+  {% include "components/ocupacion_bar.html" with refugio=refugio %}
+Parámetros:
+  refugio (dict) — salida de _serializar_refugio()
+Renderiza una barra visual con % de ocupación + capacidad.
+{% endcomment %}
+{% with pct=refugio.porcentaje_ocupacion|default:0 total=refugio.capacidad_total|default:0 disp=refugio.capacidad_disponible|default:0 %}
+<div class="space-y-1">
+  <div class="flex justify-between text-xs text-text-muted">
+    <span>Ocupación</span>
+    <span>{{ pct }}%</span>
+  </div>
+  <div class="h-2 rounded-full overflow-hidden"
+       style="background-color: color-mix(in srgb, var(--color-text) 10%, transparent);"
+       role="progressbar"
+       aria-valuenow="{{ pct }}"
+       aria-valuemin="0"
+       aria-valuemax="100"
+       aria-label="Ocupación del refugio">
+    <div class="h-full"
+         style="
+           width: {{ pct }}%;
+           background: {% if pct >= 90 %}var(--gradient-emergency){% elif pct >= 70 %}var(--gradient-hero){% else %}var(--gradient-calm){% endif %};
+           transition: width 300ms ease;
+         "></div>
+  </div>
+  <div class="text-xs text-text-muted">
+    {{ refugio.capacidad_disponible }} de {{ refugio.capacidad_total }} lugares disponibles
+    {% if refugio.esta_lleno %}<span class="text-danger ml-1">· lleno</span>{% endif %}
+  </div>
+</div>
+{% endwith %}
