@@ -351,3 +351,14 @@ que la demuestre (§18.2).
 - [ ] Documentar la regla de acceso excepcional de emergencia
       (§6.5) cuando se implemente el modo extraordinario.
 - [ ] Añadir los 8 tests pendientes de §9 al cerrar cada fase.
+
+### Fase 7 — Derivaciones (IMPLEMENTADO)
+
+- `ADMIN_ORGANIZACION`, `COORDINADOR`, `SANITARIO`: crear y transicionar
+  derivaciones en hospitales donde tienen membresía.
+- `OPERADOR`: solo lectura de derivaciones de su organización.
+- `CONSULTA`: sin acceso a datos clínicos, solo agregados.
+- Regla de operación: usuario debe tener membresía ACTIVA en el hospital
+  origen o destino (`_usuario_puede_operar` en `services.py`).
+- Fase 7.5 (mejora): refinar por transición específica (aceptar solo
+  destino, iniciar solo origen, etc.).

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'apps.hospitales.apps.HospitalesConfig',
     'apps.pacientes.apps.PacientesConfig',
     'apps.triaje.apps.TriajeConfig',
+    'apps.derivaciones.apps.DerivacionesConfig',
     # 'apps.notificaciones...' ELIMINADA — no está en §5 del prompt maestro.
     # Si se justifica, crear con su propio bloque CAMBIO: (§25).
 ]
