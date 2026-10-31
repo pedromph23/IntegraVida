@@ -7,4 +7,10 @@ app_name = "public"
 urlpatterns = [
     path("", public.home, name="home"),
     path("design-system/", public.design_system, name="design-system"),
+    path("hospitales/", public.hospitals_list, name="hospitals-list"),
+    path(
+        "hospitales/<slug:codigo>/",
+        public.hospital_detail,
+        name="hospital-detail",
+    ),
 ]

@@ -1,0 +1,19 @@
+{% comment %}
+Uso:
+  {% include "components/estado_recurso.html" with label="UCI" recurso=hospital.recursos.uci %}
+Parámetros:
+  label   (str)  — nombre del recurso (UCI, Urgencia, etc.)
+  recurso (dict) — {estado: 'disponible'|'no_disponible'|'sin_datos', actualizado_en: str|null}
+{% endcomment %}
+{% with estado=recurso.estado|default:"sin_datos" %}
+<span class="badge
+  {% if estado == 'disponible' %}badge-success
+  {% elif estado == 'no_disponible' %}badge-danger
+  {% else %}badge-info{% endif %}"
+  {% if recurso.actualizado_en %}title="Actualizado: {{ recurso.actualizado_en }}"{% endif %}>
+  <span aria-hidden="true">
+    {% if estado == 'disponible' %}✓{% elif estado == 'no_disponible' %}✗{% else %}—{% endif %}
+  </span>
+  <span class="ml-1">{{ label }}</span>
+</span>
+{% endwith %}

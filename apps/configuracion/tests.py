@@ -89,10 +89,12 @@ class LandingPageTests(DjangoTestCase):
         self.assertContains(r, "Encuentra ayuda ahora")
 
     def test_index_incluye_links_a_endpoints_publicos(self):
+        """Home enlaza al portal HTML de hospitales y a la API pública."""
         r = self.client.get("/")
-        self.assertContains(r, "/api/publico/emergencias/")
-        self.assertContains(r, "/api/publico/refugios/")
-        self.assertContains(r, "/api/publico/hospitales/")
+        # Links al portal HTML (migrado de API cruda a páginas con UX)
+        self.assertContains(r, "/hospitales/")
+        # La API pública sigue disponible pero ya no se enlaza desde home
+        # (a menos que un usuario la conozca por docs/api.md)
 
     def test_health_check_devuelve_ok(self):
         r = self.client.get("/health/")

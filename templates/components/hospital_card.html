@@ -1,0 +1,48 @@
+{% comment %}
+Uso:
+  {% include "components/hospital_card.html" with hospital=hospital %}
+Parámetros:
+  hospital (dict) — salida de _serializar_hospital() del backend
+{% endcomment %}
+<article class="card card-hover p-5 flex flex-col h-full">
+  <header class="mb-3">
+    <h2 class="text-lg font-semibold text-primary leading-tight">
+      <a href="{% url 'public:hospital-detail' codigo=hospital.codigo %}">
+        {{ hospital.nombre }}
+      </a>
+    </h2>
+    <p class="text-sm text-text-muted mt-1">
+      {{ hospital.tipo_texto }} · {{ hospital.nivel_texto }}
+    </p>
+  </header>
+
+  <div class="text-sm text-text space-y-1 flex-1">
+    <p>📍 {{ hospital.direccion }}</p>
+    {% if hospital.municipio or hospital.parroquia %}
+      <p class="text-text-muted">
+        {% if hospital.parroquia %}{{ hospital.parroquia }}{% endif %}
+        {% if hospital.parroquia and hospital.municipio %}, {% endif %}
+        {% if hospital.municipio %}{{ hospital.municipio }}{% endif %}
+      </p>
+    {% endif %}
+    {% if hospital.telefono_publico %}
+      <p>📞 <a href="tel:{{ hospital.telefono_publico }}" class="underline">{{ hospital.telefono_publico }}</a></p>
+    {% endif %}
+  </div>
+
+  <div class="mt-4 pt-3 border-t" style="border-color: color-mix(in srgb, var(--color-text) 10%, transparent);">
+    <div class="flex flex-wrap gap-1.5">
+      {% include "components/estado_recurso.html" with label="UCI" recurso=hospital.recursos.uci %}
+      {% include "components/estado_recurso.html" with label="Urgencia" recurso=hospital.recursos.urgencia %}
+      {% include "components/estado_recurso.html" with label="Quirófano" recurso=hospital.recursos.quirofano %}
+      {% include "components/estado_recurso.html" with label="Hospitalización" recurso=hospital.recursos.hospitalizacion %}
+    </div>
+    {% if hospital.estado_operativo %}
+      <div class="mt-2">
+        <span class="badge {% if hospital.estado_operativo == 'DISPONIBLE' %}badge-success{% elif hospital.estado_operativo == 'SATURADO' %}badge-warning{% else %}badge-info{% endif %}">
+          {{ hospital.estado_operativo_texto }}
+        </span>
+      </div>
+    {% endif %}
+  </div>
+</article>

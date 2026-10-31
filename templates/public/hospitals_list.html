@@ -1,0 +1,78 @@
+{% extends "base/base_public.html" %}
+
+{% block title %}Hospitales y centros de salud — IntegraVida{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-7xl px-4 py-8">
+
+  <header class="mb-6">
+    <nav aria-label="Migas de pan" class="text-sm mb-2">
+      <a href="{% url 'public:home' %}" class="text-text-muted hover:text-primary">← Inicio</a>
+    </nav>
+    <h1 class="text-3xl font-bold text-primary">Hospitales y centros de salud</h1>
+    <p class="text-text-muted mt-1">
+      {{ total }} centro{{ total|pluralize }} activo{{ total|pluralize }}.
+      Solo se muestran datos públicos autorizados.
+    </p>
+  </header>
+
+  <form method="get" class="card p-4 mb-6" aria-label="Filtros de hospitales">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+      <div>
+        <label for="f-q" class="block text-sm font-medium text-text mb-1">Buscar</label>
+        <input type="search" id="f-q" name="q" value="{{ filtros.q }}"
+               placeholder="Nombre o dirección" class="input">
+      </div>
+      <div>
+        <label for="f-tipo" class="block text-sm font-medium text-text mb-1">Tipo</label>
+        <select id="f-tipo" name="tipo" class="input">
+          <option value="">Todos</option>
+          {% for v, l in opciones_tipo %}
+            <option value="{{ v }}" {% if v == filtros.tipo %}selected{% endif %}>{{ l }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="f-nivel" class="block text-sm font-medium text-text mb-1">Nivel</label>
+        <select id="f-nivel" name="nivel" class="input">
+          <option value="">Todos</option>
+          {% for v, l in opciones_nivel %}
+            <option value="{{ v }}" {% if v == filtros.nivel %}selected{% endif %}>{{ l }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="f-estado" class="block text-sm font-medium text-text mb-1">Estado</label>
+        <select id="f-estado" name="estado_operativo" class="input">
+          <option value="">Todos</option>
+          {% for v, l in opciones_estado %}
+            <option value="{{ v }}" {% if v == filtros.estado_operativo %}selected{% endif %}>{{ l }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="f-municipio" class="block text-sm font-medium text-text mb-1">Municipio</label>
+        <input type="text" id="f-municipio" name="municipio" value="{{ filtros.municipio }}"
+               placeholder="Nombre del municipio" class="input">
+      </div>
+      <div class="flex items-end gap-2">
+        <button type="submit" class="btn btn-primary w-full">Filtrar</button>
+        {% if filtros.q or filtros.tipo or filtros.nivel or filtros.estado_operativo or filtros.municipio %}
+          <a href="{% url 'public:hospitals-list' %}" class="btn btn-ghost">Limpiar</a>
+        {% endif %}
+      </div>
+    </div>
+  </form>
+
+  {% if hospitales %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for hospital in hospitales %}
+        {% include "components/hospital_card.html" with hospital=hospital %}
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include "components/empty-state.html" with icon="🏥" title="Sin resultados" description="No hay hospitales que coincidan con tu búsqueda." action_label="Ver todos" action_url="/hospitales/" %}
+  {% endif %}
+
+</section>
+{% endblock %}

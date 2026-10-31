@@ -1,7 +1,9 @@
 """Vistas del portal público — sin registro (§6.1)."""
 
 from django.conf import settings
+from django.http import Http404
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.decorators.http import require_GET
 
 from apps.emergencias.models import Emergencia
@@ -49,7 +51,6 @@ def home(request):
 def design_system(request):
     """Demo del sistema de diseño. Solo en DEBUG."""
     if not settings.DEBUG:
-        from django.http import Http404
         raise Http404()
     return render(request, "public/design_system.html", {
         "estados_demo": [
@@ -57,4 +58,92 @@ def design_system(request):
             ("LLENO", "Lleno"),
             ("CERRADO", "Cerrado"),
         ],
+    })
+
+
+@require_GET
+def hospitals_list(request):
+    """Lista pública de hospitales con filtros server-side."""
+    from apps.hospitales.views import _queryset_publico
+
+    queryset = _queryset_publico()
+
+    tipo = request.GET.get("tipo", "").strip()
+    if tipo:
+        queryset = queryset.filter(tipo=tipo)
+
+    nivel = request.GET.get("nivel", "").strip()
+    if nivel:
+        queryset = queryset.filter(nivel=nivel)
+
+    estado = request.GET.get("estado_operativo", "").strip()
+    if estado:
+        queryset = queryset.filter(estado_operativo=estado)
+
+    municipio = request.GET.get("municipio", "").strip()
+    if municipio:
+        queryset = queryset.filter(municipio__nombre__icontains=municipio)
+
+    servicio = request.GET.get("servicio", "").strip()
+    if servicio:
+        queryset = queryset.filter(
+            servicios_through__servicio__codigo=servicio,
+            servicios_through__disponible=True,
+            servicios_through__servicio__activo=True,
+        ).distinct()
+
+    q = request.GET.get("q", "").strip()[:100]
+    if q:
+        from django.db.models import Q
+        queryset = queryset.filter(
+            Q(nombre__icontains=q) | Q(direccion__icontains=q)
+        )
+
+    queryset = queryset.order_by("nombre")[:60]
+    ahora = timezone.now()
+
+    from apps.hospitales.views import _serializar_hospital
+    hospitales = [_serializar_hospital(h, ahora) for h in queryset]
+
+    return render(request, "public/hospitals_list.html", {
+        "hospitales": hospitales,
+        "total": len(hospitales),
+        "filtros": {
+            "tipo": tipo,
+            "nivel": nivel,
+            "estado_operativo": estado,
+            "municipio": municipio,
+            "servicio": servicio,
+            "q": q,
+        },
+        "opciones_tipo": [
+            ("HOSPITAL", "Hospital"),
+            ("CLINICA", "Clínica"),
+            ("CENTRO_SALUD", "Centro de salud"),
+            ("AMBULATORIO", "Ambulatorio"),
+        ],
+        "opciones_nivel": [
+            ("NIVEL_I", "Nivel I"),
+            ("NIVEL_II", "Nivel II"),
+            ("NIVEL_III", "Nivel III"),
+            ("NIVEL_IV", "Nivel IV"),
+        ],
+        "opciones_estado": [
+            ("DISPONIBLE", "Disponible"),
+            ("SATURADO", "Saturado"),
+        ],
+    })
+
+
+@require_GET
+def hospital_detail(request, codigo):
+    """Detalle público de un hospital por código (slug)."""
+    from apps.hospitales.views import _queryset_publico, _serializar_hospital
+    try:
+        hospital = _queryset_publico().get(codigo=codigo)
+    except Hospital.DoesNotExist:
+        raise Http404("Hospital no encontrado")
+
+    return render(request, "public/hospital_detail.html", {
+        "hospital": _serializar_hospital(hospital, timezone.now()),
     })

@@ -1,0 +1,99 @@
+{% extends "base/base_public.html" %}
+
+{% block title %}{{ hospital.nombre }} — IntegraVida{% endblock %}
+
+{% block content %}
+<article class="mx-auto max-w-4xl px-4 py-8">
+
+  <nav aria-label="Migas de pan" class="text-sm mb-4">
+    <a href="{% url 'public:home' %}" class="text-text-muted hover:text-primary">Inicio</a>
+    <span class="text-text-muted mx-1">/</span>
+    <a href="{% url 'public:hospitals-list' %}" class="text-text-muted hover:text-primary">Hospitales</a>
+    <span class="text-text-muted mx-1">/</span>
+    <span class="text-text">{{ hospital.nombre }}</span>
+  </nav>
+
+  <header class="mb-6">
+    <h1 class="text-3xl font-bold text-primary">{{ hospital.nombre }}</h1>
+    <p class="text-text-muted mt-1">
+      {{ hospital.tipo_texto }} · {{ hospital.nivel_texto }}
+      {% if hospital.estado_operativo %}
+        · <span class="badge {% if hospital.estado_operativo == 'DISPONIBLE' %}badge-success{% elif hospital.estado_operativo == 'SATURADO' %}badge-warning{% else %}badge-info{% endif %}">{{ hospital.estado_operativo_texto }}</span>
+      {% endif %}
+    </p>
+  </header>
+
+  <div class="grid md:grid-cols-2 gap-6">
+
+    <section class="card p-5">
+      <h2 class="text-lg font-semibold mb-3">Ubicación y contacto</h2>
+      <dl class="space-y-2 text-sm">
+        <div>
+          <dt class="text-text-muted">Dirección</dt>
+          <dd>{{ hospital.direccion }}</dd>
+        </div>
+        {% if hospital.referencia_lugar %}
+          <div>
+            <dt class="text-text-muted">Referencia</dt>
+            <dd>{{ hospital.referencia_lugar }}</dd>
+          </div>
+        {% endif %}
+        {% if hospital.municipio or hospital.parroquia %}
+          <div>
+            <dt class="text-text-muted">Ubicación administrativa</dt>
+            <dd>
+              {% if hospital.parroquia %}{{ hospital.parroquia }}{% endif %}
+              {% if hospital.parroquia and hospital.municipio %}, {% endif %}
+              {% if hospital.municipio %}{{ hospital.municipio }}{% endif %}
+            </dd>
+          </div>
+        {% endif %}
+        {% if hospital.telefono_publico %}
+          <div>
+            <dt class="text-text-muted">Teléfono</dt>
+            <dd><a href="tel:{{ hospital.telefono_publico }}" class="underline text-primary">{{ hospital.telefono_publico }}</a></dd>
+          </div>
+        {% endif %}
+        {% if hospital.correo_publico %}
+          <div>
+            <dt class="text-text-muted">Correo</dt>
+            <dd><a href="mailto:{{ hospital.correo_publico }}" class="underline text-primary">{{ hospital.correo_publico }}</a></dd>
+          </div>
+        {% endif %}
+      </dl>
+    </section>
+
+    <section class="card p-5">
+      <h2 class="text-lg font-semibold mb-3">Disponibilidad de recursos</h2>
+      <p class="text-xs text-text-muted mb-3">
+        Estado agregado. Datos desactualizados (&gt; 2h) se muestran como "sin datos".
+      </p>
+      <div class="space-y-2">
+        {% include "components/estado_recurso.html" with label="UCI" recurso=hospital.recursos.uci %}
+        {% include "components/estado_recurso.html" with label="Urgencias" recurso=hospital.recursos.urgencia %}
+        {% include "components/estado_recurso.html" with label="Quirófano" recurso=hospital.recursos.quirofano %}
+        {% include "components/estado_recurso.html" with label="Hospitalización" recurso=hospital.recursos.hospitalizacion %}
+      </div>
+    </section>
+
+    {% if hospital.servicios %}
+      <section class="card p-5 md:col-span-2">
+        <h2 class="text-lg font-semibold mb-3">Servicios disponibles</h2>
+        <div class="flex flex-wrap gap-2">
+          {% for s in hospital.servicios %}
+            <span class="badge {% if s.disponible %}badge-success{% else %}badge-info{% endif %}">
+              {{ s.nombre }}{% if not s.disponible %} (no disponible){% endif %}
+            </span>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+  </div>
+
+  <div class="mt-8 pt-6 border-t" style="border-color: color-mix(in srgb, var(--color-text) 10%, transparent);">
+    <a href="{% url 'public:hospitals-list' %}" class="btn btn-ghost">← Volver a la lista</a>
+  </div>
+
+</article>
+{% endblock %}
