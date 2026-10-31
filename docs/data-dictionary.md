@@ -710,3 +710,51 @@ cancela genera `Movimiento.ENTRADA` en el origen por cada `cantidad_despachada`.
 ## 34. `inventario.TransicionEntrega`
 
 Análogo a `TransicionTransferencia`. Historial inmutable.
+
+
+## 35. `reportes.RegistroExportacion`
+
+| Campo | Tipo | Oblig. | Restricciones | Clasif. | Auditoría |
+|---|---|---|---|---|---|
+| id | UUID | Sí | PK | OPE | — |
+| usuario | FK Usuario | Sí | PROTECT | PER | — |
+| organizacion | FK Organizacion | No | PROTECT | OPE | — |
+| tipo | CharField(10) | Sí | JSON/CSV/PDF/EXCEL | OPE | — |
+| contenido | CharField(30) | Sí | TextChoices, index | OPE | — |
+| parametros | JSONField | No | — | OPE | — |
+| filas_incluidas | PositiveInt | Sí | default=0 | OPE | — |
+| archivo_ruta | CharField(500) | No | — | OPE | — |
+| tamano_bytes | PositiveBigInt | No | — | OPE | — |
+| resultado | CharField(15) | Sí | EXITOSO/ERROR/SIN_DATOS | OPE | — |
+| detalle | CharField(500) | No | — | OPE | — |
+| creado_en | DateTimeField | Sí | auto_now_add, index | OPE | — |
+
+> **Bitácora operativa, no auditoría.** No tiene hash encadenado porque
+> cada modelo fuente ya audita sus propias acciones. Este registro
+> **sí** queda para §20: qué usuario exportó qué contenido, cuándo y con
+> qué resultado. Sirve para detectar patrones de exportación masiva.
+
+## Notas de Fase 9.1
+
+**Reportes disponibles:**
+
+- `GET /api/interno/reportes/inventario-critico/`
+  - insumos_bajo_minimo (stock total < stock_minimo_global)
+  - lotes_por_vencer (<= hoy+30d, con stock > 0)
+  - lotes_vencidos (ya vencidos, con stock > 0)
+  - Sin PII, solo cantidades y códigos de catálogo.
+
+- `GET /api/interno/reportes/capacidad-operativa/`
+  - refugios con capacidad/ocupación/disponibilidad
+  - derivaciones_por_estado (conteo agregado)
+  - hospitales_por_estado (conteo por estado operativo)
+  - Sin PII, solo agregados.
+
+**Parámetro `?organizacion=<uuid>`** opcional:
+- Con org: exige acceso explícito vía `tiene_acceso_a_organizacion`.
+- Sin org: agrega sobre TODAS las organizaciones visibles del usuario.
+- Si el usuario no tiene organizaciones visibles → 400.
+- Superusuario sin org → todas las organizaciones activas.
+
+**Umbral de vencimiento:** 30 días, configurable en
+`UMBRAL_VENCIMIENTO_DIAS` en `apps/reportes/services.py`.

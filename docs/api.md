@@ -197,3 +197,61 @@ genera avalanchas y expectativas falsas si el dato no es fresco.
 ### `GET /api/publico/hospitales/{codigo}/`
 
 Detalle por slug. 404 uniforme para inexistente o no público.
+
+
+## Reportes operativos (Fase 9.1) — autenticado
+
+**Todos los endpoints requieren autenticación.** No son públicos.
+
+### `GET /api/interno/reportes/inventario-critico/`
+
+**Query param opcional:** `organizacion` (UUID).
+- Sin parámetro: agrega sobre organizaciones visibles.
+- Con parámetro: exige acceso a esa organización.
+
+**Respuesta 200** (ejemplo resumido):
+
+{
+"generado_en": "2026-10-31T02:00:00-04:00",
+"umbral_vencimiento_dias": 30,
+"insumos_bajo_minimo": [
+{"insumo_codigo": "...", "stock_actual": 5.0,
+"stock_minimo": 20.0, "deficit": 15.0}
+],
+"lotes_por_vencer": [
+{"almacen_codigo": "...", "lote_codigo": "...",
+"fecha_vencimiento": "2026-11-15", "cantidad": 10.0,
+"dias_restantes": 15}
+],
+"lotes_vencidos": [
+{"almacen_codigo": "...", "lote_codigo": "...",
+"fecha_vencimiento": "2026-10-20", "cantidad": 2.0,
+"dias_vencido": 11}
+],
+"total_alertas": 3
+}
+
+**Errores:**
+- `401`: sin sesión.
+- `403`: organización no accesible.
+- `400`: organización inválida.
+
+### `GET /api/interno/reportes/capacidad-operativa/`
+
+**Query param opcional:** `organizacion` (UUID).
+
+**Respuesta 200** (ejemplo resumido):
+{
+"generado_en": "...",
+"refugios": [
+{"codigo": "...", "nombre": "...", "estado_operativo": "ACTIVO",
+"capacidad_total": 100, "ocupacion_actual": 80,
+"capacidad_disponible": 20, "porcentaje_ocupacion": 80.0}
+],
+"derivaciones_por_estado": {"SOLICITADA": 3, "EN_TRANSITO": 1},
+"hospitales_por_estado": {"DISPONIBLE": 5, "SATURADO": 2},
+"total_elementos": 11
+}
+
+**Registro de exportación:** cada llamada exitosa crea un
+`RegistroExportacion` con contenido, filas, resultado y usuario.
