@@ -18,6 +18,10 @@ load_dotenv(BASE_DIR / ".env")
 # ─── Seguridad base (§13) ──────────────────────────────────────────────
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
+
+# Clave para cifrado de campos clínicos (§11).
+# Independiente de SECRET_KEY: permite rotación sin invalidar sesiones.
+FIELD_ENCRYPTION_KEY = os.environ.get("FIELD_ENCRYPTION_KEY", "")
 if not SECRET_KEY:
     # §13: no permitir arranque con secreto vacío
     raise ImproperlyConfigured(

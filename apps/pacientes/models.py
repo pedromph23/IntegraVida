@@ -4,6 +4,10 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
+from apps.pacientes.fields import (
+    EncryptedCharField, EncryptedEmailField, EncryptedTextField,
+)
+
 
 class Paciente(models.Model):
     class SexoBiologico(models.TextChoices):
@@ -15,7 +19,7 @@ class Paciente(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # Identificación (cedula_hash calculado en services.py)
-    cedula = models.CharField(max_length=20, blank=True, default="")
+    cedula = EncryptedCharField(max_length=500, blank=True, default="")
     cedula_hash = models.CharField(
         max_length=64,
         unique=True,
@@ -26,8 +30,8 @@ class Paciente(models.Model):
     )
 
     # Datos personales
-    nombres = models.CharField(max_length=200)
-    apellidos = models.CharField(max_length=200)
+    nombres = EncryptedCharField(max_length=500)
+    apellidos = EncryptedCharField(max_length=500)
     fecha_nacimiento = models.DateField(null=True, blank=True)
     sexo_biologico = models.CharField(
         max_length=1,
@@ -36,8 +40,8 @@ class Paciente(models.Model):
     )
 
     # Contacto (opcional, puede existir sin paciente identificar)
-    telefono = models.CharField(max_length=30, blank=True)
-    email = models.EmailField(blank=True)
+    telefono = EncryptedCharField(max_length=500, blank=True)
+    email = EncryptedEmailField(blank=True, max_length=500)
 
     # Cuenta vinculada (opcional, para futura consulta del titular)
     cuenta_vinculada = models.ForeignKey(
@@ -48,7 +52,7 @@ class Paciente(models.Model):
         related_name="pacientes_vinculados",
     )
 
-    notas_internas = models.TextField(blank=True)
+    notas_internas = EncryptedTextField(blank=True)
     creado_en = models.DateTimeField(auto_now_add=True, db_index=True)
     actualizado_en = models.DateTimeField(auto_now=True)
 
