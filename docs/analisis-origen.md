@@ -197,3 +197,55 @@ Repositorio clonado en `~/analisis-origen/sistema-derivacion-hospitalaria`
 - [ ] Fase 6.3: `Triaje`, `Reevaluacion`.
 - [ ] Fase 7: `Derivacion`, `TransicionEstado` (aquí se aplica el ciclo
       ASIGNADO → EN_CAMINO → COMPLETADO → CANCELADO).
+
+## Hallazgos del análisis de NUTRILINK (Fase 8)
+
+Repositorio clonado en `~/analisis-origen/nutrilink` (fuera de `integravida/`).
+Stack: **Laravel 9 (PHP 8) + Eloquent ORM**.
+
+### Archivos analizados
+
+- `database/migrations/2026_09_07_000001_create_shelters_and_supplies_tables.php`
+- `database/migrations/2026_09_07_000002_create_movements_and_transfers_tables.php`
+- `README.md` (descripción de funcionalidades)
+
+### Archivos descartados explícitamente
+
+- `app/Services/InventoryOptimizationService.php` — EOQ, Newsvendor,
+  punto de reorden, clasificación ABC. **Prohibido** §3.5, §3.6, §15.
+- `app/Services/GoogleAuthenticatorService.php` — 2FA retirado del flujo
+  en el propio NUTRILINK.
+- `app/Console/Commands/NeonSetup.php`,
+  `app/Database/Connectors/NeonPostgresConnector.php` — específico de Neon.
+- `app/Http/Controllers/*` — lógica HTTP, no modelos.
+
+### Matriz de decisiones
+
+| Elemento original | Veredicto | Qué se toma | Qué se descarta |
+|---|---|---|---|
+| `supplies` (catálogo) | Adoptar | codigo UNIQUE, nombre, categoria, subcategoria, unidad_medida, es_perecedero→requiere_vencimiento, dias_vida_util→vida_util_dias | clasificacion_abc, EOQ, Newsvendor, costos, lead time, stock_seguridad_sugerido |
+| `shelter_inventories` (stock agregado) | Rediseñar | Idea de existencia por almacén | No incluye lote (corregido) |
+| `inventory_batches` (lotes) | **Corregir** | numero_lote, cantidad_disponible, fecha_vencimiento | Colgaba de `shelter_inventory` (por almacén); IntegraVida lo hace global por (insumo, codigo) |
+| `inventory_movements` (kardex) | Adoptar | stock_anterior, stock_nuevo, cantidad, tipo TextChoices, motivo, documento_referencia | tipos específicos de NUTRILINK, user_id nullable (en IntegraVida es PROTECT) |
+| `supply_transfers` (transferencias) | Adoptar extendido | Estados, prioridad, vehículo, fechas | Sin máquina de estados rígida; IntegraVida la hace explícita |
+| `cantidad Decimal(14,2)` | **Corregir** | — | Decimal(12,3) para gramos/mililitros |
+| `shelters` (refugios) | **No aplica** | — | Ya implementado en Fase 5 |
+
+### Errores del original documentados
+
+1. **Lote por almacén, no global.** Dos refugios podían tener `numero_lote`
+   idéntico con fechas distintas. IntegraVida rechaza esto con
+   `UniqueConstraint(insumo, codigo)`.
+2. **`cantidad decimal(14,2)`** insuficiente para gramos/mililitros.
+   Corregido a `Decimal(12,3)`.
+3. **Kardex sin inmutabilidad formal.** NUTRILINK permite conceptos de
+   UPDATE en algunas rutas; IntegraVida bloquea `save()` y `delete()`
+   sobre `Movimiento` con `NotAllowed`.
+4. **FEFO con `lockForUpdate` en stock agregado** (no por lote). NUTRILINK
+   no tiene granularidad lote-nivel para el lock; IntegraVida sí.
+
+### Pendiente
+
+- Fase 8 completada: 8.1 (Insumo + Almacen), 8.2 (Lote + Stock +
+  Movimiento + FEFO), 8.3.1 (Transferencia), 8.3.2 (Entrega).
+- 199 tests verdes en el proyecto (52 inventario + 147 otros apps).
