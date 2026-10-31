@@ -1,0 +1,22 @@
+{% comment %}
+Uso:
+  {% include "components/skeleton.html" with variant="card" %}
+Parámetros:
+  variant  (str) — text | card | avatar (default: text)
+  count    (int) — número de líneas/items (default: 1)
+{% endcomment %}
+{% with v=variant|default:"text" c=count|default:1 %}
+{% if v == "avatar" %}
+  <div class="skeleton rounded-full" style="width: 40px; height: 40px;"></div>
+{% elif v == "card" %}
+  <div class="card p-6 space-y-3">
+    <div class="skeleton h-4 w-3/4"></div>
+    <div class="skeleton h-3 w-full"></div>
+    <div class="skeleton h-3 w-5/6"></div>
+  </div>
+{% else %}
+  {% for i in "x"|rjust:c %}
+    <div class="skeleton h-4 w-full mb-2"></div>
+  {% endfor %}
+{% endif %}
+{% endwith %}

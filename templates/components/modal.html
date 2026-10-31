@@ -1,0 +1,43 @@
+{% comment %}
+Uso:
+  {% include "components/modal.html" with id="modal-confirm" title="¿Eliminar?" body="Esta acción no se puede deshacer." confirm_label="Eliminar" confirm_variant="danger" %}
+  Y el botón que lo abre:
+  <button data-modal-open="modal-confirm" class="btn btn-danger">Eliminar</button>
+Parámetros:
+  id               (str)  — obligatorio, ID único
+  title            (str)
+  body             (str)
+  confirm_label    (str)  — default "Aceptar"
+  cancel_label     (str)  — default "Cancelar"
+  confirm_variant  (str)  — primary | danger | secondary (default: primary)
+  size             (str)  — sm | md | lg (default: md)
+{% endcomment %}
+{% with s=size|default:"md" %}
+<div id="{{ id }}"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="{{ id }}_title"
+     hidden
+     class="fixed inset-0 z-50 flex items-center justify-center p-4"
+     style="background-color: color-mix(in srgb, black 50%, transparent);">
+  <div class="card {% if s == 'sm' %}max-w-sm{% elif s == 'lg' %}max-w-2xl{% else %}max-w-md{% endif %} w-full p-6"
+       style="background-color: var(--color-surface-overlay);">
+    {% if title %}
+      <h2 id="{{ id }}_title" class="text-lg font-semibold mb-3">{{ title }}</h2>
+    {% endif %}
+    {% if body %}<p class="text-text mb-6">{{ body }}</p>{% endif %}
+    <div class="flex justify-end gap-2">
+      <button type="button" class="btn btn-ghost" data-modal-close>
+        {{ cancel_label|default:"Cancelar" }}
+      </button>
+      {% if confirm_label %}
+        <button type="button"
+                class="btn btn-{{ confirm_variant|default:'primary' }}"
+                data-modal-close>
+          {{ confirm_label }}
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endwith %}

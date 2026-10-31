@@ -1,0 +1,14 @@
+{% comment %}
+Uso:
+  {% include "components/badge.html" with label="Activo" variant="success" %}
+Parámetros:
+  label     (str)
+  variant   (str) — success | warning | danger | info (default: info)
+  icon      (str) — emoji o carácter
+{% endcomment %}
+{% with v=variant|default:"info" %}
+<span class="badge badge-{{ v }}">
+  {% if icon %}<span aria-hidden="true" class="mr-1">{{ icon }}</span>{% endif %}
+  {{ label }}
+</span>
+{% endwith %}

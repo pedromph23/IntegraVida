@@ -1,44 +1,107 @@
 {% extends "base/base_public.html" %}
+{% load ui_extras %}
 
 {% block title %}Sistema de diseño — IntegraVida{% endblock %}
 
 {% block content %}
-<section class="mx-auto max-w-5xl px-4 py-12">
-  <h1 class="text-3xl font-bold text-primary mb-2">Sistema de diseño</h1>
-  <p class="text-text-muted mb-8">
-    Demo de los componentes base. Solo visible en DEBUG.
-  </p>
+<section class="mx-auto max-w-5xl px-4 py-12 space-y-12">
 
-  <div class="space-y-8">
-    <div>
-      <h2 class="text-xl font-semibold mb-3">Botones</h2>
+  <header>
+    <h1 class="text-3xl font-bold text-primary mb-2">Sistema de diseño</h1>
+    <p class="text-text-muted">
+      Catálogo de componentes base. Solo visible en <code>DEBUG=True</code>.
+      Verificar contraste en ambos temas con <code>axe-core</code>.
+    </p>
+  </header>
+
+  <section>
+    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">1. Botones</h2>
+    <div class="space-y-4">
       <div class="flex flex-wrap gap-3">
-        <button class="btn btn-primary">Primario</button>
-        <button class="btn btn-secondary">Secundario</button>
-        <button class="btn btn-danger">Peligro</button>
-        <button class="btn btn-ghost">Ghost</button>
+        {% include "components/button.html" with label="Primario" variant="primary" %}
+        {% include "components/button.html" with label="Secundario" variant="secondary" %}
+        {% include "components/button.html" with label="Peligro" variant="danger" %}
+        {% include "components/button.html" with label="Ghost" variant="ghost" %}
+      </div>
+      <div class="flex flex-wrap gap-3 items-center">
+        {% include "components/button.html" with label="Small" variant="primary" size="sm" %}
+        {% include "components/button.html" with label="Medium" variant="primary" %}
+        {% include "components/button.html" with label="Large" variant="primary" size="lg" %}
+      </div>
+      <div class="flex flex-wrap gap-3">
+        {% include "components/button.html" with label="Deshabilitado" variant="primary" disabled=True %}
+        {% include "components/button.html" with label="Con icono" variant="secondary" icon_right="→" %}
+        {% include "components/button.html" with label="Como link" variant="ghost" href="/" %}
       </div>
     </div>
+  </section>
 
-    <div>
-      <h2 class="text-xl font-semibold mb-3">Badges</h2>
-      <div class="flex flex-wrap gap-2">
-        <span class="badge badge-success">Activo</span>
-        <span class="badge badge-warning">Saturado</span>
-        <span class="badge badge-danger">Crítico</span>
-        <span class="badge badge-info">Info</span>
-      </div>
+  <section>
+    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">2. Badges</h2>
+    <div class="flex flex-wrap gap-2">
+      {% include "components/badge.html" with label="Activo" variant="success" %}
+      {% include "components/badge.html" with label="Saturado" variant="warning" %}
+      {% include "components/badge.html" with label="Crítico" variant="danger" %}
+      {% include "components/badge.html" with label="Info" variant="info" %}
+      {% include "components/badge.html" with label="Con icono" variant="success" icon="✓" %}
     </div>
+  </section>
 
-    <div>
-      <h2 class="text-xl font-semibold mb-3">Card</h2>
-      <div class="card p-6">
-        <h3 class="text-lg font-medium mb-2">Título de tarjeta</h3>
-        <p class="text-text-muted">
-          Contenido de la tarjeta. Los gradientes respetan contraste AA.
-        </p>
+  <section>
+    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">3. Cards</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      {% include "components/card.html" with title="Card básico" body="Contenido simple de una tarjeta." %}
+      {% include "components/card.html" with title="Card con hover" body="Elevación al pasar el mouse." hover=True %}
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">4. Formularios</h2>
+    <div class="grid md:grid-cols-2 gap-4 max-w-2xl">
+      {% include "components/input.html" with name="nombre" label="Nombre" help_text="Como aparece en tu documento." %}
+      {% include "components/input.html" with name="email" label="Email" type="email" required=True %}
+      {% include "components/input.html" with name="tel" label="Teléfono" type="tel" errors="Formato inválido" %}
+      {% include "components/select.html" with name="estado" label="Estado" choices=estados_demo %}
+      {% include "components/textarea.html" with name="mensaje" label="Mensaje" rows=3 %}
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">5. Alerts</h2>
+    <div class="space-y-3">
+      {% include "components/alert.html" with variant="info" title="Información" body="Mensaje informativo." dismissible=True %}
+      {% include "components/alert.html" with variant="success" title="Éxito" body="Operación completada." dismissible=True %}
+      {% include "components/alert.html" with variant="warning" title="Aviso" body="Revisa los datos antes de continuar." dismissible=True %}
+      {% include "components/alert.html" with variant="danger" title="Error" body="Ocurrió un problema." dismissible=True %}
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">6. Modal</h2>
+    <button class="btn btn-danger" data-modal-open="modal-demo">
+      Abrir modal de ejemplo
+    </button>
+    {% include "components/modal.html" with id="modal-demo" title="¿Eliminar registro?" body="Esta acción no se puede deshacer." confirm_label="Eliminar" confirm_variant="danger" %}
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">7. Skeleton</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div>
+        <p class="text-sm text-text-muted mb-2">Texto (3 líneas):</p>
+        {% include "components/skeleton.html" with variant="text" count=3 %}
+      </div>
+      <div>
+        <p class="text-sm text-text-muted mb-2">Card:</p>
+        {% include "components/skeleton.html" with variant="card" %}
       </div>
     </div>
-  </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">8. Empty state</h2>
+    {% include "components/empty-state.html" with icon="○" title="Sin resultados" description="No encontramos datos para mostrar." action_label="Volver al inicio" action_url="/" %}
+  </section>
+
 </section>
 {% endblock %}

@@ -1,0 +1,36 @@
+{% comment %}
+Uso:
+  {% include "components/button.html" with label="Guardar" variant="primary" %}
+  {% include "components/button.html" with label="Cancelar" variant="ghost" %}
+  {% include "components/button.html" with label="Eliminar" variant="danger" type="submit" %}
+  {% include "components/button.html" with label="Ir" variant="primary" href="/ruta/" %}
+Parámetros:
+  label       (str)   — texto del botón (obligatorio)
+  variant     (str)   — primary | secondary | danger | ghost (default: primary)
+  size        (str)   — sm | md | lg (default: md)
+  type        (str)   — submit | button | reset (default: button)
+  href        (str)   — si se pasa, se renderiza <a> en lugar de <button>
+  disabled    (bool)
+  icon_left   (str)   — carácter o emoji a la izquierda
+  icon_right  (str)
+{% endcomment %}
+{% with v=variant|default:"primary" s=size|default:"md" t=type|default:"button" %}
+{% with base="btn btn-"|add:v %}
+{% if s == "sm" %}{% with size_class="px-3 py-1.5 text-sm" %}{% endwith %}{% endif %}
+{% if href %}
+  <a href="{{ href }}" class="{{ base }} {% if s == 'sm' %}px-3 py-1.5 text-sm{% elif s == 'lg' %}px-6 py-3 text-lg{% endif %} {% if disabled %}pointer-events-none opacity-50{% endif %}">
+    {% if icon_left %}<span aria-hidden="true">{{ icon_left }}</span>{% endif %}
+    {{ label }}
+    {% if icon_right %}<span aria-hidden="true">{{ icon_right }}</span>{% endif %}
+  </a>
+{% else %}
+  <button type="{{ t }}"
+          class="{{ base }} {% if s == 'sm' %}px-3 py-1.5 text-sm{% elif s == 'lg' %}px-6 py-3 text-lg{% endif %}"
+          {% if disabled %}disabled aria-disabled="true"{% endif %}>
+    {% if icon_left %}<span aria-hidden="true">{{ icon_left }}</span>{% endif %}
+    {{ label }}
+    {% if icon_right %}<span aria-hidden="true">{{ icon_right }}</span>{% endif %}
+  </button>
+{% endif %}
+{% endwith %}
+{% endwith %}

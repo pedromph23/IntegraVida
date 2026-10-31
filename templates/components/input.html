@@ -1,0 +1,45 @@
+{% comment %}
+Uso:
+  {% include "components/input.html" with name="email" label="Email" type="email" required=True %}
+Parámetros:
+  name        (str)   — obligatorio
+  label       (str)
+  type        (str)   — text | email | password | tel | number | date | search (default: text)
+  value       (str)
+  placeholder (str)
+  required    (bool)
+  disabled    (bool)
+  help_text   (str)
+  errors      (list[str]) — errores de validación (backend o frontend)
+  id          (str)   — si no se pasa, se usa "id_" + name
+{% endcomment %}
+{% with input_id=id|default:"id_"|add:name t=type|default:"text" %}
+<div class="space-y-1">
+  {% if label %}
+    <label for="{{ input_id }}" class="block text-sm font-medium text-text">
+      {{ label }}
+      {% if required %}<span aria-hidden="true" class="text-danger">*</span>{% endif %}
+    </label>
+  {% endif %}
+  <input
+    type="{{ t }}"
+    name="{{ name }}"
+    id="{{ input_id }}"
+    {% if value %}value="{{ value }}"{% endif %}
+    {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+    {% if required %}required aria-required="true"{% endif %}
+    {% if disabled %}disabled{% endif %}
+    class="input {% if errors %}border-danger-500{% endif %}"
+    {% if help_text %}aria-describedby="{{ input_id }}_help"{% endif %}
+    {% if errors %}aria-invalid="true" aria-describedby="{{ input_id }}_errors"{% endif %}
+  >
+  {% if help_text %}
+    <p id="{{ input_id }}_help" class="text-xs text-text-muted">{{ help_text }}</p>
+  {% endif %}
+  {% if errors %}
+    <ul id="{{ input_id }}_errors" class="text-xs text-danger-600 space-y-0.5" role="alert">
+      {% for err in errors %}<li>{{ err }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endwith %}

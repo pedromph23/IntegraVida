@@ -1,0 +1,28 @@
+{% comment %}
+Uso:
+  {% include "components/textarea.html" with name="mensaje" label="Mensaje" rows=4 %}
+Parámetros:
+  name, label, value, placeholder, rows (default 3),
+  required, help_text, errors, id
+{% endcomment %}
+{% with input_id=id|default:"id_"|add:name r=rows|default:3 %}
+<div class="space-y-1">
+  {% if label %}
+    <label for="{{ input_id }}" class="block text-sm font-medium text-text">{{ label }}</label>
+  {% endif %}
+  <textarea
+    name="{{ name }}"
+    id="{{ input_id }}"
+    rows="{{ r }}"
+    class="input"
+    {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+    {% if required %}required aria-required="true"{% endif %}
+  >{% if value %}{{ value }}{% endif %}</textarea>
+  {% if help_text %}<p class="text-xs text-text-muted">{{ help_text }}</p>{% endif %}
+  {% if errors %}
+    <ul class="text-xs text-danger-600 space-y-0.5" role="alert">
+      {% for err in errors %}<li>{{ err }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endwith %}

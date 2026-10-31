@@ -1,0 +1,29 @@
+{% comment %}
+Uso:
+  {% include "components/card.html" with title="Título" body="Contenido" hover=True %}
+Parámetros:
+  title       (str)
+  body        (str)   — se puede usar {% include %} anidado con `body_html` si es HTML
+  body_html   (str)   — HTML seguro (|safe aplicado por el caller)
+  footer      (str)
+  hover       (bool)  — añade elevación en hover
+  variant     (str)   — default | raised (default: raised)
+  padding     (str)   — sm | md | lg (default: md)
+{% endcomment %}
+{% with v=variant|default:"raised" p=padding|default:"md" %}
+<article class="card {% if hover %}card-hover{% endif %} {% if p == 'sm' %}p-3{% elif p == 'lg' %}p-8{% else %}p-6{% endif %}"
+         {% if v == 'raised' %}style="background-color: var(--color-surface-raised);"{% endif %}>
+  {% if title %}
+    <h3 class="text-lg font-semibold mb-2">{{ title }}</h3>
+  {% endif %}
+  <div class="text-text">
+    {% if body_html %}{{ body_html|safe }}{% elif body %}{{ body }}{% endif %}
+  </div>
+  {% if footer %}
+    <footer class="mt-4 pt-4 border-t text-sm text-text-muted"
+            style="border-color: color-mix(in srgb, var(--color-text) 10%, transparent);">
+      {{ footer }}
+    </footer>
+  {% endif %}
+</article>
+{% endwith %}

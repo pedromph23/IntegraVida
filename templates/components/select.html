@@ -1,0 +1,42 @@
+{% comment %}
+Uso:
+  {% include "components/select.html" with name="estado" label="Estado" choices=estados %}
+Parámetros:
+  name        (str)     — obligatorio
+  label       (str)
+  choices     (list)    — lista de tuplas (value, label) o dict {value: label}
+  value       (str)     — valor actual
+  required    (bool)
+  help_text   (str)
+  errors      (list[str])
+  id          (str)
+{% endcomment %}
+{% with input_id=id|default:"id_"|add:name %}
+<div class="space-y-1">
+  {% if label %}
+    <label for="{{ input_id }}" class="block text-sm font-medium text-text">{{ label }}</label>
+  {% endif %}
+  <select
+    name="{{ name }}"
+    id="{{ input_id }}"
+    class="input"
+    {% if required %}required aria-required="true"{% endif %}
+    {% if errors %}aria-invalid="true"{% endif %}
+  >
+    <option value="">—</option>
+    {% for c in choices %}
+      {% if c.0 is not None %}
+        <option value="{{ c.0 }}" {% if c.0 == value %}selected{% endif %}>{{ c.1 }}</option>
+      {% else %}
+        <option value="{{ c.0 }}" {% if c.0 == value %}selected{% endif %}>{{ c }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+  {% if help_text %}<p class="text-xs text-text-muted">{{ help_text }}</p>{% endif %}
+  {% if errors %}
+    <ul class="text-xs text-danger-600 space-y-0.5" role="alert">
+      {% for err in errors %}<li>{{ err }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endwith %}

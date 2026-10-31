@@ -51,4 +51,10 @@ def design_system(request):
     if not settings.DEBUG:
         from django.http import Http404
         raise Http404()
-    return render(request, "public/design_system.html", {})
+    return render(request, "public/design_system.html", {
+        "estados_demo": [
+            ("ACTIVO", "Activo"),
+            ("LLENO", "Lleno"),
+            ("CERRADO", "Cerrado"),
+        ],
+    })
