@@ -5,6 +5,7 @@ from frontend.views import dashboard as dash_views
 from frontend.views import dashboard_refugios as refugio_views
 from frontend.views import dashboard_emergencias as emergencia_views
 from frontend.views import dashboard_hospitales as hospital_views
+from frontend.views import dashboard_pacientes as paciente_views
 
 app_name = "dashboard"
 
@@ -56,5 +57,16 @@ urlpatterns = [
         "hospitales/<slug:codigo>/estado/",
         hospital_views.hospital_cambiar_estado,
         name="hospital_cambiar_estado",
+    ),
+    # F3.e.2 — Pacientes (solo lectura, PII enmascarada)
+    path(
+        "pacientes/",
+        paciente_views.pacientes_list,
+        name="pacientes_list",
+    ),
+    path(
+        "pacientes/<uuid:paciente_id>/",
+        paciente_views.paciente_detail,
+        name="paciente_detail",
     ),
 ]

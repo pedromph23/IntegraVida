@@ -1,0 +1,112 @@
+{% extends "base/base_dashboard.html" %}
+{% load masking %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:pacientes_list' %}" class="hover:text-primary">← Volver a pacientes</a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">
+    {% if can_see_full_pii %}{{ paciente.nombres }} {{ paciente.apellidos }}{% else %}{{ paciente.nombres|mask_nombre_completo }} {{ paciente.apellidos|mask_nombre_completo }}{% endif %}
+  </h1>
+  <p class="text-sm text-text-muted mb-6">
+    {% if can_see_full_pii %}PII completa visible (rol autorizado){% else %}PII enmascarada{% endif %}
+  </p>
+
+  <section class="grid gap-4 md:grid-cols-2 mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Información</div>
+      <dl class="text-sm space-y-1">
+        <div>
+          <dt class="inline text-text-muted">Cédula:</dt>
+          <dd class="inline font-mono">
+            {% if can_see_full_pii %}{{ paciente.cedula|default:"—" }}{% else %}{{ paciente.cedula|mask_cedula }}{% endif %}
+          </dd>
+        </div>
+        <div>
+          <dt class="inline text-text-muted">Edad:</dt>
+          <dd class="inline">
+            {% if can_see_full_pii %}{{ paciente.fecha_nacimiento|date:"Y-m-d"|default:"—" }} ({{ paciente.fecha_nacimiento|edad }} años){% else %}{{ paciente.fecha_nacimiento|edad }} años{% endif %}
+          </dd>
+        </div>
+        <div>
+          <dt class="inline text-text-muted">Sexo:</dt>
+          <dd class="inline">{{ paciente.get_sexo_biologico_display }}</dd>
+        </div>
+        {% if paciente.telefono %}
+        <div><dt class="inline text-text-muted">Teléfono:</dt> <dd class="inline">{{ paciente.telefono }}</dd></div>
+        {% endif %}
+        {% if paciente.email %}
+        <div><dt class="inline text-text-muted">Email:</dt> <dd class="inline">{{ paciente.email }}</dd></div>
+        {% endif %}
+      </dl>
+    </div>
+
+    {% if can_see_notas and paciente.notas_internas %}
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Notas internas</div>
+      <p class="text-sm whitespace-pre-line">{{ paciente.notas_internas }}</p>
+    </div>
+    {% endif %}
+  </section>
+
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Contactos de emergencia ({{ contactos|length }})</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Nombre</th>
+            <th class="text-left px-3 py-2 font-medium">Parentesco</th>
+            <th class="text-left px-3 py-2 font-medium">Teléfono</th>
+            <th class="text-left px-3 py-2 font-medium">Principal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in contactos %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2">{{ c.nombre }}</td>
+            <td class="px-3 py-2">{{ c.get_parentesco_display }}</td>
+            <td class="px-3 py-2 font-mono text-xs">{{ c.telefono }}</td>
+            <td class="px-3 py-2">{% if c.es_principal %}✓{% else %}—{% endif %}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="px-3 py-4 text-center text-text-muted">Sin contactos registrados.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-2">Episodios ({{ episodios|length }})</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Ingreso</th>
+            <th class="text-left px-3 py-2 font-medium">Estado</th>
+            <th class="text-left px-3 py-2 font-medium">Motivo</th>
+            <th class="text-left px-3 py-2 font-medium">Ubicación</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in episodios %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2 text-xs text-text-muted">{{ e.fecha_ingreso|date:"Y-m-d H:i" }}</td>
+            <td class="px-3 py-2">{{ e.get_estado_display }}</td>
+            <td class="px-3 py-2">{{ e.motivo_consulta|truncatechars:60 }}</td>
+            <td class="px-3 py-2 text-text-muted">
+              {% if e.hospital %}{{ e.hospital.nombre }}{% elif e.refugio %}{{ e.refugio.nombre }}{% else %}—{% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="px-3 py-4 text-center text-text-muted">Sin episodios registrados.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}
