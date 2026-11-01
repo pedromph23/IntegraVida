@@ -118,3 +118,51 @@ class AdminMFARequiredMiddleware:
             return redirect(self.mfa_url)
 
         return None
+
+
+class SecurityHeadersMiddleware:
+    """Añade CSP + headers de seguridad modernos a TODAS las respuestas.
+
+    - Content-Security-Policy (restrictiva, con deuda documentada)
+    - X-Content-Type-Options: nosniff
+    - Referrer-Policy: strict-origin-when-cross-origin
+    - Permissions-Policy: geolocation/microphone/camera bloqueados
+
+    Nota sobre CSP:
+    - script-src 'unsafe-inline' por script anti-FOUC inline en base_*.html.
+    - script-src 'unsafe-eval' por Alpine.js (compila expresiones x-data).
+    - style-src 'unsafe-inline' por Tailwind (vars CSS dinámicas).
+    - img-src https: por tiles de Leaflet (TILE_SERVER_URL configurable).
+    Refactor a nonce/hash → F5.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        self._set_headers(response)
+        return response
+
+    def _set_headers(self, response):
+        csp = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
+            "style-src 'self' 'unsafe-inline'; "
+            "img-src 'self' data: https:; "
+            "font-src 'self' data:; "
+            "connect-src 'self'; "
+            "frame-ancestors 'none'; "
+            "base-uri 'self'; "
+            "form-action 'self'"
+        )
+        response.setdefault("Content-Security-Policy", csp)
+        response.setdefault("X-Content-Type-Options", "nosniff")
+        response.setdefault("X-Frame-Options", "DENY")
+        response.setdefault(
+            "Referrer-Policy", "strict-origin-when-cross-origin",
+        )
+        response.setdefault(
+            "Permissions-Policy",
+            "geolocation=(), microphone=(), camera=()",
+        )
