@@ -1,0 +1,20 @@
+<header class="border-b border-border bg-surface-raised">
+  <div class="flex items-center justify-between gap-4 px-4 py-3">
+    <a href="/panel/" class="font-semibold text-primary">IntegraVida · Panel</a>
+    <div class="flex items-center gap-3">
+      {% if user.is_authenticated %}
+        <span class="text-sm text-text-muted hidden sm:inline">
+          {{ user.get_full_name|default:user.username }}
+        </span>
+        {% include "components/theme-toggle.html" %}
+        <form method="post" action="{% url 'auth:logout' %}" class="inline">
+          {% csrf_token %}
+          <button type="submit"
+                  class="text-sm rounded-lg px-3 py-1.5 border border-border hover:bg-surface">
+            Salir
+          </button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</header>

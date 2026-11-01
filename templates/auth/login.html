@@ -1,0 +1,70 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Acceso · IntegraVida</title>
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('iv-theme');
+        if (!t || t === 'system') {
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="{% static 'css/dist/main.css' %}">
+</head>
+<body class="min-h-screen antialiased iv-hero-bg">
+  <main class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md rounded-2xl bg-surface text-text p-6 shadow-xl">
+      <h1 class="text-xl font-semibold mb-1">Acceso al panel</h1>
+      <p class="text-sm text-text-muted mb-6">Ingresa con tus credenciales institucionales.</p>
+
+      {% if form.non_field_errors %}
+        <div role="alert" class="mb-4 rounded-lg border border-danger/40 bg-danger/10 text-danger px-3 py-2 text-sm">
+          Credenciales inválidas. Verifica tu usuario y contraseña.
+        </div>
+      {% endif %}
+
+      <form method="post" action="{% url 'auth:login' %}" data-testid="login-form" class="space-y-4" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div>
+          <label for="id_username" class="block text-sm font-medium mb-1">Usuario</label>
+          <input id="id_username" name="username" type="text" autocomplete="username" required
+                 class="w-full rounded-lg border border-border px-3 py-2 bg-surface-raised focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+
+        <div>
+          <label for="id_password" class="block text-sm font-medium mb-1">Contraseña</label>
+          <input id="id_password" name="password" type="password" autocomplete="current-password" required
+                 class="w-full rounded-lg border border-border px-3 py-2 bg-surface-raised focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+
+        {% if mfa_enabled %}
+        <div>
+          <label for="id_mfa" class="block text-sm font-medium mb-1">Código MFA</label>
+          <input id="id_mfa" name="mfa" type="text" inputmode="numeric" autocomplete="one-time-code"
+                 class="w-full rounded-lg border border-border px-3 py-2 bg-surface-raised focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+        {% endif %}
+
+        <button type="submit"
+                class="w-full rounded-lg px-4 py-2.5 font-medium text-white iv-cta-bg">
+          Ingresar
+        </button>
+      </form>
+
+      <div class="mt-6 text-center">
+        {% include "components/theme-toggle.html" %}
+      </div>
+    </div>
+  </main>
+  <script src="{% static 'js/dist/main.js' %}" defer></script>
+</body>
+</html>

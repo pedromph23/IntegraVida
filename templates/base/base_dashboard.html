@@ -1,48 +1,31 @@
 {% load static %}<!DOCTYPE html>
 <html lang="es" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="csrf-token" content="{{ csrf_token }}">
-  <title>{% block title %}Panel — IntegraVida{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/dist/main.css' %}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}{{ page_title|default:"Panel" }} · IntegraVida{% endblock %}</title>
   <script>
-    (function () {
+    (function() {
       try {
-        var t = localStorage.getItem('iv-theme') || 'system';
-        var effective = t === 'system'
-          ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-          : t;
-        document.documentElement.setAttribute('data-theme', effective);
-      } catch (e) { /* noop */ }
+        var t = localStorage.getItem('iv-theme');
+        if (!t || t === 'system') {
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
     })();
   </script>
+  <link rel="stylesheet" href="{% static 'css/dist/main.css' %}">
+  {% block head_extra %}{% endblock %}
 </head>
-<body class="min-h-screen bg-surface text-text">
-  <div class="flex min-h-screen">
-    <aside class="w-64 border-r" style="border-color: var(--color-surface-raised);">
-      <div class="p-4 border-b" style="border-color: var(--color-surface-raised);">
-        <a href="{% url 'public:home' %}" class="text-lg font-semibold text-primary">
-          IntegraVida
-        </a>
-        <div class="text-xs text-text-muted">Panel institucional</div>
-      </div>
-      <nav class="p-2" aria-label="Navegación principal">
-        {% block sidebar %}{% endblock %}
-      </nav>
-    </aside>
-    <div class="flex-1 flex flex-col">
-      <header class="border-b px-6 py-3 flex items-center justify-between"
-              style="border-color: var(--color-surface-raised);">
-        <h1 class="text-lg font-medium">{% block heading %}{% endblock %}</h1>
-        <div class="flex items-center gap-3">
-          {% include "components/theme-toggle.html" %}
-        </div>
-      </header>
-      <main class="flex-1 p-6">
-        {% block content %}{% endblock %}
-      </main>
-    </div>
+<body class="min-h-screen bg-surface text-text antialiased">
+  {% include "layouts/dashboard_header.html" %}
+  <div class="flex">
+    {% include "layouts/dashboard_sidebar.html" %}
+    <main id="main" class="flex-1 min-w-0 p-4 md:p-8">
+      {% block content %}{% endblock %}
+    </main>
   </div>
   <script src="{% static 'js/dist/main.js' %}" defer></script>
   {% block scripts %}{% endblock %}

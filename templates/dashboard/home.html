@@ -1,0 +1,30 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+  <div class="max-w-7xl">
+    <h1 class="text-2xl font-semibold mb-1">{{ page_title }}</h1>
+    <p class="text-sm text-text-muted mb-8">
+      Bienvenido, {{ user.get_full_name|default:user.username }}.
+      {% if user_groups %}Rol: {{ user_groups|join:", " }}{% endif %}
+    </p>
+
+    <section class="grid gap-4 md:grid-cols-3">
+      <div class="rounded-xl border border-border bg-surface-raised p-4">
+        <div class="text-xs uppercase text-text-muted mb-1">Último acceso</div>
+        <div class="text-sm">{% if last_login %}{{ last_login|date:"Y-m-d H:i" }}{% else %}—{% endif %}</div>
+      </div>
+      <div class="rounded-xl border border-border bg-surface-raised p-4">
+        <div class="text-xs uppercase text-text-muted mb-1">Rol</div>
+        <div class="text-sm">{% if user_groups %}{{ user_groups|join:", " }}{% else %}Sin rol asignado{% endif %}</div>
+      </div>
+      <div class="rounded-xl border border-border bg-surface-raised p-4">
+        <div class="text-xs uppercase text-text-muted mb-1">Estado</div>
+        <div class="text-sm text-secondary">Sesión activa</div>
+      </div>
+    </section>
+
+    <p class="mt-8 text-xs text-text-muted">
+      F3.a — layout de autenticación. Métricas operativas y módulos llegan en F3.b..h.
+    </p>
+  </div>
+{% endblock %}
