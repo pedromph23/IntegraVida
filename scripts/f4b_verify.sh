@@ -17,10 +17,10 @@ echo "▶ Django check"
 python3 manage.py check
 
 echo "▶ Tests F4.b"
-python3 manage.py test frontend.tests.test_admin_mfa -v 1 2>&1 | tail -6
+python3 manage.py test frontend.tests.test_admin_mfa --noinput -v 1 2>&1 | tail -6
 
 echo "▶ Tests globales"
-TEST_OUT=$(python3 manage.py test apps.configuracion frontend -v 1 2>&1 | tail -4)
+TEST_OUT=$(python3 manage.py test apps.configuracion frontend --noinput -v 1 2>&1 | tail -4)
 echo "$TEST_OUT"
 echo "$TEST_OUT" | grep -q "^OK" || { echo "❌ Tests rojos"; exit 1; }
 echo "✅ Tests OK"
