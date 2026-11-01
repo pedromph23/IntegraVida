@@ -94,8 +94,14 @@ class AdminMFARequiredMiddleware:
         return True
 
     def _check_mfa(self, request):
+        from django.conf import settings as _s
         from django.shortcuts import redirect
         from django.utils import timezone
+
+        # Bypass configurable (dev). En prod ADMIN_MFA_REQUIRED=True
+        # porque DEBUG=False y el default es "true".
+        if not getattr(_s, "ADMIN_MFA_REQUIRED", True):
+            return None
 
         user = getattr(request, "user", None)
         if not user or not user.is_authenticated:

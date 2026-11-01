@@ -1,7 +1,7 @@
 """Tests de F4.d — Configuración del admin custom."""
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -26,6 +26,7 @@ def _mfa_session(client, user):
     s.save()
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class ConfigAnonimoTests(TestCase):
     def setUp(self):
         self.client = Client()
@@ -38,6 +39,7 @@ class ConfigAnonimoTests(TestCase):
         self.assertNotIn("/panel/login/", r["Location"])
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class ConfigNoStaffTests(TestCase):
     def setUp(self):
         self.user = _mk_plain("plain_cfg")
@@ -50,6 +52,7 @@ class ConfigNoStaffTests(TestCase):
         self.assertEqual(r.status_code, 403)
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class ConfigStaffTests(TestCase):
     def setUp(self):
         self.user = _mk_superuser("cfg_admin")

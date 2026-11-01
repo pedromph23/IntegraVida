@@ -14,7 +14,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.core.management import call_command, CommandError
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -38,6 +38,7 @@ def _mk_plain_user(username="plain", password="test-pass-123!"):
     return User.objects.create_user(username=username, password=password)
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class ServiceTests(TestCase):
     def setUp(self):
         cache.clear()
@@ -103,6 +104,7 @@ class ServiceTests(TestCase):
         self.assertTrue(permitido)
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class MiddlewareTests(TestCase):
     def setUp(self):
         cache.clear()
@@ -171,6 +173,7 @@ class MiddlewareTests(TestCase):
         self.assertIn("/mfa/", r["Location"])
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class MFAViewTests(TestCase):
     def setUp(self):
         cache.clear()
@@ -245,6 +248,7 @@ class MFAViewTests(TestCase):
         self.assertIn(r.status_code, (403, 302))
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class RateLimitViewTests(TestCase):
     def setUp(self):
         cache.clear()
@@ -275,6 +279,7 @@ class RateLimitViewTests(TestCase):
         self.assertIn("admin_mfa_verified_at", self.client.session)
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class ManagementCommandTests(TestCase):
     def setUp(self):
         cache.clear()

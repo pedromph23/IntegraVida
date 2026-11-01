@@ -8,7 +8,7 @@ Cubre:
 """
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -60,6 +60,7 @@ def _mk_evento(actor, accion="test.accion", resultado="EXITOSO"):
     )
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class DashboardAnonimoTests(TestCase):
     def setUp(self):
         self.client = Client()
@@ -72,6 +73,7 @@ class DashboardAnonimoTests(TestCase):
         self.assertNotIn("/panel/login/", r["Location"])
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class DashboardStaffTests(TestCase):
     def setUp(self):
         self.user = _mk_superuser("dash_admin")
@@ -113,6 +115,7 @@ class DashboardStaffTests(TestCase):
         self.assertIn("no-store", r.get("Cache-Control", ""))
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class DashboardNoStaffTests(TestCase):
     def setUp(self):
         self.user = _mk_plain("plain_dash")
@@ -127,6 +130,7 @@ class DashboardNoStaffTests(TestCase):
         self.assertEqual(r.status_code, 403)
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class UsersListStaffTests(TestCase):
     def setUp(self):
         self.user = _mk_superuser("users_admin")
@@ -172,6 +176,7 @@ class UsersListStaffTests(TestCase):
         self.assertEqual(r["X-Robots-Tag"], "noindex, nofollow, noarchive")
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class UsersListNoStaffTests(TestCase):
     def setUp(self):
         self.user = _mk_plain("plain_users")

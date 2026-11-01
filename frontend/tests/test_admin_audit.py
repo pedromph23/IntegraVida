@@ -8,7 +8,7 @@ import uuid
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -59,6 +59,7 @@ def _mk_evento(
     )
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class AuditAnonimoTests(TestCase):
     def setUp(self):
         self.client = Client()
@@ -71,6 +72,7 @@ class AuditAnonimoTests(TestCase):
         self.assertNotIn("/panel/login/", r["Location"])
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class AuditNoStaffTests(TestCase):
     def setUp(self):
         self.user = _mk_plain("plain_audit")
@@ -92,6 +94,7 @@ class AuditNoStaffTests(TestCase):
         self.assertEqual(r.status_code, 403)
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class AuditListStaffTests(TestCase):
     def setUp(self):
         self.user = _mk_superuser("audit_admin")
@@ -201,6 +204,7 @@ class AuditListStaffTests(TestCase):
         self.assertIn("no-store", r.get("Cache-Control", ""))
 
 
+@override_settings(ADMIN_MFA_REQUIRED=True)
 class AuditDetailStaffTests(TestCase):
     def setUp(self):
         self.user = _mk_superuser("detail_admin")

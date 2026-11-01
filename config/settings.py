@@ -270,6 +270,15 @@ CSRF_TRUSTED_ORIGINS = [
 # secrets.token_urlsafe(24). En DEBUG se permite fallback.
 INTEGRAVIDA_ADMIN_SLUG = os.environ.get("INTEGRAVIDA_ADMIN_SLUG", "").strip()
 
+# ─── MFA del admin (F4.b) ───────────────────────────────────────────────
+# En producción DEBE ser True. En desarrollo se permite bypass con
+# ADMIN_MFA_REQUIRED=false en .env (o el default por DEBUG).
+ADMIN_MFA_REQUIRED = os.environ.get(
+    "ADMIN_MFA_REQUIRED",
+    "false" if DEBUG else "true",
+).lower() == "true"
+
+
 if not INTEGRAVIDA_ADMIN_SLUG:
     if DEBUG:
         INTEGRAVIDA_ADMIN_SLUG = "dev-admin-fallback"
