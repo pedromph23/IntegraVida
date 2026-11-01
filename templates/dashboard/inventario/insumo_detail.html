@@ -1,0 +1,78 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:insumos_list' %}" class="hover:text-primary">← Volver a insumos</a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">{{ insumo.nombre }}</h1>
+  <p class="text-sm text-text-muted mb-6 font-mono">
+    {{ insumo.codigo }} · {{ insumo.get_categoria_display }} · {{ insumo.get_unidad_medida_display }}
+  </p>
+
+  <section class="grid gap-4 md:grid-cols-3 mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Stock mínimo global</div>
+      <div class="text-2xl font-semibold">{{ insumo.stock_minimo_global }}</div>
+    </div>
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Stock total (tus almacenes)</div>
+      <div class="text-2xl font-semibold">{{ total_cantidad }}</div>
+    </div>
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Requisitos</div>
+      <div class="text-sm">
+        Lote: {% if insumo.requiere_lote %}Sí{% else %}No{% endif %}<br>
+        Vencimiento: {% if insumo.requiere_vencimiento %}Sí{% else %}No{% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-2">
+      Stock por almacén ({{ stocks|length }})
+    </h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Almacén</th>
+            <th class="text-left px-3 py-2 font-medium">Lote</th>
+            <th class="text-left px-3 py-2 font-medium">Vencimiento</th>
+            <th class="text-right px-3 py-2 font-medium">Cantidad</th>
+            <th class="text-left px-3 py-2 font-medium"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in stocks %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2">{{ s.almacen.nombre }}</td>
+            <td class="px-3 py-2 font-mono text-xs">{{ s.lote.codigo }}</td>
+            <td class="px-3 py-2 text-xs">
+              {% if s.lote.fecha_vencimiento %}
+                <span class="{% if s.vencido %}text-danger font-medium{% elif s.vence_proximo %}text-accent{% else %}text-text-muted{% endif %}">
+                  {{ s.lote.fecha_vencimiento|date:"Y-m-d" }}
+                  {% if s.vencido %}(vencido){% elif s.vence_proximo %}(próximo){% endif %}
+                </span>
+              {% else %}—{% endif %}
+            </td>
+            <td class="px-3 py-2 text-right">
+              {{ s.cantidad }}
+              {% if s.bajo_minimo %}
+                <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-danger/10 text-danger border border-danger/40 ml-1">bajo</span>
+              {% endif %}
+            </td>
+            <td class="px-3 py-2 text-right">
+              <a href="{% url 'dashboard:stock_detail' s.id %}" class="text-primary hover:underline">Kardex →</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="px-3 py-6 text-center text-text-muted">Sin stock en tus almacenes.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}

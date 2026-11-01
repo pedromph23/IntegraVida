@@ -1,0 +1,93 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:stock_list' %}" class="hover:text-primary">← Volver a stock</a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">
+    {{ insumo.nombre }}
+    <span class="text-base font-normal text-text-muted">· {{ stock.almacen.nombre }}</span>
+  </h1>
+  <p class="text-sm text-text-muted mb-6 font-mono">
+    Lote {{ stock.lote.codigo }}
+    {% if stock.lote.fecha_vencimiento %} · vence {{ stock.lote.fecha_vencimiento|date:"Y-m-d" }}{% endif %}
+  </p>
+
+  <section class="grid gap-4 md:grid-cols-3 mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Cantidad actual</div>
+      <div class="text-2xl font-semibold {% if bajo_minimo %}text-danger{% endif %}">
+        {{ stock.cantidad }}
+      </div>
+    </div>
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Stock mínimo del insumo</div>
+      <div class="text-2xl font-semibold">{{ insumo.stock_minimo_global }}</div>
+    </div>
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Movimientos</div>
+      <div class="text-2xl font-semibold">{{ total_movimientos }}</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-2">Kardex</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Fecha</th>
+            <th class="text-left px-3 py-2 font-medium">Tipo</th>
+            <th class="text-right px-3 py-2 font-medium">Anterior</th>
+            <th class="text-right px-3 py-2 font-medium">Movimiento</th>
+            <th class="text-right px-3 py-2 font-medium">Nueva</th>
+            <th class="text-left px-3 py-2 font-medium">Registrado por</th>
+            <th class="text-left px-3 py-2 font-medium">Notas</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in page_obj %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2 text-xs text-text-muted">{{ m.creado_en|date:"Y-m-d H:i" }}</td>
+            <td class="px-3 py-2">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                {% if m.tipo == 'ENTRADA' or m.tipo == 'TRANSFERENCIA_ENTRADA' %}bg-secondary/10 text-secondary border border-secondary/40
+                {% elif m.tipo == 'MERMA_VENCIMIENTO' %}bg-danger/10 text-danger border border-danger/40
+                {% elif m.tipo == 'AJUSTE' %}bg-accent/10 text-accent border border-accent/40
+                {% else %}bg-surface-raised border border-border{% endif %}">
+                {{ m.get_tipo_display }}
+              </span>
+            </td>
+            <td class="px-3 py-2 text-right text-text-muted">{{ m.cantidad_anterior }}</td>
+            <td class="px-3 py-2 text-right font-medium">{{ m.diferencia }}</td>
+            <td class="px-3 py-2 text-right">{{ m.cantidad_nueva }}</td>
+            <td class="px-3 py-2">{{ m.registrado_por.username|default:"—" }}</td>
+            <td class="px-3 py-2 text-text-muted text-xs">{{ m.notas|default:"—"|truncatechars:40 }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="7" class="px-3 py-6 text-center text-text-muted">Sin movimientos registrados.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Paginación">
+      <div class="text-text-muted">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</div>
+      <div class="flex gap-2">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}"
+             class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">← Anterior</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}"
+             class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">Siguiente →</a>
+        {% endif %}
+      </div>
+    </nav>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

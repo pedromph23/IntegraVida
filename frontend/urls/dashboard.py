@@ -8,6 +8,7 @@ from frontend.views import dashboard_hospitales as hospital_views
 from frontend.views import dashboard_pacientes as paciente_views
 from frontend.views import dashboard_triajes as triaje_views
 from frontend.views import dashboard_derivaciones as derivacion_views
+from frontend.views import dashboard_inventario as inventario_views
 
 app_name = "dashboard"
 
@@ -97,5 +98,26 @@ urlpatterns = [
         "derivaciones/<uuid:derivacion_id>/transicionar/",
         derivacion_views.derivacion_transicionar,
         name="derivacion_transicionar",
+    ),
+    # F3.g.1 — Inventario (lectura)
+    path(
+        "inventario/insumos/",
+        inventario_views.insumos_list,
+        name="insumos_list",
+    ),
+    path(
+        "inventario/insumos/<slug:codigo>/",
+        inventario_views.insumo_detail,
+        name="insumo_detail",
+    ),
+    path(
+        "inventario/stock/",
+        inventario_views.stock_list,
+        name="stock_list",
+    ),
+    path(
+        "inventario/stock/<uuid:stock_id>/",
+        inventario_views.stock_detail,
+        name="stock_detail",
     ),
 ]

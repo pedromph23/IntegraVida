@@ -1,0 +1,95 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <div class="mb-4">
+    <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
+    <p class="text-sm text-text-muted mt-1">
+      {{ total }} insumo{{ total|pluralize }} · Stock limitado a tus almacenes
+    </p>
+  </div>
+
+  <form method="get" class="mb-4 flex flex-wrap gap-2">
+    <input type="text" name="q" value="{{ filters.q }}"
+           placeholder="Buscar por nombre o código"
+           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]">
+    <select name="categoria" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+      <option value="">Categoría (todas)</option>
+      {% for v, label in categorias %}
+        <option value="{{ v }}" {% if filters.categoria == v %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <select name="activo" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+      <option value="true" {% if filters.activo == "true" %}selected{% endif %}>Solo activos</option>
+      <option value="false" {% if filters.activo == "false" %}selected{% endif %}>Todos</option>
+    </select>
+    <label class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-lg border border-border bg-surface-raised">
+      <input type="checkbox" name="bajo_stock" value="true"
+             {% if filters.bajo_stock == "true" %}checked{% endif %}>
+      Solo bajo stock
+    </label>
+    <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+      Filtrar
+    </button>
+  </form>
+
+  <div class="rounded-xl border border-border overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-surface-raised text-text-muted">
+        <tr>
+          <th class="text-left px-3 py-2 font-medium">Código</th>
+          <th class="text-left px-3 py-2 font-medium">Nombre</th>
+          <th class="text-left px-3 py-2 font-medium">Categoría</th>
+          <th class="text-left px-3 py-2 font-medium">Unidad</th>
+          <th class="text-right px-3 py-2 font-medium">Stock total</th>
+          <th class="text-right px-3 py-2 font-medium">Mínimo global</th>
+          <th class="text-left px-3 py-2 font-medium"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in page_obj %}
+        <tr class="border-t border-border hover:bg-surface-raised/50
+          {% if i.bajo_stock %}bg-danger/5{% endif %}">
+          <td class="px-3 py-2 font-mono text-xs">{{ i.codigo }}</td>
+          <td class="px-3 py-2 font-medium">{{ i.nombre }}</td>
+          <td class="px-3 py-2">{{ i.get_categoria_display }}</td>
+          <td class="px-3 py-2">{{ i.get_unidad_medida_display }}</td>
+          <td class="px-3 py-2 text-right">
+            {{ i.stock_total }}
+            {% if i.bajo_stock %}
+              <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-danger/10 text-danger border border-danger/40 ml-1">bajo</span>
+            {% endif %}
+          </td>
+          <td class="px-3 py-2 text-right text-text-muted">{{ i.stock_minimo_global }}</td>
+          <td class="px-3 py-2 text-right">
+            <a href="{% url 'dashboard:insumo_detail' i.codigo %}" class="text-primary hover:underline">Ver →</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="px-3 py-8 text-center text-text-muted">
+            No hay insumos que coincidan.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Paginación">
+    <div class="text-text-muted">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</div>
+    <div class="flex gap-2">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if filters.q %}&q={{ filters.q|urlencode }}{% endif %}{% if filters.categoria %}&categoria={{ filters.categoria }}{% endif %}&activo={{ filters.activo }}{% if filters.bajo_stock %}&bajo_stock=true{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">← Anterior</a>
+      {% endif %}
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if filters.q %}&q={{ filters.q|urlencode }}{% endif %}{% if filters.categoria %}&categoria={{ filters.categoria }}{% endif %}&activo={{ filters.activo }}{% if filters.bajo_stock %}&bajo_stock=true{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">Siguiente →</a>
+      {% endif %}
+    </div>
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}
