@@ -1,0 +1,60 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:reportes_index' %}" class="hover:text-primary">← Volver a reportes</a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">{{ meta.nombre }}</h1>
+  <p class="text-sm text-text-muted mb-6">{{ meta.descripcion }}</p>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-4 rounded-lg px-3 py-2 text-sm
+        {% if m.level_tag == 'success' %}bg-secondary/10 text-secondary border border-secondary/40
+        {% elif m.level_tag == 'error' %}bg-danger/10 text-danger border border-danger/40
+        {% else %}bg-surface-raised border border-border{% endif %}"
+        role="status">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <section class="mb-6 rounded-xl border border-border bg-surface-raised p-4">
+    <form method="post" class="space-y-3">
+      {% csrf_token %}
+      <div>
+        <label for="organizacion" class="block text-sm font-medium mb-1">
+          Organización (opcional)
+        </label>
+        <select id="organizacion" name="organizacion"
+                class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface">
+          <option value="">— Todas las visibles —</option>
+          {% for org in organizaciones %}
+            <option value="{{ org.id }}">{{ org.nombre }}</option>
+          {% endfor %}
+        </select>
+        <p class="text-xs text-text-muted mt-1">
+          Sin organización, el reporte se genera con los datos a los que
+          tienes acceso global.
+        </p>
+      </div>
+      <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+        Generar reporte
+      </button>
+    </form>
+  </section>
+
+  {% if resultado %}
+  <section>
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-lg font-semibold">Resultado (JSON)</h2>
+      <a href="{% url 'dashboard:reportes_historial' %}"
+         class="text-sm text-primary hover:underline">
+        Ver historial →
+      </a>
+    </div>
+    <pre class="rounded-xl border border-border bg-surface-raised p-4 text-xs overflow-auto max-h-[600px] font-mono">{{ resultado }}</pre>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

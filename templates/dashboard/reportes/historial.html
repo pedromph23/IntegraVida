@@ -1,0 +1,96 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:reportes_index' %}" class="hover:text-primary">← Volver a reportes</a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">{{ page_title }}</h1>
+  <p class="text-sm text-text-muted mb-4">
+    {{ total }} exportación{{ total|pluralize:"es" }}
+  </p>
+
+  <form method="get" class="mb-4 flex flex-wrap gap-2">
+    <select name="contenido" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+      <option value="">Contenido (todos)</option>
+      {% for v, label in contenidos %}
+        <option value="{{ v }}" {% if filters.contenido == v %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <select name="resultado" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+      <option value="">Resultado (todos)</option>
+      {% for v, label in resultados %}
+        <option value="{{ v }}" {% if filters.resultado == v %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+      Filtrar
+    </button>
+    {% if filters.contenido or filters.resultado %}
+      <a href="{% url 'dashboard:reportes_historial' %}"
+         class="rounded-lg px-4 py-2 text-sm border border-border hover:bg-surface-raised">
+        Limpiar
+      </a>
+    {% endif %}
+  </form>
+
+  <div class="rounded-xl border border-border overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-surface-raised text-text-muted">
+        <tr>
+          <th class="text-left px-3 py-2 font-medium">Fecha</th>
+          <th class="text-left px-3 py-2 font-medium">Contenido</th>
+          <th class="text-left px-3 py-2 font-medium">Resultado</th>
+          <th class="text-right px-3 py-2 font-medium">Filas</th>
+          <th class="text-left px-3 py-2 font-medium">Usuario</th>
+          <th class="text-left px-3 py-2 font-medium">Organización</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in page_obj %}
+        <tr class="border-t border-border">
+          <td class="px-3 py-2 text-xs text-text-muted">{{ e.creado_en|date:"Y-m-d H:i" }}</td>
+          <td class="px-3 py-2">{{ e.get_contenido_display }}</td>
+          <td class="px-3 py-2">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+              {% if e.resultado == 'EXITOSO' %}bg-secondary/10 text-secondary border border-secondary/40
+              {% elif e.resultado == 'ERROR' %}bg-danger/10 text-danger border border-danger/40
+              {% else %}bg-accent/10 text-accent border border-accent/40{% endif %}">
+              {{ e.get_resultado_display }}
+            </span>
+          </td>
+          <td class="px-3 py-2 text-right">{{ e.filas_incluidas }}</td>
+          <td class="px-3 py-2">{{ e.usuario.username }}</td>
+          <td class="px-3 py-2 text-text-muted">
+            {% if e.organizacion %}{{ e.organizacion.nombre }}{% else %}—{% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="px-3 py-8 text-center text-text-muted">
+            No hay exportaciones que coincidan.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Paginación">
+    <div class="text-text-muted">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</div>
+    <div class="flex gap-2">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if filters.contenido %}&contenido={{ filters.contenido }}{% endif %}{% if filters.resultado %}&resultado={{ filters.resultado }}{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">← Anterior</a>
+      {% endif %}
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if filters.contenido %}&contenido={{ filters.contenido }}{% endif %}{% if filters.resultado %}&resultado={{ filters.resultado }}{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">Siguiente →</a>
+      {% endif %}
+    </div>
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}

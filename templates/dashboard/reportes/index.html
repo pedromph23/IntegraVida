@@ -1,0 +1,30 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <div class="mb-6">
+    <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
+    <p class="text-sm text-text-muted mt-1">
+      Genera reportes operativos. Cada exportación queda auditada.
+    </p>
+  </div>
+
+  <section class="grid gap-4 sm:grid-cols-2 mb-8">
+    {% for slug, meta in reportes.items %}
+    <a href="{% url 'dashboard:reporte_ejecutar' slug %}"
+       class="group block rounded-xl border border-border bg-surface-raised p-5 hover:border-primary/50 hover:shadow-md transition-colors">
+      <div class="text-lg font-semibold mb-2">{{ meta.nombre }}</div>
+      <div class="text-sm text-text-muted mb-3">{{ meta.descripcion }}</div>
+      <div class="text-sm text-primary group-hover:underline">Generar →</div>
+    </a>
+    {% endfor %}
+  </section>
+
+  <div class="rounded-xl border border-dashed border-border p-4 text-center">
+    <a href="{% url 'dashboard:reportes_historial' %}"
+       class="text-sm text-primary hover:underline">
+      Ver historial de exportaciones →
+    </a>
+  </div>
+</div>
+{% endblock %}

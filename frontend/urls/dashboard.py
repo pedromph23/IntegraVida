@@ -11,6 +11,7 @@ from frontend.views import dashboard_derivaciones as derivacion_views
 from frontend.views import dashboard_inventario as inventario_views
 from frontend.views import dashboard_transferencias as transferencia_views
 from frontend.views import dashboard_entregas as entrega_views
+from frontend.views import dashboard_reportes as reporte_views
 
 app_name = "dashboard"
 
@@ -153,5 +154,22 @@ urlpatterns = [
         "inventario/entregas/<uuid:entrega_id>/accion/",
         entrega_views.entrega_accion,
         name="entrega_accion",
+    ),
+    # F3.h.1 — Reportes (UI wrapper de services)
+    # IMPORTANTE: historial/ va ANTES de <slug:slug>/ (else el slug lo captura)
+    path(
+        "reportes/",
+        reporte_views.reportes_index,
+        name="reportes_index",
+    ),
+    path(
+        "reportes/historial/",
+        reporte_views.reportes_historial,
+        name="reportes_historial",
+    ),
+    path(
+        "reportes/<slug:slug>/",
+        reporte_views.reporte_ejecutar,
+        name="reporte_ejecutar",
     ),
 ]
