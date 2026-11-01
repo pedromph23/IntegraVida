@@ -1,18 +1,22 @@
 """Vistas del panel para el módulo Pacientes (F3.e.2).
 
-Solo lectura: pacientes no tienen estados operativos. Edición de PII
-queda fuera de F3 (F4 / admin).
+Solo lectura: pacientes no tienen estados operativos.
 
-Enmascaramiento (§12):
-- la LISTA siempre enmascara cédula y nombres (cualquier rol).
-- el DETALLE muestra PII completa solo a ADMIN/COORDINADOR.
-- OPERADOR_HOSPITAL ve nombres completos (los necesita para operar)
-  pero cédula enmascarada y notas_internas ocultas.
+Dos niveles de acceso (§12):
+- PII_SENSITIVE_GROUPS (ADMIN, COORDINADOR): cédula completa, fecha
+  de nacimiento, notas internas.
+- FULL_NAMES_GROUPS (ADMIN, COORDINADOR, OPERADOR_HOSPITAL): nombres
+  completos, edad numérica, teléfono, email.
+- Resto: todo enmascarado.
+
+La LISTA siempre enmascara nombres y cédula para todos los roles.
+El DETALLE aplica los dos niveles según el rol del usuario.
 """
+from datetime import date
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Count, OuterRef, Subquery
-from django.db.models.functions import Coalesce
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_GET
 
@@ -20,15 +24,26 @@ from apps.pacientes.models import Episodio, Paciente
 
 PAGE_SIZE = 25
 
-PII_FULL_GROUPS = {"ADMIN", "COORDINADOR"}
-PATIENT_ACCESS_GROUPS = {"ADMIN", "COORDINADOR", "OPERADOR_HOSPITAL"}
+PII_SENSITIVE_GROUPS = {"ADMIN", "COORDINADOR"}
+FULL_NAMES_GROUPS = {"ADMIN", "COORDINADOR", "OPERADOR_HOSPITAL"}
 
 
-def _can_see_full_pii(user):
+def _groups_of(user):
+    if not user.is_authenticated:
+        return set()
+    return set(user.groups.values_list("name", flat=True))
+
+
+def _can_see_sensitive_pii(user):
     if user.is_superuser or user.is_staff:
         return True
-    groups = set(user.groups.values_list("name", flat=True))
-    return bool(groups & PII_FULL_GROUPS)
+    return bool(_groups_of(user) & PII_SENSITIVE_GROUPS)
+
+
+def _can_see_full_names(user):
+    if user.is_superuser or user.is_staff:
+        return True
+    return bool(_groups_of(user) & FULL_NAMES_GROUPS)
 
 
 def _mask_cedula(cedula):
@@ -46,7 +61,6 @@ def _mask_nombre(nombres, apellidos):
 
 
 def _calc_edad(fecha_nacimiento):
-    from datetime import date
     if not fecha_nacimiento:
         return "—"
     hoy = date.today()
@@ -75,26 +89,14 @@ def pacientes_list(request):
 
     q = request.GET.get("q", "").strip()[:100]
     if q:
-        # Búsqueda por nombre/apellidos. Cédula NO se busca por texto
-        # (el operador debería buscar por nombre o último dígito).
-        qs = qs.filter(
-            nombres__icontains=q
-        ) | qs.filter(
-            apellidos__icontains=q
-        )
-        # Si el usuario pasa últimos 4 dígitos, buscar por sufijo:
-        # (no implementado en F3, ver nota de F3.h para búsqueda avanzada)
-        # El queryset se re-ordena abajo
+        qs = qs.filter(nombres__icontains=q) | qs.filter(apellidos__icontains=q)
 
     qs = qs.order_by("-creado_en")
     paginator = Paginator(qs, PAGE_SIZE)
     page = paginator.get_page(request.GET.get("page", 1))
 
-    # Enmascaramiento en la vista (no en template) para que la LISTA
-    # nunca contenga PII en el HTML ni en el contexto serializado.
-    filas = []
-    for p in page:
-        filas.append({
+    filas = [
+        {
             "id": p.id,
             "nombre_masked": _mask_nombre(p.nombres, p.apellidos),
             "cedula_masked": _mask_cedula(p.cedula),
@@ -102,7 +104,9 @@ def pacientes_list(request):
             "sexo_display": p.get_sexo_biologico_display(),
             "episodios_count": p.episodios_count,
             "ultimo_episodio_estado": p.ultimo_episodio_estado or "—",
-        })
+        }
+        for p in page
+    ]
 
     return render(request, "dashboard/pacientes/list.html", {
         "page_title": "Pacientes",
@@ -116,12 +120,8 @@ def pacientes_list(request):
 @login_required
 @require_GET
 def paciente_detail(request, paciente_id):
-    paciente = get_object_or_404(
-        _base_queryset(), id=paciente_id,
-    )
-    contactos = paciente.contactos.order_by(
-        "-es_principal", "nombre",
-    )[:20]
+    paciente = get_object_or_404(_base_queryset(), id=paciente_id)
+    contactos = paciente.contactos.order_by("-es_principal", "nombre")[:20]
     episodios = paciente.episodios.select_related(
         "hospital", "refugio", "registrado_por",
     ).order_by("-fecha_ingreso")[:30]
@@ -131,6 +131,6 @@ def paciente_detail(request, paciente_id):
         "paciente": paciente,
         "contactos": contactos,
         "episodios": episodios,
-        "can_see_full_pii": _can_see_full_pii(request.user),
-        "can_see_notas": _can_see_full_pii(request.user),
+        "can_see_full_names": _can_see_full_names(request.user),
+        "can_see_sensitive_pii": _can_see_sensitive_pii(request.user),
     })
