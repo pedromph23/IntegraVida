@@ -1,18 +1,91 @@
 <aside class="hidden md:block md:w-64 md:shrink-0 border-r border-border bg-surface-raised"
        aria-label="Navegación del panel">
   <nav class="p-4 space-y-1 text-sm">
-    <a href="/panel/" class="block px-3 py-2 rounded-lg hover:bg-surface">Inicio</a>
-    <div class="px-3 pt-4 pb-1 text-xs uppercase tracking-wide text-text-muted">Operación</div>
-    <a href="/panel/refugios/" class="block px-3 py-2 rounded-lg hover:bg-surface">Refugios</a>
-    <a href="/panel/emergencias/" class="block px-3 py-2 rounded-lg hover:bg-surface">Emergencias</a>
-    <a href="/panel/hospitales/" class="block px-3 py-2 rounded-lg hover:bg-surface">Hospitales</a>
-    <a href="/panel/pacientes/" class="block px-3 py-2 rounded-lg hover:bg-surface">Pacientes</a>
-    <a href="/panel/triaje/" class="block px-3 py-2 rounded-lg hover:bg-surface">Triaje</a>
-    <a href="/panel/derivaciones/" class="block px-3 py-2 rounded-lg hover:bg-surface">Derivaciones</a>
-    <a href="/panel/inventario/" class="block px-3 py-2 rounded-lg hover:bg-surface">Inventario</a>
-    <a href="/panel/distribucion/" class="block px-3 py-2 rounded-lg hover:bg-surface">Distribución</a>
-    <a href="/panel/reportes/" class="block px-3 py-2 rounded-lg hover:bg-surface">Reportes</a>
-    <div class="px-3 pt-4 pb-1 text-xs uppercase tracking-wide text-text-muted">Administración</div>
-    <a href="/panel/configuracion/" class="block px-3 py-2 rounded-lg hover:bg-surface">Configuración</a>
+
+    <a href="{% url 'dashboard:home' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if request.resolver_match.url_name == 'home' %}bg-surface font-medium{% endif %}">
+      Inicio
+    </a>
+
+    <div class="px-3 pt-4 pb-1 text-xs uppercase tracking-wide text-text-muted">
+      Operación
+    </div>
+
+    <a href="{% url 'dashboard:refugios_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'refugio' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Refugios
+    </a>
+    <a href="{% url 'dashboard:emergencias_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'emergencia' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Emergencias
+    </a>
+    <a href="{% url 'dashboard:hospitales_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'hospital' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Hospitales
+    </a>
+    <a href="{% url 'dashboard:pacientes_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'paciente' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Pacientes
+    </a>
+    <a href="{% url 'dashboard:triajes_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'triaje' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Triajes
+    </a>
+    <a href="{% url 'dashboard:derivaciones_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'derivacion' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Derivaciones
+    </a>
+
+    <div class="px-3 pt-4 pb-1 text-xs uppercase tracking-wide text-text-muted">
+      Inventario
+    </div>
+
+    <a href="{% url 'dashboard:insumos_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'insumo' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Insumos
+    </a>
+    <a href="{% url 'dashboard:stock_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'stock' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Stock
+    </a>
+
+    <div class="px-3 pt-4 pb-1 text-xs uppercase tracking-wide text-text-muted">
+      Distribución
+    </div>
+
+    <a href="{% url 'dashboard:transferencias_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'transferencia' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Transferencias
+    </a>
+    <a href="{% url 'dashboard:entregas_list' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'entrega' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Entregas
+    </a>
+
+    <div class="px-3 pt-4 pb-1 text-xs uppercase tracking-wide text-text-muted">
+      Administración
+    </div>
+
+    <a href="{% url 'dashboard:reportes_index' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'reporte' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Reportes
+    </a>
+    <a href="{% url 'dashboard:configuracion_index' %}"
+       class="block px-3 py-2 rounded-lg hover:bg-surface
+         {% if 'configuracion' in request.resolver_match.url_name or 'membresia' in request.resolver_match.url_name %}bg-surface font-medium{% endif %}">
+      Configuración
+    </a>
   </nav>
 </aside>
