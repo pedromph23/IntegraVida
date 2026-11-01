@@ -7,6 +7,7 @@ from frontend.views import dashboard_emergencias as emergencia_views
 from frontend.views import dashboard_hospitales as hospital_views
 from frontend.views import dashboard_pacientes as paciente_views
 from frontend.views import dashboard_triajes as triaje_views
+from frontend.views import dashboard_derivaciones as derivacion_views
 
 app_name = "dashboard"
 
@@ -80,5 +81,21 @@ urlpatterns = [
         "triajes/<uuid:triaje_id>/",
         triaje_views.triaje_detail,
         name="triaje_detail",
+    ),
+    # F3.f.2 — Derivaciones (transiciones delegadas a services)
+    path(
+        "derivaciones/",
+        derivacion_views.derivaciones_list,
+        name="derivaciones_list",
+    ),
+    path(
+        "derivaciones/<uuid:derivacion_id>/",
+        derivacion_views.derivacion_detail,
+        name="derivacion_detail",
+    ),
+    path(
+        "derivaciones/<uuid:derivacion_id>/transicionar/",
+        derivacion_views.derivacion_transicionar,
+        name="derivacion_transicionar",
     ),
 ]

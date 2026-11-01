@@ -1,0 +1,139 @@
+{% extends "base/base_dashboard.html" %}
+{% load masking %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:derivaciones_list' %}" class="hover:text-primary">← Volver a derivaciones</a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">
+    Derivación
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-sm font-medium
+      {% if derivacion.prioridad == 'CRITICA' %}bg-danger/10 text-danger border border-danger/40
+      {% elif derivacion.prioridad == 'ALTA' %}bg-accent/10 text-accent border border-accent/40
+      {% elif derivacion.prioridad == 'MEDIA' %}bg-surface-raised border border-border
+      {% else %}bg-secondary/10 text-secondary border border-secondary/40{% endif %}">
+      {{ derivacion.get_prioridad_display }}
+    </span>
+  </h1>
+  <p class="text-sm text-text-muted mb-6">
+    Estado: <strong>{{ derivacion.get_estado_display }}</strong>
+    · Solicitada {{ derivacion.solicitada_en|date:"Y-m-d H:i" }}
+    por {{ derivacion.solicitada_por.username }}
+  </p>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-4 rounded-lg px-3 py-2 text-sm
+        {% if m.level_tag == 'success' %}bg-secondary/10 text-secondary border border-secondary/40
+        {% elif m.level_tag == 'error' %}bg-danger/10 text-danger border border-danger/40
+        {% else %}bg-surface-raised border border-border{% endif %}"
+        role="status">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <section class="grid gap-4 md:grid-cols-2 mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Paciente y episodio</div>
+      <dl class="text-sm space-y-1">
+        <div>
+          <dt class="inline text-text-muted">Nombre:</dt>
+          <dd class="inline font-medium">
+            {% if can_see_full_names %}{{ paciente.nombres }} {{ paciente.apellidos }}{% else %}{{ paciente.nombres|mask_nombre_completo }} {{ paciente.apellidos|mask_nombre_completo }}{% endif %}
+          </dd>
+        </div>
+        <div>
+          <dt class="inline text-text-muted">Cédula:</dt>
+          <dd class="inline font-mono">{% if can_see_sensitive_pii %}{{ paciente.cedula|default:"—" }}{% else %}{{ paciente.cedula|mask_cedula }}{% endif %}</dd>
+        </div>
+        <div>
+          <dt class="inline text-text-muted">Episodio:</dt>
+          <dd class="inline">{{ derivacion.episodio.get_estado_display }}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Ruta</div>
+      <dl class="text-sm space-y-1">
+        <div><dt class="inline text-text-muted">Origen:</dt> <dd class="inline">{{ derivacion.hospital_origen.nombre }}</dd></div>
+        <div><dt class="inline text-text-muted">Destino:</dt> <dd class="inline">{{ derivacion.hospital_destino.nombre }}</dd></div>
+        <div><dt class="inline text-text-muted">Motivo:</dt> <dd class="inline">{{ derivacion.motivo }}</dd></div>
+        {% if derivacion.notas %}
+        <div><dt class="inline text-text-muted">Notas:</dt> <dd class="inline">{{ derivacion.notas }}</dd></div>
+        {% endif %}
+      </dl>
+    </div>
+  </section>
+
+  {% if can_write and estados_permitidos %}
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Cambiar estado</h2>
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <form method="post" action="{% url 'dashboard:derivacion_transicionar' derivacion.id %}" class="space-y-3">
+        {% csrf_token %}
+        <div>
+          <label for="estado-derivacion" class="block text-sm font-medium mb-1">Nuevo estado</label>
+          <select id="estado-derivacion" name="estado"
+                  class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface">
+            {% for v in estados_permitidos %}
+              <option value="{{ v }}">{{ v }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label for="motivo-transicion" class="block text-sm font-medium mb-1">Motivo (opcional)</label>
+          <input id="motivo-transicion" name="motivo" type="text" maxlength="200"
+                 class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface">
+        </div>
+        <button type="submit" class="w-full rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+          Aplicar transición
+        </button>
+        <p class="text-xs text-text-muted">
+          Solo se muestran transiciones válidas. La validación final la
+          aplica el servicio de derivaciones.
+        </p>
+      </form>
+    </div>
+  </section>
+  {% elif can_write %}
+  <section class="mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <p class="text-sm text-text-muted">
+        Esta derivación está en estado terminal ({{ derivacion.get_estado_display }}).
+        No hay transiciones disponibles.
+      </p>
+    </div>
+  </section>
+  {% endif %}
+
+  <section>
+    <h2 class="text-lg font-semibold mb-2">Historial de transiciones ({{ transiciones|length }})</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Fecha</th>
+            <th class="text-left px-3 py-2 font-medium">De → A</th>
+            <th class="text-left px-3 py-2 font-medium">Usuario</th>
+            <th class="text-left px-3 py-2 font-medium">Motivo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in transiciones %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2 text-xs text-text-muted">{{ t.creado_en|date:"Y-m-d H:i" }}</td>
+            <td class="px-3 py-2">{{ t.estado_anterior|default:"—" }} → {{ t.estado_nuevo }}</td>
+            <td class="px-3 py-2">{{ t.usuario.username }}</td>
+            <td class="px-3 py-2 text-text-muted">{{ t.motivo|default:"—" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="px-3 py-4 text-center text-text-muted">Sin transiciones registradas.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}
