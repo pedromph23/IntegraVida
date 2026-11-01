@@ -3,7 +3,7 @@ from django.urls import include, path
 from apps.configuracion import views as config_views
 
 urlpatterns = [
-    path("", include("frontend.urls.public")),
+    path("", include("frontend.urls")),
     path("health/", config_views.health, name="health"),
     path("admin/", admin.site.urls),
     path(
