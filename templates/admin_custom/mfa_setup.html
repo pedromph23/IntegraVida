@@ -1,0 +1,61 @@
+{% extends "base/base_admin.html" %}
+
+{% block content %}
+<h1 class="text-2xl font-semibold mb-1">Configurar MFA</h1>
+<p class="text-sm text-text-muted mb-6">
+  Es la primera vez que accedes al admin. Configura MFA (TOTP) para continuar.
+</p>
+
+<section class="mb-6 rounded-xl border border-border bg-surface-raised p-4">
+  <h2 class="text-lg font-semibold mb-2">1. Añade la cuenta a tu app autenticadora</h2>
+  <p class="text-sm text-text-muted mb-3">
+    Usa Google Authenticator, Authy, 1Password o cualquier app compatible con TOTP (RFC 6238).
+  </p>
+
+  <div class="mb-3">
+    <div class="text-xs uppercase tracking-wide text-text-muted mb-1">
+      URI de configuración (otpauth://)
+    </div>
+    <code class="block break-all rounded border border-border bg-surface p-2 text-xs font-mono">{{ provisioning_uri }}</code>
+  </div>
+
+  <div>
+    <div class="text-xs uppercase tracking-wide text-text-muted mb-1">
+      Secret en Base32 (alternativa manual)
+    </div>
+    <code class="block rounded border border-border bg-surface p-2 text-sm font-mono tracking-wider">{{ secret_base32 }}</code>
+  </div>
+
+  <p class="mt-3 text-xs text-text-muted">
+    En el próximo paso verifica que funciona con un código de 6 dígitos.
+  </p>
+</section>
+
+<section class="rounded-xl border border-border bg-surface-raised p-4">
+  <h2 class="text-lg font-semibold mb-2">2. Verifica el código</h2>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-3 rounded-lg px-3 py-2 text-sm
+        {% if m.level_tag == 'error' %}bg-danger/10 text-danger border border-danger/40
+        {% else %}bg-surface border border-border{% endif %}"
+        role="status">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" action="{% url 'admin_custom:admin_mfa_submit' %}" class="space-y-3">
+    {% csrf_token %}
+    <div>
+      <label for="code" class="block text-sm font-medium mb-1">Código TOTP</label>
+      <input id="code" name="code" type="text" inputmode="numeric"
+             autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required
+             class="w-full rounded-lg border border-border px-3 py-3 text-2xl text-center tracking-[0.5em] font-mono bg-surface"
+             placeholder="000000" autofocus>
+    </div>
+    <button type="submit"
+            class="w-full rounded-lg px-4 py-2.5 font-medium text-white iv-cta-bg">
+      Confirmar y entrar
+    </button>
+  </form>
+</section>
+{% endblock %}

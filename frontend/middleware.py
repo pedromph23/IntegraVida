@@ -38,3 +38,83 @@ class AdminSecurityMiddleware:
         response["Pragma"] = "no-cache"
         response["X-Frame-Options"] = "DENY"
         return response
+
+
+class AdminMFARequiredMiddleware:
+    """Fuerza MFA en el admin personalizado (F4.b).
+
+    Aplica SOLO a /<slug>/*, excluyendo rutas de auth y estáticos
+    (login, logout, password_reset, mfa, jsi18n, static).
+
+    Si el usuario autenticado no tiene `admin_mfa_verified_at`
+    reciente (< 8 h) en la sesión, redirige a /<slug>/mfa/.
+
+    No actúa sobre anónimos: deja que Django admin redirija a /login/.
+    """
+    MFA_SESSION_KEY = "admin_mfa_verified_at"
+    MFA_USER_KEY = "admin_mfa_user_id"
+    MFA_VALID_SECONDS = 8 * 3600  # 8 h
+
+    # Sufijos (relativos a /<slug>) que NO requieren MFA.
+    ALLOWLIST_PREFIXES = (
+        "/login/",
+        "/logout/",
+        "/password_reset/",
+        "/reset/",            # cubre /reset/<uidb64>/<token>/
+        "/mfa/",              # cubre /mfa/ y /mfa/setup/
+        "/jsi18n/",
+        "/static/",
+        "/favicon.ico",
+    )
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        slug = getattr(settings, "INTEGRAVIDA_ADMIN_SLUG", "")
+        self.slug = slug
+        self.prefix = f"/{slug}/" if slug else None
+        self.mfa_url = f"/{slug}/mfa/" if slug else None
+
+    def __call__(self, request):
+        if self._aplica(request):
+            redir = self._check_mfa(request)
+            if redir is not None:
+                return redir
+        return self.get_response(request)
+
+    def _aplica(self, request):
+        if not self.prefix:
+            return False
+        if not request.path.startswith(self.prefix):
+            return False
+        # Ruta relativa al slug, con "/" inicial
+        resto = "/" + request.path[len(self.prefix):]
+        for pref in self.ALLOWLIST_PREFIXES:
+            if resto.startswith(pref):
+                return False
+        return True
+
+    def _check_mfa(self, request):
+        from django.shortcuts import redirect
+        from django.utils import timezone
+
+        user = getattr(request, "user", None)
+        if not user or not user.is_authenticated:
+            return None
+        if not (user.is_superuser or user.is_staff):
+            return None
+
+        mfa_user_id = request.session.get(self.MFA_USER_KEY)
+        mfa_verified_at = request.session.get(self.MFA_SESSION_KEY)
+
+        if str(mfa_user_id) != str(user.pk) or not mfa_verified_at:
+            return redirect(self.mfa_url)
+
+        try:
+            verified_ts = float(mfa_verified_at)
+        except (TypeError, ValueError):
+            return redirect(self.mfa_url)
+
+        if timezone.now().timestamp() - verified_ts > self.MFA_VALID_SECONDS:
+            return redirect(self.mfa_url)
+
+        return None

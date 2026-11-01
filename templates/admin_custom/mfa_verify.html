@@ -1,0 +1,41 @@
+{% extends "base/base_admin.html" %}
+
+{% block content %}
+<div class="rounded-2xl border border-border bg-surface-raised p-6 shadow-lg max-w-md mx-auto mt-12">
+  <h1 class="text-2xl font-semibold mb-1">Verificación MFA</h1>
+  <p class="text-sm text-text-muted mb-6">
+    Introduce el código de 6 dígitos de tu app autenticadora.
+  </p>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-4 rounded-lg px-3 py-2 text-sm
+        {% if m.level_tag == 'error' %}bg-danger/10 text-danger border border-danger/40
+        {% elif m.level_tag == 'success' %}bg-secondary/10 text-secondary border border-secondary/40
+        {% else %}bg-surface border border-border{% endif %}"
+        role="status">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" action="{% url 'admin_custom:admin_mfa_submit' %}" class="space-y-4">
+    {% csrf_token %}
+    <div>
+      <label for="code" class="block text-sm font-medium mb-1">Código</label>
+      <input id="code" name="code" type="text" inputmode="numeric"
+             autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required
+             class="w-full rounded-lg border border-border px-3 py-3 text-2xl text-center tracking-[0.5em] font-mono bg-surface"
+             placeholder="000000" autofocus>
+    </div>
+    <button type="submit"
+            class="w-full rounded-lg px-4 py-2.5 font-medium text-white iv-cta-bg">
+      Verificar
+    </button>
+  </form>
+
+  <div class="mt-6 text-center text-xs text-text-muted">
+    <a href="{% url 'admin_custom:admin_mfa_cancel' %}" class="hover:text-primary">
+      Cancelar y salir
+    </a>
+  </div>
+</div>
+{% endblock %}

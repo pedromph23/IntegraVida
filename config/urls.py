@@ -26,6 +26,11 @@ urlpatterns = [
     path("health/", config_views.health, name="health"),
 
     # ── Admin personalizado (URL oculta, configurable por env) ───────
+    # ── Admin: MFA custom ANTES de admin.site.urls ──────────────
+    path(
+        f"{settings.INTEGRAVIDA_ADMIN_SLUG}/",
+        include("frontend.urls.admin_custom"),
+    ),
     path(f"{settings.INTEGRAVIDA_ADMIN_SLUG}/", admin.site.urls),
 
     # ── API interna / pública ────────────────────────────────────────
