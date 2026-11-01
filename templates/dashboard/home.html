@@ -8,23 +8,30 @@
       {% if user_groups %}Rol: {{ user_groups|join:", " }}{% endif %}
     </p>
 
-    <section class="grid gap-4 md:grid-cols-3">
-      <div class="rounded-xl border border-border bg-surface-raised p-4">
-        <div class="text-xs uppercase text-text-muted mb-1">Último acceso</div>
-        <div class="text-sm">{% if last_login %}{{ last_login|date:"Y-m-d H:i" }}{% else %}—{% endif %}</div>
+    <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+      {% for card in cards %}
+      <a href="{{ card.url }}"
+         class="group block rounded-xl border border-border bg-surface-raised p-4 hover:border-primary/50 hover:shadow-md transition-colors">
+        <div class="text-xs uppercase tracking-wide text-text-muted mb-1">
+          {{ card.label }}
+        </div>
+        <div class="text-3xl font-bold text-primary">
+          {{ card.count }}<span class="text-base font-normal text-text-muted"> / {{ card.total }}</span>
+        </div>
+        <div class="text-xs text-text-muted mt-3 group-hover:text-primary transition-colors">
+          Ver módulo →
+        </div>
+      </a>
+      {% empty %}
+      <div class="col-span-full rounded-xl border border-dashed border-border p-6 text-center text-sm text-text-muted">
+        No hay módulos disponibles para tu rol. Contacta al administrador.
       </div>
-      <div class="rounded-xl border border-border bg-surface-raised p-4">
-        <div class="text-xs uppercase text-text-muted mb-1">Rol</div>
-        <div class="text-sm">{% if user_groups %}{{ user_groups|join:", " }}{% else %}Sin rol asignado{% endif %}</div>
-      </div>
-      <div class="rounded-xl border border-border bg-surface-raised p-4">
-        <div class="text-xs uppercase text-text-muted mb-1">Estado</div>
-        <div class="text-sm text-secondary">Sesión activa</div>
-      </div>
+      {% endfor %}
     </section>
 
-    <p class="mt-8 text-xs text-text-muted">
-      F3.a — layout de autenticación. Métricas operativas y módulos llegan en F3.b..h.
+    <p class="text-xs text-text-muted">
+      F3.b — métricas reales. Módulos operativos llegan en F3.c..h
+      (los enlaces darán 404 hasta entonces).
     </p>
   </div>
 {% endblock %}
