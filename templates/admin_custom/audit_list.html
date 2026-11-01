@@ -1,0 +1,130 @@
+{% extends "base/base_admin_custom.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <div class="mb-4">
+    <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
+    <p class="text-sm text-text-muted mt-1">
+      {{ total }} evento{{ total|pluralize }} · solo lectura (inmutable por diseño)
+    </p>
+  </div>
+
+  <form method="get" class="mb-4 flex flex-wrap gap-2 items-end">
+    <div class="flex-1 min-w-[160px]">
+      <label for="f-actor" class="block text-xs text-text-muted mb-1">Actor</label>
+      <input id="f-actor" type="text" name="actor" value="{{ filters.actor }}"
+             placeholder="username"
+             class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+    </div>
+    <div class="flex-1 min-w-[160px]">
+      <label for="f-accion" class="block text-xs text-text-muted mb-1">Acción</label>
+      <input id="f-accion" type="text" name="accion" value="{{ filters.accion }}"
+             placeholder="ej. login, admin."
+             class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+    </div>
+    <div class="flex-1 min-w-[160px]">
+      <label for="f-tipo" class="block text-xs text-text-muted mb-1">Tipo de objeto</label>
+      <input id="f-tipo" type="text" name="tipo_objeto" value="{{ filters.tipo_objeto }}"
+             placeholder="ej. Usuario, Refugio"
+             class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+    </div>
+    <div>
+      <label for="f-resultado" class="block text-xs text-text-muted mb-1">Resultado</label>
+      <select id="f-resultado" name="resultado"
+              class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+        <option value="">Todos</option>
+        {% for v, label in resultados %}
+          <option value="{{ v }}" {% if filters.resultado == v %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="f-desde" class="block text-xs text-text-muted mb-1">Desde</label>
+      <input id="f-desde" type="date" name="desde" value="{{ filters.desde }}"
+             class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+    </div>
+    <div>
+      <label for="f-hasta" class="block text-xs text-text-muted mb-1">Hasta</label>
+      <input id="f-hasta" type="date" name="hasta" value="{{ filters.hasta }}"
+             class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+    </div>
+    <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+      Filtrar
+    </button>
+    {% if filters.actor or filters.accion or filters.tipo_objeto or filters.resultado or filters.desde or filters.hasta %}
+      <a href="{% url 'admin_custom:admin_audit_list' %}"
+         class="rounded-lg px-4 py-2 text-sm border border-border hover:bg-surface-raised">
+        Limpiar
+      </a>
+    {% endif %}
+  </form>
+
+  <div class="rounded-xl border border-border overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-surface-raised text-text-muted">
+        <tr>
+          <th class="text-left px-3 py-2 font-medium">Fecha</th>
+          <th class="text-left px-3 py-2 font-medium">Actor</th>
+          <th class="text-left px-3 py-2 font-medium">Acción</th>
+          <th class="text-left px-3 py-2 font-medium">Objeto</th>
+          <th class="text-left px-3 py-2 font-medium">Resultado</th>
+          <th class="text-left px-3 py-2 font-medium">IP</th>
+          <th class="text-left px-3 py-2 font-medium"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in page_obj %}
+        <tr class="border-t border-border hover:bg-surface-raised/50">
+          <td class="px-3 py-2 text-xs text-text-muted">
+            {{ e.ocurrido_en|date:"Y-m-d H:i:s" }}
+          </td>
+          <td class="px-3 py-2">{{ e.actor.username|default:"—" }}</td>
+          <td class="px-3 py-2 font-mono text-xs">{{ e.accion }}</td>
+          <td class="px-3 py-2 text-xs">
+            <span class="text-text-muted">{{ e.tipo_objeto|default:"—" }}</span>
+            {% if e.objeto_id %}
+              <span class="block font-mono text-text-muted truncate max-w-[180px]">{{ e.objeto_id }}</span>
+            {% endif %}
+          </td>
+          <td class="px-3 py-2">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+              {% if e.resultado == 'EXITOSO' %}bg-secondary/10 text-secondary border border-secondary/40
+              {% elif e.resultado == 'DENEGADO' %}bg-accent/10 text-accent border border-accent/40
+              {% else %}bg-danger/10 text-danger border border-danger/40{% endif %}">
+              {{ e.get_resultado_display }}
+            </span>
+          </td>
+          <td class="px-3 py-2 font-mono text-xs text-text-muted">{{ e.direccion_ip|default:"—" }}</td>
+          <td class="px-3 py-2 text-right">
+            <a href="{% url 'admin_custom:admin_audit_detail' e.id %}"
+               class="text-primary hover:underline">Ver →</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="px-3 py-8 text-center text-text-muted">
+            Sin eventos registrados todavía.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Paginación">
+    <div class="text-text-muted">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</div>
+    <div class="flex gap-2">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if filters.actor %}&actor={{ filters.actor|urlencode }}{% endif %}{% if filters.accion %}&accion={{ filters.accion|urlencode }}{% endif %}{% if filters.tipo_objeto %}&tipo_objeto={{ filters.tipo_objeto|urlencode }}{% endif %}{% if filters.resultado %}&resultado={{ filters.resultado }}{% endif %}{% if filters.desde %}&desde={{ filters.desde }}{% endif %}{% if filters.hasta %}&hasta={{ filters.hasta }}{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">← Anterior</a>
+      {% endif %}
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if filters.actor %}&actor={{ filters.actor|urlencode }}{% endif %}{% if filters.accion %}&accion={{ filters.accion|urlencode }}{% endif %}{% if filters.tipo_objeto %}&tipo_objeto={{ filters.tipo_objeto|urlencode }}{% endif %}{% if filters.resultado %}&resultado={{ filters.resultado }}{% endif %}{% if filters.desde %}&desde={{ filters.desde }}{% endif %}{% if filters.hasta %}&hasta={{ filters.hasta }}{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">Siguiente →</a>
+      {% endif %}
+    </div>
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}

@@ -11,6 +11,8 @@ from django.urls import path
 from frontend.views import admin_mfa as mfa_views
 from frontend.views import admin_dashboard as dash_views
 from frontend.views import admin_users as users_views
+from frontend.views import admin_audit as audit_views
+from frontend.views import admin_config as config_views
 
 app_name = "admin_custom"
 
@@ -24,4 +26,9 @@ urlpatterns = [
     # ── F4.c — Dashboard custom + usuarios ──
     path("custom/", dash_views.dashboard_view, name="admin_dashboard"),
     path("custom/users/", users_views.users_list, name="admin_users_list"),
+
+    # ── F4.d — Auditoría + Configuración ──
+    path("custom/audit/", audit_views.audit_list, name="admin_audit_list"),
+    path("custom/audit/<uuid:evento_id>/", audit_views.audit_detail, name="admin_audit_detail"),
+    path("custom/config/", config_views.config_view, name="admin_config"),
 ]

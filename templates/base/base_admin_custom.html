@@ -70,12 +70,16 @@
         <div class="px-3 pt-4 pb-1 text-xs uppercase tracking-wide text-text-muted">
           Solo lectura
         </div>
-        <span class="block px-3 py-2 rounded-lg text-text-muted cursor-not-allowed">
-          Auditoría <span class="text-xs">(F4.d)</span>
-        </span>
-        <span class="block px-3 py-2 rounded-lg text-text-muted cursor-not-allowed">
-          Configuración <span class="text-xs">(F4.d)</span>
-        </span>
+        <a href="{% url 'admin_custom:admin_audit_list' %}"
+           class="block px-3 py-2 rounded-lg hover:bg-surface
+             {% if request.resolver_match.url_name == 'admin_audit_list' or request.resolver_match.url_name == 'admin_audit_detail' %}bg-surface font-medium{% endif %}">
+          Auditoría
+        </a>
+        <a href="{% url 'admin_custom:admin_config' %}"
+           class="block px-3 py-2 rounded-lg hover:bg-surface
+             {% if request.resolver_match.url_name == 'admin_config' %}bg-surface font-medium{% endif %}">
+          Configuración
+        </a>
       </nav>
     </aside>
 

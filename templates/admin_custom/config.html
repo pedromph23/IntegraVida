@@ -1,0 +1,107 @@
+{% extends "base/base_admin_custom.html" %}
+
+{% block content %}
+<div class="max-w-5xl">
+  <h1 class="text-2xl font-semibold mb-1">{{ page_title }}</h1>
+  <p class="text-sm text-text-muted mb-6">
+    Estado del sistema y accesos a configuración nativa.
+  </p>
+
+  {# ── Info del sistema ── #}
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Información del sistema</h2>
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <dl class="grid gap-3 sm:grid-cols-2 text-sm">
+        <div>
+          <dt class="text-xs uppercase tracking-wide text-text-muted">Django</dt>
+          <dd class="font-mono">{{ info.django_version }}</dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wide text-text-muted">DEBUG</dt>
+          <dd>
+            {% if info.debug %}
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent border border-accent/40">
+                Activado (dev)
+              </span>
+            {% else %}
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-secondary/10 text-secondary border border-secondary/40">
+                Desactivado (prod)
+              </span>
+            {% endif %}
+          </dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wide text-text-muted">Slug del admin</dt>
+          <dd class="text-xs">
+            {{ info.admin_slug_length }} caracteres (valor oculto por seguridad)
+          </dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wide text-text-muted">Vigencia MFA</dt>
+          <dd>{{ info.mfa_valid_hours }} h</dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-wide text-text-muted">Sesión</dt>
+          <dd>{{ info.session_age_seconds }} s</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  {# ── Conteos ── #}
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Datos del sistema</h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="rounded-xl border border-border bg-surface-raised p-4">
+        <div class="text-xs uppercase tracking-wide text-text-muted">Usuarios</div>
+        <div class="text-2xl font-semibold">{{ counts.usuarios }}</div>
+      </div>
+      <div class="rounded-xl border border-border bg-surface-raised p-4">
+        <div class="text-xs uppercase tracking-wide text-text-muted">Organizaciones</div>
+        <div class="text-2xl font-semibold">{{ counts.organizaciones }}</div>
+      </div>
+      <div class="rounded-xl border border-border bg-surface-raised p-4">
+        <div class="text-xs uppercase tracking-wide text-text-muted">Membresías</div>
+        <div class="text-2xl font-semibold">{{ counts.membresias }}</div>
+      </div>
+      <div class="rounded-xl border border-border bg-surface-raised p-4">
+        <div class="text-xs uppercase tracking-wide text-text-muted">Eventos auditoría</div>
+        <div class="text-2xl font-semibold">{{ counts.eventos_auditoria }}</div>
+      </div>
+      <div class="rounded-xl border border-border bg-surface-raised p-4">
+        <div class="text-xs uppercase tracking-wide text-text-muted">Grupos auth</div>
+        <div class="text-2xl font-semibold">{{ counts.grupos_auth }}</div>
+      </div>
+    </div>
+  </section>
+
+  {# ── CRUD nativo (Django admin) ── #}
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Catálogos nativos (Django admin)</h2>
+    <p class="text-sm text-text-muted mb-3">
+      Django admin sigue disponible en <code class="font-mono text-xs">/{{ request.get_host }}/&lt;slug&gt;/</code> para CRUD de User, Group, Organización. F4.d no duplica esa funcionalidad.
+    </p>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <a href="{% url 'admin:index' %}"
+         class="group block rounded-xl border border-border bg-surface-raised p-4 hover:border-primary/50 hover:shadow-md transition-colors">
+        <div class="text-lg font-semibold mb-1">Admin nativo →</div>
+        <div class="text-sm text-text-muted">CRUD completo de modelos registrados.</div>
+      </a>
+      <a href="{% url 'admin:auth_group_changelist' %}"
+         class="group block rounded-xl border border-border bg-surface-raised p-4 hover:border-primary/50 hover:shadow-md transition-colors">
+        <div class="text-lg font-semibold mb-1">Grupos de permisos →</div>
+        <div class="text-sm text-text-muted">Gestión de auth.Group y permisos.</div>
+      </a>
+    </div>
+  </section>
+
+  {# ── Placeholder catálogos propios ── #}
+  <section class="rounded-xl border border-dashed border-border bg-surface-raised/40 p-4">
+    <div class="text-sm font-medium mb-1">Catálogos propios editables</div>
+    <div class="text-xs text-text-muted">
+      No hay modelos editables en <code>apps.configuracion</code> (solo
+      ReferenciaMigracion, interno). Edición de catálogos propios → F5.
+    </div>
+  </section>
+</div>
+{% endblock %}

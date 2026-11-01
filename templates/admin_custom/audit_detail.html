@@ -1,0 +1,79 @@
+{% extends "base/base_admin_custom.html" %}
+
+{% block content %}
+<div class="max-w-5xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'admin_custom:admin_audit_list' %}" class="hover:text-primary">← Volver a auditoría</a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">Evento de auditoría</h1>
+  <p class="text-sm text-text-muted mb-6 font-mono">
+    {{ evento.id }}
+  </p>
+
+  <section class="grid gap-4 md:grid-cols-2 mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase tracking-wide text-text-muted mb-2">Contexto</div>
+      <dl class="text-sm space-y-1">
+        <div><dt class="inline text-text-muted">Fecha:</dt> <dd class="inline">{{ evento.ocurrido_en|date:"Y-m-d H:i:s" }}</dd></div>
+        <div><dt class="inline text-text-muted">Actor:</dt> <dd class="inline">{{ evento.actor.username|default:"—" }}</dd></div>
+        <div><dt class="inline text-text-muted">Acción:</dt> <dd class="inline font-mono">{{ evento.accion }}</dd></div>
+        <div><dt class="inline text-text-muted">Objeto:</dt> <dd class="inline">{{ evento.tipo_objeto|default:"—" }}</dd></div>
+        {% if evento.objeto_id %}
+        <div><dt class="inline text-text-muted">ID objeto:</dt> <dd class="inline font-mono text-xs">{{ evento.objeto_id }}</dd></div>
+        {% endif %}
+        <div>
+          <dt class="inline text-text-muted">Resultado:</dt>
+          <dd class="inline">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+              {% if evento.resultado == 'EXITOSO' %}bg-secondary/10 text-secondary border border-secondary/40
+              {% elif evento.resultado == 'DENEGADO' %}bg-accent/10 text-accent border border-accent/40
+              {% else %}bg-danger/10 text-danger border border-danger/40{% endif %}">
+              {{ evento.get_resultado_display }}
+            </span>
+          </dd>
+        </div>
+        {% if evento.justificacion %}
+        <div><dt class="inline text-text-muted">Justificación:</dt> <dd class="inline">{{ evento.justificacion }}</dd></div>
+        {% endif %}
+      </dl>
+    </div>
+
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase tracking-wide text-text-muted mb-2">Técnico</div>
+      <dl class="text-sm space-y-1">
+        <div><dt class="inline text-text-muted">IP:</dt> <dd class="inline font-mono">{{ evento.direccion_ip|default:"—" }}</dd></div>
+        <div><dt class="inline text-text-muted">User-Agent:</dt> <dd class="inline text-xs break-all">{{ evento.agente_usuario|default:"—" }}</dd></div>
+        <div><dt class="inline text-text-muted">Correlación:</dt> <dd class="inline font-mono text-xs">{{ evento.id_correlacion|default:"—" }}</dd></div>
+        {% if evento.organizacion_id %}
+        <div><dt class="inline text-text-muted">Organización:</dt> <dd class="inline font-mono text-xs">{{ evento.organizacion_id }}</dd></div>
+        {% endif %}
+      </dl>
+    </div>
+  </section>
+
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Cadena de hash</h2>
+    <div class="rounded-xl border border-border bg-surface-raised p-4 font-mono text-xs space-y-2">
+      <div>
+        <div class="text-text-muted uppercase tracking-wide text-[10px] mb-1">hash_anterior</div>
+        <div class="break-all">{{ evento.hash_anterior|default:"—" }}</div>
+      </div>
+      <div class="text-center text-text-muted">↓</div>
+      <div>
+        <div class="text-text-muted uppercase tracking-wide text-[10px] mb-1">hash_actual</div>
+        <div class="break-all text-primary">{{ evento.hash_actual }}</div>
+      </div>
+    </div>
+    <p class="text-xs text-text-muted mt-2">
+      Cadena inmutable: cada evento encadena con el anterior. Un cambio en un
+      evento invalida todos los siguientes.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-2">Metadatos</h2>
+    <pre class="rounded-xl border border-border bg-surface-raised p-4 text-xs overflow-auto max-h-[500px] font-mono whitespace-pre">{{ metadatos_str }}</pre>
+  </section>
+</div>
+{% endblock %}
