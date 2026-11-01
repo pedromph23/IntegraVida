@@ -1,0 +1,126 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:hospitales_list' %}" class="hover:text-primary">← Volver a hospitales</a>
+  </nav>
+  <h1 class="text-2xl font-semibold mb-1">{{ hospital.nombre }}</h1>
+  <p class="text-sm text-text-muted mb-6 font-mono">
+    {{ hospital.codigo }} · {{ hospital.get_tipo_display }} · {{ hospital.get_nivel_display }}
+  </p>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-4 rounded-lg px-3 py-2 text-sm
+        {% if m.level_tag == 'success' %}bg-secondary/10 text-secondary border border-secondary/40
+        {% elif m.level_tag == 'error' %}bg-danger/10 text-danger border border-danger/40
+        {% elif m.level_tag == 'warning' %}bg-accent/10 text-accent border border-accent/40
+        {% else %}bg-surface-raised border border-border{% endif %}"
+        role="status">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <section class="grid gap-4 md:grid-cols-2 mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Información</div>
+      <dl class="text-sm space-y-1">
+        <div><dt class="inline text-text-muted">Estado:</dt> <dd class="inline font-medium">{{ hospital.get_estado_operativo_display }}</dd></div>
+        <div><dt class="inline text-text-muted">Dirección:</dt> <dd class="inline">{{ hospital.direccion }}</dd></div>
+        {% if hospital.referencia_lugar %}
+        <div><dt class="inline text-text-muted">Referencia:</dt> <dd class="inline">{{ hospital.referencia_lugar }}</dd></div>
+        {% endif %}
+        <div><dt class="inline text-text-muted">Organización:</dt> <dd class="inline">{{ hospital.organizacion.nombre }}</dd></div>
+        {% if hospital.telefono_publico %}
+        <div><dt class="inline text-text-muted">Teléfono:</dt> <dd class="inline">{{ hospital.telefono_publico }}</dd></div>
+        {% endif %}
+      </dl>
+    </div>
+
+    {% if can_write and estados_permitidos %}
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Acciones</div>
+      <form method="post" action="{% url 'dashboard:hospital_cambiar_estado' hospital.codigo %}" class="space-y-3">
+        {% csrf_token %}
+        <label for="estado-hospital" class="block text-sm font-medium">Cambiar estado operativo</label>
+        <select id="estado-hospital" name="estado_operativo"
+                class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface">
+          {% for v in estados_permitidos %}
+            <option value="{{ v }}">{{ v }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="w-full rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+          Actualizar estado
+        </button>
+        <p class="text-xs text-text-muted">
+          Solo se muestran transiciones válidas para el estado actual.
+        </p>
+      </form>
+    </div>
+    {% elif can_write %}
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Acciones</div>
+      <p class="text-sm text-text-muted">
+        No hay transiciones disponibles desde {{ hospital.get_estado_operativo_display }}.
+      </p>
+    </div>
+    {% endif %}
+  </section>
+
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Servicios ({{ servicios|length }})</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Servicio</th>
+            <th class="text-left px-3 py-2 font-medium">Tipo</th>
+            <th class="text-left px-3 py-2 font-medium">Disponible</th>
+            <th class="text-left px-3 py-2 font-medium">Notas</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for hs in servicios %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2">{{ hs.servicio.nombre }}</td>
+            <td class="px-3 py-2">{{ hs.servicio.get_tipo_display }}</td>
+            <td class="px-3 py-2">{% if hs.disponible %}✓{% else %}—{% endif %}</td>
+            <td class="px-3 py-2 text-text-muted">{{ hs.notas|default:"—"|truncatechars:40 }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="px-3 py-4 text-center text-text-muted">Sin servicios registrados.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-2">Recursos ({{ recursos|length }})</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Recurso</th>
+            <th class="text-right px-3 py-2 font-medium">Disponible</th>
+            <th class="text-right px-3 py-2 font-medium">Capacidad</th>
+            <th class="text-left px-3 py-2 font-medium">Actualizado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in recursos %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2">{{ r.get_tipo_display }}</td>
+            <td class="px-3 py-2 text-right">{{ r.disponible }}</td>
+            <td class="px-3 py-2 text-right">{{ r.capacidad_total }}</td>
+            <td class="px-3 py-2 text-text-muted text-xs">{{ r.actualizado_en|date:"Y-m-d H:i" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="px-3 py-4 text-center text-text-muted">Sin recursos registrados.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}

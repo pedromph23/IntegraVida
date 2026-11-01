@@ -1,9 +1,10 @@
-"""URLs del panel institucional (F3.a home + F3.c refugios + F3.d emergencias)."""
+"""URLs del panel (F3.a home + F3.c refugios + F3.d emergencias + F3.e.1 hospitales)."""
 from django.urls import path
 
 from frontend.views import dashboard as dash_views
 from frontend.views import dashboard_refugios as refugio_views
 from frontend.views import dashboard_emergencias as emergencia_views
+from frontend.views import dashboard_hospitales as hospital_views
 
 app_name = "dashboard"
 
@@ -38,5 +39,22 @@ urlpatterns = [
         "emergencias/<uuid:emergencia_id>/estado/",
         emergencia_views.emergencia_cambiar_estado,
         name="emergencia_cambiar_estado",
+    ),
+
+    # F3.e.1 — Hospitales
+    path(
+        "hospitales/",
+        hospital_views.hospitales_list,
+        name="hospitales_list",
+    ),
+    path(
+        "hospitales/<slug:codigo>/",
+        hospital_views.hospital_detail,
+        name="hospital_detail",
+    ),
+    path(
+        "hospitales/<slug:codigo>/estado/",
+        hospital_views.hospital_cambiar_estado,
+        name="hospital_cambiar_estado",
     ),
 ]
