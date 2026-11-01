@@ -79,3 +79,4 @@ playwright-report/
 test-results/
 .playwright/
 *.bak_f3a
+*.bak_*
