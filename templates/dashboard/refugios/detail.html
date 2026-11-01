@@ -1,0 +1,118 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:refugios_list' %}" class="hover:text-primary">← Volver a refugios</a>
+  </nav>
+  <h1 class="text-2xl font-semibold mb-1">{{ refugio.nombre }}</h1>
+  <p class="text-sm text-text-muted mb-6 font-mono">
+    {{ refugio.codigo }} · {{ refugio.get_tipo_display }}
+  </p>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-4 rounded-lg px-3 py-2 text-sm
+        {% if m.level_tag == 'success' %}bg-secondary/10 text-secondary border border-secondary/40
+        {% elif m.level_tag == 'error' %}bg-danger/10 text-danger border border-danger/40
+        {% elif m.level_tag == 'warning' %}bg-accent/10 text-accent border border-accent/40
+        {% else %}bg-surface-raised border border-border{% endif %}"
+        role="status">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <section class="grid gap-4 md:grid-cols-2 mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Información</div>
+      <dl class="text-sm space-y-1">
+        <div><dt class="inline text-text-muted">Dirección:</dt> <dd class="inline">{{ refugio.direccion }}</dd></div>
+        <div><dt class="inline text-text-muted">Estado:</dt> <dd class="inline">{{ refugio.get_estado_operativo_display }}</dd></div>
+        <div><dt class="inline text-text-muted">Ocupación:</dt> <dd class="inline">{{ refugio.ocupacion_actual }} / {{ refugio.capacidad_total }}</dd></div>
+        <div><dt class="inline text-text-muted">Organización:</dt> <dd class="inline">{{ refugio.organizacion.nombre }}</dd></div>
+        {% if refugio.telefono_publico %}
+        <div><dt class="inline text-text-muted">Teléfono:</dt> <dd class="inline">{{ refugio.telefono_publico }}</dd></div>
+        {% endif %}
+      </dl>
+    </div>
+
+    {% if can_write %}
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Acciones</div>
+      <form method="post" action="{% url 'dashboard:refugio_cambiar_estado' refugio.codigo %}" class="space-y-3">
+        {% csrf_token %}
+        <label for="estado-operativo" class="block text-sm font-medium">Cambiar estado operativo</label>
+        <select id="estado-operativo" name="estado_operativo"
+                class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface">
+          {% for v, label in estados %}
+            <option value="{{ v }}" {% if refugio.estado_operativo == v %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="w-full rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+          Actualizar estado
+        </button>
+      </form>
+    </div>
+    {% endif %}
+  </section>
+
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Necesidades ({{ necesidades|length }})</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Prioridad</th>
+            <th class="text-left px-3 py-2 font-medium">Categoría</th>
+            <th class="text-left px-3 py-2 font-medium">Descripción</th>
+            <th class="text-left px-3 py-2 font-medium">Cubierta</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for n in necesidades %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2">{{ n.prioridad }}</td>
+            <td class="px-3 py-2">{{ n.get_categoria_display }}</td>
+            <td class="px-3 py-2">{{ n.descripcion }}</td>
+            <td class="px-3 py-2">{% if n.cubierta %}✓{% else %}—{% endif %}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="px-3 py-4 text-center text-text-muted">Sin necesidades registradas.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-2">
+      Historial de ocupación (últimos {{ registros|length }})
+    </h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Fecha</th>
+            <th class="text-right px-3 py-2 font-medium">Anterior</th>
+            <th class="text-right px-3 py-2 font-medium">Nueva</th>
+            <th class="text-right px-3 py-2 font-medium">Δ</th>
+            <th class="text-left px-3 py-2 font-medium">Fuente</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in registros %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2">{{ r.creado_en|date:"Y-m-d H:i" }}</td>
+            <td class="px-3 py-2 text-right">{{ r.cantidad_anterior }}</td>
+            <td class="px-3 py-2 text-right">{{ r.cantidad_nueva }}</td>
+            <td class="px-3 py-2 text-right">{{ r.diferencia }}</td>
+            <td class="px-3 py-2">{{ r.get_fuente_display }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="px-3 py-4 text-center text-text-muted">Sin registros.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}
