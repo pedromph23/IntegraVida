@@ -1,0 +1,106 @@
+{% extends "base/base_dashboard.html" %}
+{% load masking %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:triajes_list' %}" class="hover:text-primary">← Volver a triajes</a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">
+    Triaje
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-sm font-medium
+      {% if triaje.clasificacion == 'ROJO' %}bg-danger/10 text-danger border border-danger/40
+      {% elif triaje.clasificacion == 'AMARILLO' %}bg-accent/10 text-accent border border-accent/40
+      {% else %}bg-secondary/10 text-secondary border border-secondary/40{% endif %}">
+      {{ triaje.get_clasificacion_display }}
+    </span>
+  </h1>
+  <p class="text-sm text-text-muted mb-6">
+    {% if triaje.vigente %}Vigente{% else %}Histórico{% endif %}
+    · Evaluado {{ triaje.evaluado_en|date:"Y-m-d H:i" }} por {{ triaje.evaluado_por.username }}
+    {% if triaje.es_reevaluacion %} · Reevaluación: {{ triaje.motivo_reevaluacion }}{% endif %}
+  </p>
+
+  <section class="grid gap-4 md:grid-cols-2 mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Paciente</div>
+      <dl class="text-sm space-y-1">
+        <div>
+          <dt class="inline text-text-muted">Nombre:</dt>
+          <dd class="inline font-medium">
+            {% if can_see_full_names %}{{ paciente.nombres }} {{ paciente.apellidos }}{% else %}{{ paciente.nombres|mask_nombre_completo }} {{ paciente.apellidos|mask_nombre_completo }}{% endif %}
+          </dd>
+        </div>
+        <div>
+          <dt class="inline text-text-muted">Cédula:</dt>
+          <dd class="inline font-mono">{% if can_see_sensitive_pii %}{{ paciente.cedula|default:"—" }}{% else %}{{ paciente.cedula|mask_cedula }}{% endif %}</dd>
+        </div>
+        <div>
+          <dt class="inline text-text-muted">Episodio:</dt>
+          <dd class="inline">{{ triaje.episodio.get_estado_display }}</dd>
+        </div>
+        <div>
+          <dt class="inline text-text-muted">Motivo:</dt>
+          <dd class="inline">{{ triaje.episodio.motivo_consulta|truncatechars:80 }}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Signos vitales</div>
+      {% if signos_items %}
+        <dl class="text-sm space-y-1">
+          {% for k, v in signos_items %}
+            <div>
+              <dt class="inline text-text-muted">{{ k }}:</dt>
+              <dd class="inline font-mono">{{ v }}</dd>
+            </div>
+          {% endfor %}
+        </dl>
+      {% else %}
+        <p class="text-sm text-text-muted">No registrados.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if triaje.observaciones %}
+  <section class="mb-6 rounded-xl border border-border bg-surface-raised p-4">
+    <div class="text-xs uppercase text-text-muted mb-2">Observaciones</div>
+    <p class="text-sm whitespace-pre-line">{{ triaje.observaciones }}</p>
+  </section>
+  {% endif %}
+
+  <section>
+    <h2 class="text-lg font-semibold mb-2">Historial del episodio ({{ historial|length }})</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Fecha</th>
+            <th class="text-left px-3 py-2 font-medium">Clasificación</th>
+            <th class="text-left px-3 py-2 font-medium">Evaluado por</th>
+            <th class="text-left px-3 py-2 font-medium">Vigente</th>
+            <th class="text-left px-3 py-2 font-medium"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for h in historial %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2 text-xs text-text-muted">{{ h.evaluado_en|date:"Y-m-d H:i" }}</td>
+            <td class="px-3 py-2">{{ h.get_clasificacion_display|truncatewords:3 }}</td>
+            <td class="px-3 py-2">{{ h.evaluado_por.username }}</td>
+            <td class="px-3 py-2">{% if h.vigente %}Sí{% else %}No{% endif %}</td>
+            <td class="px-3 py-2 text-right">
+              <a href="{% url 'dashboard:triaje_detail' h.id %}" class="text-primary hover:underline">Ver →</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="px-3 py-4 text-center text-text-muted">Sin otros triajes en este episodio.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}

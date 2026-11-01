@@ -6,6 +6,7 @@ from frontend.views import dashboard_refugios as refugio_views
 from frontend.views import dashboard_emergencias as emergencia_views
 from frontend.views import dashboard_hospitales as hospital_views
 from frontend.views import dashboard_pacientes as paciente_views
+from frontend.views import dashboard_triajes as triaje_views
 
 app_name = "dashboard"
 
@@ -68,5 +69,16 @@ urlpatterns = [
         "pacientes/<uuid:paciente_id>/",
         paciente_views.paciente_detail,
         name="paciente_detail",
+    ),
+    # F3.f.1 — Triajes (solo lectura, ámbito por membresía)
+    path(
+        "triajes/",
+        triaje_views.triajes_list,
+        name="triajes_list",
+    ),
+    path(
+        "triajes/<uuid:triaje_id>/",
+        triaje_views.triaje_detail,
+        name="triaje_detail",
     ),
 ]
