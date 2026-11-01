@@ -1,0 +1,132 @@
+{% extends "base/base_admin_custom.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <h1 class="text-2xl font-semibold mb-1">{{ page_title }}</h1>
+  <p class="text-sm text-text-muted mb-6">
+    Estado del sistema y actividad reciente.
+  </p>
+
+  {# ── Métricas ── #}
+  <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase tracking-wide text-text-muted mb-1">
+        Usuarios totales
+      </div>
+      <div class="text-3xl font-bold text-primary">{{ usuarios_total }}</div>
+      <div class="text-xs text-text-muted mt-1">
+        {{ usuarios_activos }} activos
+      </div>
+    </div>
+
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase tracking-wide text-text-muted mb-1">
+        Staff / Superuser
+      </div>
+      <div class="text-3xl font-bold text-secondary">
+        {{ usuarios_staff }} / {{ usuarios_superusers }}
+      </div>
+      <div class="text-xs text-text-muted mt-1">
+        acceso al admin
+      </div>
+    </div>
+
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase tracking-wide text-text-muted mb-1">
+        MFA enrolado
+      </div>
+      <div class="text-3xl font-bold
+        {% if usuarios_mfa == usuarios_staff %}text-secondary{% else %}text-accent{% endif %}">
+        {{ usuarios_mfa }} / {{ usuarios_staff }}
+      </div>
+      <div class="text-xs text-text-muted mt-1">
+        {% if usuarios_mfa == usuarios_staff %}
+          todos protegidos
+        {% else %}
+          faltan {{ usuarios_sin_mfa }}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase tracking-wide text-text-muted mb-1">
+        Salud del sistema
+      </div>
+      <div class="text-3xl font-bold
+        {% if db_ok %}text-secondary{% else %}text-danger{% endif %}">
+        {% if db_ok %}OK{% else %}⚠{% endif %}
+      </div>
+      <div class="text-xs text-text-muted mt-1">
+        DB {% if db_ok %}conectada{% else %}caída{% endif %}
+      </div>
+    </div>
+  </section>
+
+  {# ── Auditoría reciente ── #}
+  <section class="mb-8">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-lg font-semibold">Auditoría reciente</h2>
+      <span class="text-xs text-text-muted">
+        {{ total_eventos }} evento{{ total_eventos|pluralize }} totales
+      </span>
+    </div>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Fecha</th>
+            <th class="text-left px-3 py-2 font-medium">Actor</th>
+            <th class="text-left px-3 py-2 font-medium">Acción</th>
+            <th class="text-left px-3 py-2 font-medium">Resultado</th>
+            <th class="text-left px-3 py-2 font-medium">IP</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in eventos %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2 text-xs text-text-muted">{{ e.ocurrido_en|date:"Y-m-d H:i" }}</td>
+            <td class="px-3 py-2">{{ e.actor.username|default:"—" }}</td>
+            <td class="px-3 py-2 font-mono text-xs">{{ e.accion }}</td>
+            <td class="px-3 py-2">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                {% if e.resultado == 'EXITOSO' %}bg-secondary/10 text-secondary border border-secondary/40
+                {% elif e.resultado == 'DENEGADO' %}bg-accent/10 text-accent border border-accent/40
+                {% else %}bg-danger/10 text-danger border border-danger/40{% endif %}">
+                {{ e.get_resultado_display }}
+              </span>
+            </td>
+            <td class="px-3 py-2 font-mono text-xs text-text-muted">{{ e.direccion_ip|default:"—" }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="px-3 py-8 text-center text-text-muted">
+              Sin eventos registrados todavía.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {# ── Accesos rápidos ── #}
+  <section class="grid gap-4 sm:grid-cols-2">
+    <a href="{% url 'admin_custom:admin_users_list' %}"
+       class="group block rounded-xl border border-border bg-surface-raised p-5 hover:border-primary/50 hover:shadow-md transition-colors">
+      <div class="text-lg font-semibold mb-1">Usuarios</div>
+      <div class="text-sm text-text-muted mb-2">
+        Gestiona quién tiene acceso al admin.
+      </div>
+      <div class="text-sm text-primary group-hover:underline">Ver lista →</div>
+    </a>
+    <a href="{% url 'admin:index' %}"
+       class="group block rounded-xl border border-border bg-surface-raised p-5 hover:border-primary/50 hover:shadow-md transition-colors">
+      <div class="text-lg font-semibold mb-1">Admin nativo</div>
+      <div class="text-sm text-text-muted mb-2">
+        CRUD completo de Django. Útil para auditoría directa.
+      </div>
+      <div class="text-sm text-primary group-hover:underline">Abrir →</div>
+    </a>
+  </section>
+</div>
+{% endblock %}

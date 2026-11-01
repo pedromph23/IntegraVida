@@ -1,0 +1,76 @@
+{% extends "base/base_admin_custom.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <h1 class="text-2xl font-semibold mb-1">{{ page_title }}</h1>
+  <p class="text-sm text-text-muted mb-6">
+    {{ usuarios|length }} usuario{{ usuarios|length|pluralize }} con acceso al admin.
+  </p>
+
+  <div class="rounded-xl border border-border overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-surface-raised text-text-muted">
+        <tr>
+          <th class="text-left px-3 py-2 font-medium">Usuario</th>
+          <th class="text-left px-3 py-2 font-medium">Email</th>
+          <th class="text-left px-3 py-2 font-medium">Rol</th>
+          <th class="text-left px-3 py-2 font-medium">Estado</th>
+          <th class="text-left px-3 py-2 font-medium">MFA</th>
+          <th class="text-left px-3 py-2 font-medium">Último acceso</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in usuarios %}
+        <tr class="border-t border-border hover:bg-surface-raised/50">
+          <td class="px-3 py-2 font-medium">{{ u.username }}</td>
+          <td class="px-3 py-2 text-text-muted text-xs">{{ u.email|default:"—" }}</td>
+          <td class="px-3 py-2">
+            {% if u.is_superuser %}
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-danger/10 text-danger border border-danger/40">
+                Superuser
+              </span>
+            {% else %}
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface border border-border">
+                Staff
+              </span>
+            {% endif %}
+          </td>
+          <td class="px-3 py-2">
+            {% if u.is_active %}
+              <span class="text-secondary">Activo</span>
+            {% else %}
+              <span class="text-danger">Inactivo</span>
+            {% endif %}
+          </td>
+          <td class="px-3 py-2">
+            {% if u.admin_mfa_secret %}
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-secondary/10 text-secondary border border-secondary/40">
+                Configurado
+              </span>
+            {% else %}
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-accent/10 text-accent border border-accent/40">
+                Pendiente
+              </span>
+            {% endif %}
+          </td>
+          <td class="px-3 py-2 text-xs text-text-muted">
+            {% if u.last_login %}{{ u.last_login|date:"Y-m-d H:i" }}{% else %}—{% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="px-3 py-8 text-center text-text-muted">
+            No hay usuarios con acceso al admin.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="mt-4 text-xs text-text-muted">
+    Para revocar sesiones o resetear MFA, usa los management commands
+    (<code>reset_admin_mfa --username=X</code>). UI dedicada en F4.d.
+  </p>
+</div>
+{% endblock %}
