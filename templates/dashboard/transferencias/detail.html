@@ -1,0 +1,152 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:transferencias_list' %}" class="hover:text-primary">← Volver a transferencias</a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">
+    {{ transferencia.codigo }}
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-sm font-medium
+      {% if transferencia.prioridad == 'URGENTE' %}bg-danger/10 text-danger border border-danger/40
+      {% elif transferencia.prioridad == 'ALTA' %}bg-accent/10 text-accent border border-accent/40
+      {% elif transferencia.prioridad == 'MEDIA' %}bg-surface-raised border border-border
+      {% else %}bg-secondary/10 text-secondary border border-secondary/40{% endif %}">
+      {{ transferencia.get_prioridad_display }}
+    </span>
+  </h1>
+  <p class="text-sm text-text-muted mb-6">
+    Estado: <strong>{{ transferencia.get_estado_display }}</strong>
+    · Solicitada {{ transferencia.solicitada_en|date:"Y-m-d H:i" }}
+    por {{ transferencia.solicitada_por.username }}
+  </p>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-4 rounded-lg px-3 py-2 text-sm
+        {% if m.level_tag == 'success' %}bg-secondary/10 text-secondary border border-secondary/40
+        {% elif m.level_tag == 'error' %}bg-danger/10 text-danger border border-danger/40
+        {% else %}bg-surface-raised border border-border{% endif %}"
+        role="status">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <section class="grid gap-4 md:grid-cols-2 mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Ruta</div>
+      <dl class="text-sm space-y-1">
+        <div><dt class="inline text-text-muted">Origen:</dt> <dd class="inline">{{ transferencia.almacen_origen.nombre }}</dd></div>
+        <div><dt class="inline text-text-muted">Destino:</dt> <dd class="inline">{{ transferencia.almacen_destino.nombre }}</dd></div>
+        <div><dt class="inline text-text-muted">Motivo:</dt> <dd class="inline">{{ transferencia.motivo }}</dd></div>
+        {% if transferencia.notas %}
+        <div><dt class="inline text-text-muted">Notas:</dt> <dd class="inline">{{ transferencia.notas }}</dd></div>
+        {% endif %}
+      </dl>
+    </div>
+
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Hitos</div>
+      <dl class="text-sm space-y-1">
+        {% if transferencia.aprobada_en %}
+          <div><dt class="inline text-text-muted">Aprobada:</dt> <dd class="inline">{{ transferencia.aprobada_en|date:"Y-m-d H:i" }}{% if transferencia.aprobada_por %} por {{ transferencia.aprobada_por.username }}{% endif %}</dd></div>
+        {% endif %}
+        {% if transferencia.despachada_en %}
+          <div><dt class="inline text-text-muted">Despachada:</dt> <dd class="inline">{{ transferencia.despachada_en|date:"Y-m-d H:i" }}{% if transferencia.despachada_por %} por {{ transferencia.despachada_por.username }}{% endif %}</dd></div>
+        {% endif %}
+        {% if transferencia.recibida_en %}
+          <div><dt class="inline text-text-muted">Recibida:</dt> <dd class="inline">{{ transferencia.recibida_en|date:"Y-m-d H:i" }}{% if transferencia.recibida_por %} por {{ transferencia.recibida_por.username }}{% endif %}</dd></div>
+        {% endif %}
+      </dl>
+    </div>
+  </section>
+
+  {% if acciones_disponibles %}
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Acciones disponibles</h2>
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <form method="post" action="{% url 'dashboard:transferencia_accion' transferencia.id %}" class="space-y-3">
+        {% csrf_token %}
+        <div>
+          <label for="accion" class="block text-sm font-medium mb-1">Acción</label>
+          <select id="accion" name="accion" class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface">
+            {% for a in acciones_disponibles %}
+              <option value="{{ a }}">{{ a|capfirst }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label for="motivo" class="block text-sm font-medium mb-1">Motivo (opcional)</label>
+          <input id="motivo" name="motivo" type="text" maxlength="200"
+                 class="w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface">
+        </div>
+        <button type="submit" class="w-full rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+          Aplicar acción
+        </button>
+        <p class="text-xs text-text-muted">
+          El servicio de transferencias valida transiciones, stock y auditoría.
+        </p>
+      </form>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">Detalles ({{ detalles|length }})</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Insumo</th>
+            <th class="text-left px-3 py-2 font-medium">Lote origen</th>
+            <th class="text-right px-3 py-2 font-medium">Solicitada</th>
+            <th class="text-right px-3 py-2 font-medium">Despachada</th>
+            <th class="text-right px-3 py-2 font-medium">Recibida</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in detalles %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2">{{ d.insumo.nombre }}</td>
+            <td class="px-3 py-2 font-mono text-xs">{{ d.lote_origen.codigo }}</td>
+            <td class="px-3 py-2 text-right">{{ d.cantidad }}</td>
+            <td class="px-3 py-2 text-right">{{ d.cantidad_despachada }}</td>
+            <td class="px-3 py-2 text-right">{{ d.cantidad_recibida }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="px-3 py-4 text-center text-text-muted">Sin detalles.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-2">Historial ({{ transiciones|length }})</h2>
+    <div class="rounded-xl border border-border overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-raised text-text-muted">
+          <tr>
+            <th class="text-left px-3 py-2 font-medium">Fecha</th>
+            <th class="text-left px-3 py-2 font-medium">De → A</th>
+            <th class="text-left px-3 py-2 font-medium">Usuario</th>
+            <th class="text-left px-3 py-2 font-medium">Motivo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tr in transiciones %}
+          <tr class="border-t border-border">
+            <td class="px-3 py-2 text-xs text-text-muted">{{ tr.creado_en|date:"Y-m-d H:i" }}</td>
+            <td class="px-3 py-2">{{ tr.estado_anterior|default:"—" }} → {{ tr.estado_nuevo }}</td>
+            <td class="px-3 py-2">{{ tr.usuario.username }}</td>
+            <td class="px-3 py-2 text-text-muted">{{ tr.motivo|default:"—" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="px-3 py-4 text-center text-text-muted">Sin transiciones.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}

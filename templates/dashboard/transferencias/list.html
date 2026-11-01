@@ -1,0 +1,99 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <div class="mb-4">
+    <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
+    <p class="text-sm text-text-muted mt-1">
+      {{ total }} transferencia{{ total|pluralize }}
+    </p>
+  </div>
+
+  <form method="get" class="mb-4 flex flex-wrap gap-2">
+    <select name="estado" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+      <option value="">Estado (todos)</option>
+      {% for v, label in estados %}
+        <option value="{{ v }}" {% if filters.estado == v %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <select name="prioridad" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+      <option value="">Prioridad (todas)</option>
+      {% for v, label in prioridades %}
+        <option value="{{ v }}" {% if filters.prioridad == v %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+      Filtrar
+    </button>
+    {% if filters.estado or filters.prioridad %}
+      <a href="{% url 'dashboard:transferencias_list' %}"
+         class="rounded-lg px-4 py-2 text-sm border border-border hover:bg-surface-raised">
+        Limpiar
+      </a>
+    {% endif %}
+  </form>
+
+  <div class="rounded-xl border border-border overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-surface-raised text-text-muted">
+        <tr>
+          <th class="text-left px-3 py-2 font-medium">Código</th>
+          <th class="text-left px-3 py-2 font-medium">Origen → Destino</th>
+          <th class="text-left px-3 py-2 font-medium">Prioridad</th>
+          <th class="text-left px-3 py-2 font-medium">Estado</th>
+          <th class="text-left px-3 py-2 font-medium">Solicitada</th>
+          <th class="text-left px-3 py-2 font-medium"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in page_obj %}
+        <tr class="border-t border-border hover:bg-surface-raised/50">
+          <td class="px-3 py-2 font-mono text-xs">{{ t.codigo }}</td>
+          <td class="px-3 py-2">
+            <div class="text-xs">{{ t.almacen_origen.nombre }}</div>
+            <div class="text-xs text-text-muted">↓</div>
+            <div class="text-xs">{{ t.almacen_destino.nombre }}</div>
+          </td>
+          <td class="px-3 py-2">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+              {% if t.prioridad == 'URGENTE' %}bg-danger/10 text-danger border border-danger/40
+              {% elif t.prioridad == 'ALTA' %}bg-accent/10 text-accent border border-accent/40
+              {% elif t.prioridad == 'MEDIA' %}bg-surface-raised border border-border
+              {% else %}bg-secondary/10 text-secondary border border-secondary/40{% endif %}">
+              {{ t.get_prioridad_display }}
+            </span>
+          </td>
+          <td class="px-3 py-2">{{ t.get_estado_display }}</td>
+          <td class="px-3 py-2 text-xs text-text-muted">{{ t.solicitada_en|date:"Y-m-d H:i" }}</td>
+          <td class="px-3 py-2 text-right">
+            <a href="{% url 'dashboard:transferencia_detail' t.id %}" class="text-primary hover:underline">Ver →</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="px-3 py-8 text-center text-text-muted">
+            No hay transferencias que coincidan.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Paginación">
+    <div class="text-text-muted">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</div>
+    <div class="flex gap-2">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if filters.estado %}&estado={{ filters.estado }}{% endif %}{% if filters.prioridad %}&prioridad={{ filters.prioridad }}{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">← Anterior</a>
+      {% endif %}
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if filters.estado %}&estado={{ filters.estado }}{% endif %}{% if filters.prioridad %}&prioridad={{ filters.prioridad }}{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">Siguiente →</a>
+      {% endif %}
+    </div>
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}

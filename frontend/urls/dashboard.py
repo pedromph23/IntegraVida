@@ -9,6 +9,7 @@ from frontend.views import dashboard_pacientes as paciente_views
 from frontend.views import dashboard_triajes as triaje_views
 from frontend.views import dashboard_derivaciones as derivacion_views
 from frontend.views import dashboard_inventario as inventario_views
+from frontend.views import dashboard_transferencias as transferencia_views
 
 app_name = "dashboard"
 
@@ -119,5 +120,21 @@ urlpatterns = [
         "inventario/stock/<uuid:stock_id>/",
         inventario_views.stock_detail,
         name="stock_detail",
+    ),
+    # F3.g.2 — Transferencias (transiciones delegadas a services)
+    path(
+        "inventario/transferencias/",
+        transferencia_views.transferencias_list,
+        name="transferencias_list",
+    ),
+    path(
+        "inventario/transferencias/<uuid:transferencia_id>/",
+        transferencia_views.transferencia_detail,
+        name="transferencia_detail",
+    ),
+    path(
+        "inventario/transferencias/<uuid:transferencia_id>/accion/",
+        transferencia_views.transferencia_accion,
+        name="transferencia_accion",
     ),
 ]
