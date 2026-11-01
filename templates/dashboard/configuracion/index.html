@@ -1,0 +1,33 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <div class="mb-6">
+    <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
+    <p class="text-sm text-text-muted mt-1">
+      Gestión de membresías y roles de tu organización.
+    </p>
+  </div>
+
+  <section class="grid gap-4 sm:grid-cols-2 mb-8">
+    <a href="{% url 'dashboard:membresias_list' %}"
+       class="group block rounded-xl border border-border bg-surface-raised p-5 hover:border-primary/50 hover:shadow-md transition-colors">
+      <div class="text-lg font-semibold mb-2">Membresías</div>
+      <div class="text-sm text-text-muted mb-3">
+        {{ total_membresias }} membresía{{ total_membresias|pluralize }} visibles.
+        Activar, suspender, revocar y cambiar rol.
+      </div>
+      <div class="text-sm text-primary group-hover:underline">Gestionar →</div>
+    </a>
+
+    <div class="rounded-xl border border-dashed border-border bg-surface-raised/40 p-5 opacity-70">
+      <div class="text-lg font-semibold mb-2">Catálogos del sistema</div>
+      <div class="text-sm text-text-muted mb-3">
+        Próximamente: parámetros operativos. Hoy se configuran en el
+        administrador interno.
+      </div>
+      <div class="text-sm text-text-muted">—</div>
+    </div>
+  </section>
+</div>
+{% endblock %}

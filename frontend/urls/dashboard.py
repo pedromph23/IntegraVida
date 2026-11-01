@@ -12,6 +12,7 @@ from frontend.views import dashboard_inventario as inventario_views
 from frontend.views import dashboard_transferencias as transferencia_views
 from frontend.views import dashboard_entregas as entrega_views
 from frontend.views import dashboard_reportes as reporte_views
+from frontend.views import dashboard_configuracion as config_views
 
 app_name = "dashboard"
 
@@ -171,5 +172,21 @@ urlpatterns = [
         "reportes/<slug:slug>/",
         reporte_views.reporte_ejecutar,
         name="reporte_ejecutar",
+    ),
+    # F3.h.2 — Configuración (Membresías)
+    path(
+        "configuracion/",
+        config_views.configuracion_index,
+        name="configuracion_index",
+    ),
+    path(
+        "configuracion/membresias/",
+        config_views.membresias_list,
+        name="membresias_list",
+    ),
+    path(
+        "configuracion/membresias/<uuid:membresia_id>/update/",
+        config_views.membresia_update,
+        name="membresia_update",
     ),
 ]

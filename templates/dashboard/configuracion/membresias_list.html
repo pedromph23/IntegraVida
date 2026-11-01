@@ -1,0 +1,118 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-7xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:configuracion_index' %}" class="hover:text-primary">← Volver a configuración</a>
+  </nav>
+
+  <div class="mb-4">
+    <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
+    <p class="text-sm text-text-muted mt-1">
+      {{ total }} membresía{{ total|pluralize }}
+    </p>
+  </div>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-4 rounded-lg px-3 py-2 text-sm
+        {% if m.level_tag == 'success' %}bg-secondary/10 text-secondary border border-secondary/40
+        {% elif m.level_tag == 'error' %}bg-danger/10 text-danger border border-danger/40
+        {% else %}bg-surface-raised border border-border{% endif %}"
+        role="status">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="get" class="mb-4 flex flex-wrap gap-2">
+    <input type="text" name="q" value="{{ filters.q }}"
+           placeholder="Buscar usuario u organización"
+           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]">
+    <select name="estado" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+      <option value="">Estado (todos)</option>
+      {% for v, label in estados %}
+        <option value="{{ v }}" {% if filters.estado == v %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <select name="rol" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
+      <option value="">Rol (todos)</option>
+      {% for v, label in roles %}
+        <option value="{{ v }}" {% if filters.rol == v %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+      Filtrar
+    </button>
+    {% if filters.q or filters.estado or filters.rol %}
+      <a href="{% url 'dashboard:membresias_list' %}"
+         class="rounded-lg px-4 py-2 text-sm border border-border hover:bg-surface-raised">
+        Limpiar
+      </a>
+    {% endif %}
+  </form>
+
+  <div class="rounded-xl border border-border overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-surface-raised text-text-muted">
+        <tr>
+          <th class="text-left px-3 py-2 font-medium">Usuario</th>
+          <th class="text-left px-3 py-2 font-medium">Organización</th>
+          <th class="text-left px-3 py-2 font-medium">Rol</th>
+          <th class="text-left px-3 py-2 font-medium">Estado</th>
+          <th class="text-left px-3 py-2 font-medium">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in page_obj %}
+        <tr class="border-t border-border hover:bg-surface-raised/50 align-top">
+          <td class="px-3 py-2 font-medium">{{ m.usuario.username }}</td>
+          <td class="px-3 py-2">{{ m.organizacion.nombre }}</td>
+          <td class="px-3 py-2">{{ m.get_rol_display|default:m.rol }}</td>
+          <td class="px-3 py-2">{{ m.get_estado_display|default:m.estado }}</td>
+          <td class="px-3 py-2">
+            <form method="post" action="{% url 'dashboard:membresia_update' m.id %}" class="flex gap-1 items-center">
+              {% csrf_token %}
+              <select name="estado" class="rounded border border-border px-2 py-1 text-xs bg-surface">
+                {% for v, label in estados %}
+                  <option value="{{ v }}" {% if m.estado == v %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+              <select name="rol" class="rounded border border-border px-2 py-1 text-xs bg-surface">
+                {% for v, label in roles %}
+                  <option value="{{ v }}" {% if m.rol == v %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+              <button type="submit"
+                      class="text-xs rounded px-2 py-1 font-medium text-white iv-cta-bg">
+                Aplicar
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="px-3 py-8 text-center text-text-muted">
+            No hay membresías que coincidan.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Paginación">
+    <div class="text-text-muted">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</div>
+    <div class="flex gap-2">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if filters.q %}&q={{ filters.q|urlencode }}{% endif %}{% if filters.estado %}&estado={{ filters.estado }}{% endif %}{% if filters.rol %}&rol={{ filters.rol }}{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">← Anterior</a>
+      {% endif %}
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if filters.q %}&q={{ filters.q|urlencode }}{% endif %}{% if filters.estado %}&estado={{ filters.estado }}{% endif %}{% if filters.rol %}&rol={{ filters.rol }}{% endif %}"
+           class="rounded-lg px-3 py-1.5 border border-border hover:bg-surface-raised">Siguiente →</a>
+      {% endif %}
+    </div>
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}
