@@ -1,11 +1,34 @@
+"""Enrutamiento raíz.
+
+§7.1: /admin/ devuelve 404 (no 403, no redirect). El admin real vive
+bajo /<INTEGRAVIDA_ADMIN_SLUG>/, configurado por env.
+"""
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+
 from apps.configuracion import views as config_views
+from frontend.views.admin_hidden import not_found_404, robots_txt
 
 urlpatterns = [
+    # ── Anti-enumeración del admin (§7.1) ────────────────────────────
+    # Captura /admin/ y cualquier sub-path ANTES que nada.
+    path("admin/", not_found_404),
+    path("admin/<path:rest>", not_found_404),
+
+    # ── robots.txt ───────────────────────────────────────────────────
+    path("robots.txt", robots_txt, name="robots_txt"),
+
+    # ── Portal público + panel institucional ─────────────────────────
     path("", include("frontend.urls")),
+
+    # ── Health ───────────────────────────────────────────────────────
     path("health/", config_views.health, name="health"),
-    path("admin/", admin.site.urls),
+
+    # ── Admin personalizado (URL oculta, configurable por env) ───────
+    path(f"{settings.INTEGRAVIDA_ADMIN_SLUG}/", admin.site.urls),
+
+    # ── API interna / pública ────────────────────────────────────────
     path(
         "api/interno/organizaciones/",
         include("apps.organizaciones.urls"),

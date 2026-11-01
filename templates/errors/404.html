@@ -1,0 +1,30 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>No encontrado · IntegraVida</title>
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('iv-theme');
+        if (!t || t === 'system') {
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="{% static 'css/dist/main.css' %}">
+</head>
+<body class="min-h-screen flex items-center justify-center bg-surface text-text p-4">
+  <div class="max-w-md text-center">
+    <h1 class="text-6xl font-bold text-primary mb-2">404</h1>
+    <p class="text-lg text-text-muted mb-6">La página que buscas no existe.</p>
+    <a href="/" class="inline-block rounded-lg px-4 py-2 font-medium text-white iv-cta-bg">
+      Ir al inicio
+    </a>
+  </div>
+</body>
+</html>

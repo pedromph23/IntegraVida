@@ -85,6 +85,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'frontend.middleware.AdminSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -260,3 +261,28 @@ CSRF_TRUSTED_ORIGINS = [
     for origin in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
     if origin.strip()
 ]
+
+# ─── Admin oculto (§7.1) ───────────────────────────────────────────────
+# Slug de URL del admin personalizado. En producción ES OBLIGATORIO
+# definirlo en el entorno con un valor aleatorio largo generado con
+# secrets.token_urlsafe(24). En DEBUG se permite fallback.
+INTEGRAVIDA_ADMIN_SLUG = os.environ.get("INTEGRAVIDA_ADMIN_SLUG", "").strip()
+
+if not INTEGRAVIDA_ADMIN_SLUG:
+    if DEBUG:
+        INTEGRAVIDA_ADMIN_SLUG = "dev-admin-fallback"
+    else:
+        from django.core.exceptions import ImproperlyConfigured
+        raise ImproperlyConfigured(
+            "INTEGRAVIDA_ADMIN_SLUG es obligatorio en producción. "
+            "Genera un valor aleatorio con secrets.token_urlsafe(24)."
+        )
+
+# Slug no puede ser vacío, ni predecible, ni coincidir con rutas públicas
+_SLUG_PROHIBIDOS = {"admin", "administracion", "panel", "gestion", "staff"}
+if INTEGRAVIDA_ADMIN_SLUG in _SLUG_PROHIBIDOS:
+    from django.core.exceptions import ImproperlyConfigured
+    raise ImproperlyConfigured(
+        f"INTEGRAVIDA_ADMIN_SLUG no puede ser '{INTEGRAVIDA_ADMIN_SLUG}' "
+        "(predecible). Usa secrets.token_urlsafe(24)."
+    )
