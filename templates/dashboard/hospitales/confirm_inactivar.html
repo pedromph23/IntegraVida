@@ -1,0 +1,43 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:hospital_detail' hospital.codigo %}" class="hover:text-primary">
+      ← Volver al hospital
+    </a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">{{ page_title }}</h1>
+  <p class="text-sm text-text-muted mb-6">
+    Marca el hospital como <strong>NO_OPERATIVO</strong>. No se elimina
+    de la base de datos, pero deja de aparecer como disponible en el
+    portal público. Puedes reactivarlo después.
+  </p>
+
+  <div role="alert" class="mb-6 rounded-xl border border-accent/40 bg-accent/10 px-4 py-3">
+    <div class="font-medium text-accent mb-1">¿Confirmas la inactivación?</div>
+    <dl class="text-sm space-y-1">
+      <div><dt class="inline text-text-muted">Código:</dt> <dd class="inline font-mono">{{ hospital.codigo }}</dd></div>
+      <div><dt class="inline text-text-muted">Nombre:</dt> <dd class="inline font-medium">{{ hospital.nombre }}</dd></div>
+      <div><dt class="inline text-text-muted">Tipo:</dt> <dd class="inline">{{ hospital.get_tipo_display }} · {{ hospital.get_nivel_display }}</dd></div>
+      <div><dt class="inline text-text-muted">Organización:</dt> <dd class="inline">{{ hospital.organizacion.nombre }}</dd></div>
+      <div><dt class="inline text-text-muted">Estado actual:</dt> <dd class="inline">{{ hospital.get_estado_operativo_display }}</dd></div>
+    </dl>
+  </div>
+
+  <form method="post"
+        action="{% url 'dashboard:hospital_inactivar_submit' hospital.codigo %}"
+        class="flex gap-2">
+    {% csrf_token %}
+    <button type="submit"
+            class="rounded-lg px-4 py-2 text-sm font-medium text-white bg-danger hover:bg-danger/90">
+      Sí, marcar como NO_OPERATIVO
+    </button>
+    <a href="{% url 'dashboard:hospital_detail' hospital.codigo %}"
+       class="rounded-lg px-4 py-2 text-sm border border-border hover:bg-surface-raised">
+      Cancelar
+    </a>
+  </form>
+</div>
+{% endblock %}

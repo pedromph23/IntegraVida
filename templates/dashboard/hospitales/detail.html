@@ -37,9 +37,38 @@
       </dl>
     </div>
 
-    {% if can_write and estados_permitidos %}
+    {% if can_write or can_edit or can_delete %}
     <div class="rounded-xl border border-border bg-surface-raised p-4">
       <div class="text-xs uppercase text-text-muted mb-2">Acciones</div>
+
+      {% if can_edit or can_delete %}
+      <div class="flex flex-wrap gap-2 mb-4">
+        {% if can_edit %}
+          <a href="{% url 'dashboard:hospital_update_form' hospital.codigo %}"
+             class="flex-1 text-center rounded-lg px-3 py-2 text-sm font-medium border border-border hover:bg-surface">
+            Editar datos
+          </a>
+        {% endif %}
+        {% if can_delete %}
+          {% if hospital.estado_operativo == 'NO_OPERATIVO' %}
+            <form method="post" action="{% url 'dashboard:hospital_reactivar' hospital.codigo %}" class="flex-1">
+              {% csrf_token %}
+              <button type="submit"
+                      class="w-full rounded-lg px-3 py-2 text-sm font-medium border border-secondary/40 text-secondary hover:bg-secondary/10">
+                Reactivar
+              </button>
+            </form>
+          {% else %}
+            <a href="{% url 'dashboard:hospital_inactivar_confirm' hospital.codigo %}"
+               class="flex-1 text-center rounded-lg px-3 py-2 text-sm font-medium border border-danger/40 text-danger hover:bg-danger/10">
+              Inactivar
+            </a>
+          {% endif %}
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% if can_write and estados_permitidos %}
       <form method="post" action="{% url 'dashboard:hospital_cambiar_estado' hospital.codigo %}" class="space-y-3">
         {% csrf_token %}
         <label for="estado-hospital" class="block text-sm font-medium">Cambiar estado operativo</label>
@@ -56,13 +85,11 @@
           Solo se muestran transiciones válidas para el estado actual.
         </p>
       </form>
-    </div>
-    {% elif can_write %}
-    <div class="rounded-xl border border-border bg-surface-raised p-4">
-      <div class="text-xs uppercase text-text-muted mb-2">Acciones</div>
+      {% elif can_write %}
       <p class="text-sm text-text-muted">
         No hay transiciones disponibles desde {{ hospital.get_estado_operativo_display }}.
       </p>
+      {% endif %}
     </div>
     {% endif %}
   </section>

@@ -81,11 +81,47 @@ urlpatterns = [
         name="emergencia_cambiar_estado",
     ),
 
-    # F3.e.1 — Hospitales
+    # F3.e.1 + F5.b — Hospitales
     path(
         "hospitales/",
         hospital_views.hospitales_list,
         name="hospitales_list",
+    ),
+    # IMPORTANTE: /nuevo/ ANTES de /<slug:codigo>/
+    path(
+        "hospitales/nuevo/",
+        hospital_views.hospital_create_form,
+        name="hospital_create_form",
+    ),
+    path(
+        "hospitales/nuevo/guardar/",
+        hospital_views.hospital_create_submit,
+        name="hospital_create_submit",
+    ),
+    path(
+        "hospitales/<slug:codigo>/editar/",
+        hospital_views.hospital_update_form,
+        name="hospital_update_form",
+    ),
+    path(
+        "hospitales/<slug:codigo>/editar/guardar/",
+        hospital_views.hospital_update_submit,
+        name="hospital_update_submit",
+    ),
+    path(
+        "hospitales/<slug:codigo>/inactivar/",
+        hospital_views.hospital_inactivar_confirm,
+        name="hospital_inactivar_confirm",
+    ),
+    path(
+        "hospitales/<slug:codigo>/inactivar/confirmar/",
+        hospital_views.hospital_inactivar_submit,
+        name="hospital_inactivar_submit",
+    ),
+    path(
+        "hospitales/<slug:codigo>/reactivar/",
+        hospital_views.hospital_reactivar,
+        name="hospital_reactivar",
     ),
     path(
         "hospitales/<slug:codigo>/",
