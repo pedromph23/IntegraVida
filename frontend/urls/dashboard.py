@@ -21,6 +21,38 @@ urlpatterns = [
 
     # F3.c — Refugios
     path("refugios/", refugio_views.refugios_list, name="refugios_list"),
+    # IMPORTANTE: /nuevo/ va ANTES de /<slug:codigo>/, si no "nuevo"
+    # matchea como un código válido.
+    path(
+        "refugios/nuevo/",
+        refugio_views.refugio_create_form,
+        name="refugio_create_form",
+    ),
+    path(
+        "refugios/nuevo/guardar/",
+        refugio_views.refugio_create_submit,
+        name="refugio_create_submit",
+    ),
+    path(
+        "refugios/<slug:codigo>/editar/",
+        refugio_views.refugio_update_form,
+        name="refugio_update_form",
+    ),
+    path(
+        "refugios/<slug:codigo>/editar/guardar/",
+        refugio_views.refugio_update_submit,
+        name="refugio_update_submit",
+    ),
+    path(
+        "refugios/<slug:codigo>/inactivar/",
+        refugio_views.refugio_inactivar_confirm,
+        name="refugio_inactivar_confirm",
+    ),
+    path(
+        "refugios/<slug:codigo>/inactivar/confirmar/",
+        refugio_views.refugio_inactivar_submit,
+        name="refugio_inactivar_submit",
+    ),
     path(
         "refugios/<slug:codigo>/",
         refugio_views.refugio_detail,

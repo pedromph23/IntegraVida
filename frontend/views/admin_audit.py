@@ -34,13 +34,20 @@ def _require_admin_access(request):
 
 
 def _parse_fecha(s: str) -> datetime | None:
-    """Acepta YYYY-MM-DD. Devuelve None si no parsea."""
+    """Acepta YYYY-MM-DD. Devuelve datetime aware en la zona local.
+
+    Con USE_TZ=True, un datetime naive se compara mal contra
+    `ocurrido_en` (que es aware en UTC). Convertimos a aware en
+    `timezone.get_current_timezone()` para que "desde 2026-11-01"
+    signifique medianoche local del 1 de noviembre.
+    """
     if not s:
         return None
     try:
-        return datetime.strptime(s.strip(), "%Y-%m-%d")
+        naive = datetime.strptime(s.strip(), "%Y-%m-%d")
     except ValueError:
         return None
+    return timezone.make_aware(naive, timezone.get_current_timezone())
 
 
 @_admin_login_required

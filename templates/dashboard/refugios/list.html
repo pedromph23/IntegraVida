@@ -9,6 +9,12 @@
         {{ total }} refugio{{ total|pluralize }}
       </p>
     </div>
+    {% if can_create %}
+      <a href="{% url 'dashboard:refugio_create_form' %}"
+         class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+        + Nuevo refugio
+      </a>
+    {% endif %}
   </div>
 
   <form method="get" class="mb-4 flex flex-wrap gap-2">
@@ -58,8 +64,11 @@
           <td class="px-3 py-2">{{ r.get_tipo_display }}</td>
           <td class="px-3 py-2">{{ r.get_estado_operativo_display }}</td>
           <td class="px-3 py-2 text-right">{{ r.ocupacion_actual }} / {{ r.capacidad_total }}</td>
-          <td class="px-3 py-2 text-right">
+          <td class="px-3 py-2 text-right space-x-2">
             <a href="{% url 'dashboard:refugio_detail' r.codigo %}" class="text-primary hover:underline">Ver →</a>
+            {% if can_edit %}
+              <a href="{% url 'dashboard:refugio_update_form' r.codigo %}" class="text-text-muted hover:text-primary">Editar</a>
+            {% endif %}
           </td>
         </tr>
         {% empty %}

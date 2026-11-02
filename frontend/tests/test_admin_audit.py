@@ -168,23 +168,26 @@ class AuditListStaffTests(TestCase):
         self.assertNotIn("ev2", table)
 
     def test_filtro_desde(self):
-        # Evento de hoy → aparece con desde=hoy
+        # Evento de hoy → aparece con desde=hoy (fecha LOCAL, no UTC,
+        # para evitar falsos negativos cuando UTC ya cambió de día).
         _mk_evento(self.user, accion="hoy.evento")
-        hoy = timezone.now().date().isoformat()
+        hoy_local = timezone.localtime(timezone.now()).date().isoformat()
         r = self.client.get(
-            reverse("admin_custom:admin_audit_list") + f"?desde={hoy}"
+            reverse("admin_custom:admin_audit_list") + f"?desde={hoy_local}"
         )
         self.assertContains(r, "hoy.evento")
 
     def test_filtro_hasta_excluye_futuro(self):
-        # Los eventos son inmutables (update() bloqueado). En vez de
-        # manipular ocurrido_en, creamos un evento HOY y filtramos
-        # hasta=AYER: debe quedar fuera.
+        # Los eventos son inmutables (update() bloqueado). Creamos un
+        # evento HOY y filtramos hasta=AYER (fecha LOCAL): debe quedar
+        # fuera.
         from datetime import timedelta
         _mk_evento(self.user, accion="evento.hoy")
-        ayer = (timezone.now().date() - timedelta(days=1)).isoformat()
+        ayer_local = (
+            timezone.localtime(timezone.now()).date() - timedelta(days=1)
+        ).isoformat()
         r = self.client.get(
-            reverse("admin_custom:admin_audit_list") + f"?hasta={ayer}"
+            reverse("admin_custom:admin_audit_list") + f"?hasta={ayer_local}"
         )
         body = r.content.decode()
         table = body.split("<table", 1)[1].split("</table>", 1)[0]

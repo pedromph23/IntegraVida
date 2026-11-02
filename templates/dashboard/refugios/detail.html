@@ -35,9 +35,28 @@
       </dl>
     </div>
 
-    {% if can_write %}
+    {% if can_write or can_edit or can_delete %}
     <div class="rounded-xl border border-border bg-surface-raised p-4">
       <div class="text-xs uppercase text-text-muted mb-2">Acciones</div>
+
+      {% if can_edit or can_delete %}
+      <div class="flex gap-2 mb-4">
+        {% if can_edit %}
+          <a href="{% url 'dashboard:refugio_update_form' refugio.codigo %}"
+             class="flex-1 text-center rounded-lg px-3 py-2 text-sm font-medium border border-border hover:bg-surface">
+            Editar datos
+          </a>
+        {% endif %}
+        {% if can_delete %}
+          <a href="{% url 'dashboard:refugio_inactivar_confirm' refugio.codigo %}"
+             class="flex-1 text-center rounded-lg px-3 py-2 text-sm font-medium border border-danger/40 text-danger hover:bg-danger/10">
+            Inactivar
+          </a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% if can_write %}
       <form method="post" action="{% url 'dashboard:refugio_cambiar_estado' refugio.codigo %}" class="space-y-3">
         {% csrf_token %}
         <label for="estado-operativo" class="block text-sm font-medium">Cambiar estado operativo</label>
@@ -51,6 +70,7 @@
           Actualizar estado
         </button>
       </form>
+      {% endif %}
     </div>
     {% endif %}
   </section>

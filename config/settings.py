@@ -297,3 +297,13 @@ if INTEGRAVIDA_ADMIN_SLUG in _SLUG_PROHIBIDOS:
         f"INTEGRAVIDA_ADMIN_SLUG no puede ser '{INTEGRAVIDA_ADMIN_SLUG}' "
         "(predecible). Usa secrets.token_urlsafe(24)."
     )
+
+# ─── Password hashers (F5.a perf) ──────────────────────────────────────
+# En TEST mode usamos MD5PasswordHasher (instantáneo). En dev/prod
+# se mantiene el default de Django (PBKDF2/Argon2 con iteraciones).
+import sys as _sys
+if "test" in _sys.argv:
+    PASSWORD_HASHERS = [
+        "django.contrib.auth.hashers.MD5PasswordHasher",
+    ]
+
