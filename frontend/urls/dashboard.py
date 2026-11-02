@@ -64,11 +64,31 @@ urlpatterns = [
         name="refugio_cambiar_estado",
     ),
 
-    # F3.d — Emergencias
+    # F3.d + F5.c — Emergencias
     path(
         "emergencias/",
         emergencia_views.emergencias_list,
         name="emergencias_list",
+    ),
+    path(
+        "emergencias/nueva/",
+        emergencia_views.emergencia_create_form,
+        name="emergencia_create_form",
+    ),
+    path(
+        "emergencias/nueva/guardar/",
+        emergencia_views.emergencia_create_submit,
+        name="emergencia_create_submit",
+    ),
+    path(
+        "emergencias/<uuid:emergencia_id>/editar/",
+        emergencia_views.emergencia_update_form,
+        name="emergencia_update_form",
+    ),
+    path(
+        "emergencias/<uuid:emergencia_id>/editar/guardar/",
+        emergencia_views.emergencia_update_submit,
+        name="emergencia_update_submit",
     ),
     path(
         "emergencias/<uuid:emergencia_id>/",

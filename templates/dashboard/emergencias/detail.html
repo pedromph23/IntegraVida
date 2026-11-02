@@ -42,9 +42,20 @@
       <div class="mt-3 text-sm text-text-muted">{{ emergencia.descripcion }}</div>
     </div>
 
-    {% if can_write and estados_permitidos %}
+    {% if can_write or can_edit %}
     <div class="rounded-xl border border-border bg-surface-raised p-4">
       <div class="text-xs uppercase text-text-muted mb-2">Acciones</div>
+
+      {% if can_edit %}
+      <div class="flex flex-wrap gap-2 mb-4">
+        <a href="{% url 'dashboard:emergencia_update_form' emergencia.id %}"
+           class="flex-1 text-center rounded-lg px-3 py-2 text-sm font-medium border border-border hover:bg-surface">
+          Editar datos
+        </a>
+      </div>
+      {% endif %}
+
+      {% if can_write and estados_permitidos %}
       <form method="post" action="{% url 'dashboard:emergencia_cambiar_estado' emergencia.id %}" class="space-y-3">
         {% csrf_token %}
         <label for="estado-emergencia" class="block text-sm font-medium">Cambiar estado</label>
@@ -61,14 +72,12 @@
           Solo se muestran transiciones válidas para el estado actual.
         </p>
       </form>
-    </div>
-    {% elif can_write %}
-    <div class="rounded-xl border border-border bg-surface-raised p-4">
-      <div class="text-xs uppercase text-text-muted mb-2">Acciones</div>
+      {% elif can_write %}
       <p class="text-sm text-text-muted">
         Esta emergencia está en estado final ({{ emergencia.get_estado_display }}).
         No hay transiciones disponibles.
       </p>
+      {% endif %}
     </div>
     {% endif %}
   </section>

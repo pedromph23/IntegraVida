@@ -41,6 +41,9 @@ ROL_PERMISOS: dict[str, dict[str, set[str]]] = {
             ACCION_VER, ACCION_CREAR, ACCION_EDITAR,
             ACCION_ELIMINAR, ACCION_CAMBIAR_ESTADO,
         },
+        "emergencias": {
+            ACCION_VER, ACCION_CREAR, ACCION_EDITAR, ACCION_CAMBIAR_ESTADO,
+        },
     },
     "COORDINADOR": {
         "refugios": {
@@ -51,22 +54,29 @@ ROL_PERMISOS: dict[str, dict[str, set[str]]] = {
             ACCION_VER, ACCION_CREAR, ACCION_EDITAR,
             ACCION_CAMBIAR_ESTADO,
         },
+        "emergencias": {
+            ACCION_VER, ACCION_CREAR, ACCION_EDITAR, ACCION_CAMBIAR_ESTADO,
+        },
     },
     "OPERADOR": {
         "refugios": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
         "hospitales": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
+        "emergencias": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
     },
     "SANITARIO": {
         "refugios": {ACCION_VER},
         "hospitales": {ACCION_VER},
+        "emergencias": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
     },
     "LOGISTICA": {
         "refugios": {ACCION_VER},
         "hospitales": {ACCION_VER},
+        "emergencias": {ACCION_VER},
     },
     "CONSULTA": {
         "refugios": {ACCION_VER},
         "hospitales": {ACCION_VER},
+        "emergencias": {ACCION_VER},
     },
 }
 
@@ -82,6 +92,9 @@ GROUP_PERMISOS: dict[str, dict[str, set[str]]] = {
         "hospitales": {
             ACCION_VER, ACCION_CREAR, ACCION_EDITAR,
             ACCION_ELIMINAR, ACCION_CAMBIAR_ESTADO,
+        },
+        "emergencias": {
+            ACCION_VER, ACCION_CREAR, ACCION_EDITAR, ACCION_CAMBIAR_ESTADO,
         },
     },
     "COORDINADOR": {
@@ -99,6 +112,9 @@ GROUP_PERMISOS: dict[str, dict[str, set[str]]] = {
     },
     "OPERADOR_HOSPITAL": {
         "hospitales": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
+    },
+    "OPERADOR_EMERGENCIA": {
+        "emergencias": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
     },
 }
 

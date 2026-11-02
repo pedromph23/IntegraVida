@@ -1,0 +1,62 @@
+{% extends "base/base_dashboard.html" %}
+
+{% block content %}
+<div class="max-w-3xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:emergencias_list' %}" class="hover:text-primary">
+      ← Volver a emergencias
+    </a>
+  </nav>
+
+  <h1 class="text-2xl font-semibold mb-1">{{ page_title }}</h1>
+  <p class="text-sm text-text-muted mb-6">
+    {% if is_create %}
+      Registra una nueva emergencia. Se creará en estado <strong>RECIBIDA</strong>.
+    {% else %}
+      Modifica los datos de la emergencia. El estado se gestiona aparte.
+    {% endif %}
+  </p>
+
+  {% if form.non_field_errors %}
+    <div role="alert" class="mb-4 rounded-lg border border-danger/40 bg-danger/10 text-danger px-3 py-2 text-sm">
+      {% for e in form.non_field_errors %}{{ e }}{% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post"
+        action="{% if is_create %}{% url 'dashboard:emergencia_create_submit' %}{% else %}{% url 'dashboard:emergencia_update_submit' emergencia.id %}{% endif %}"
+        class="space-y-4">
+    {% csrf_token %}
+
+    {% for field in form %}
+      <div>
+        <label for="{{ field.id_for_label }}"
+               class="block text-sm font-medium mb-1">
+          {{ field.label }}
+          {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+        </label>
+        {{ field }}
+        {% if field.help_text %}
+          <p class="text-xs text-text-muted mt-1">{{ field.help_text }}</p>
+        {% endif %}
+        {% if field.errors %}
+          <ul class="text-xs text-danger mt-1 list-disc list-inside">
+            {% for e in field.errors %}<li>{{ e }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <div class="flex gap-2 pt-2">
+      <button type="submit"
+              class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
+        {% if is_create %}Crear emergencia{% else %}Guardar cambios{% endif %}
+      </button>
+      <a href="{% if is_create %}{% url 'dashboard:emergencias_list' %}{% else %}{% url 'dashboard:emergencia_detail' emergencia.id %}{% endif %}"
+         class="rounded-lg px-4 py-2 text-sm border border-border hover:bg-surface-raised">
+        Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}
