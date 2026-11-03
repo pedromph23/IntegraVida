@@ -80,3 +80,5 @@ test-results/
 .playwright/
 *.bak_f3a
 *.bak_*
+.env
+.env.*
