@@ -200,3 +200,49 @@ class RegistroOcupacion(models.Model):
             f"{self.refugio.nombre}: "
             f"{self.cantidad_anterior} → {self.cantidad_nueva}"
         )
+
+
+class PuntoReferencia(models.Model):
+    """Punto de referencia personalizado por organización.
+
+    Ej: "casa de mi familia", "comando policial", "punto de encuentro".
+    Se usa para navegación con OSRM desde el panel.
+    """
+
+    class Categoria(models.TextChoices):
+        CASA = "CASA", "Casa particular"
+        COMANDO = "COMANDO", "Comando policial"
+        BOMBEROS = "BOMBEROS", "Estación de bomberos"
+        PROTECCION_CIVIL = "PROTECCION_CIVIL", "Protección civil"
+        PUNTO_ENCUENTRO = "PUNTO_ENCUENTRO", "Punto de encuentro"
+        HOSPITAL_ALTERNO = "HOSPITAL_ALTERNO", "Centro de salud alterno"
+        OTRO = "OTRO", "Otro"
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    organizacion = models.ForeignKey(
+        "organizaciones.Organizacion",
+        on_delete=models.CASCADE,
+        related_name="puntos_referencia",
+    )
+    nombre = models.CharField(max_length=200)
+    categoria = models.CharField(
+        max_length=30, choices=Categoria.choices, default=Categoria.OTRO,
+    )
+    direccion = models.CharField(max_length=300, blank=True)
+    ubicacion = gis_models.PointField(null=True, blank=True)
+    telefono = models.CharField(max_length=30, blank=True)
+    notas = models.TextField(blank=True)
+    activo = models.BooleanField(default=True)
+    creado_en = models.DateTimeField(auto_now_add=True)
+    actualizado_en = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "punto de referencia"
+        verbose_name_plural = "puntos de referencia"
+        ordering = ["categoria", "nombre"]
+        indexes = [
+            models.Index(fields=["organizacion", "activo"]),
+        ]
+
+    def __str__(self):
+        return f"{self.nombre} ({self.get_categoria_display()})"

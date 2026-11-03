@@ -14,10 +14,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseForbidden
+from frontend.forms.membresias import MembresiaForm
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_GET, require_POST
 
-from apps.organizaciones.models import Membresia
+from apps.organizaciones.models import Organizacion, Membresia
 from apps.organizaciones.services import puede_administrar_plataforma
 
 PAGE_SIZE = 30
@@ -106,6 +107,7 @@ def membresias_list(request):
         "page_title": "Membresías",
         "page_obj": page,
         "total": paginator.count,
+        "can_manage": (puede_administrar_plataforma(request.user) or bool(_orgs_admin(request.user))),
         "filters": {"estado": estado, "rol": rol, "q": q},
         "estados": Membresia.Estado.choices,
         "roles": Membresia._meta.get_field("rol").choices,
@@ -146,3 +148,37 @@ def membresia_update(request, membresia_id):
         messages.info(request, "Sin cambios.")
 
     return redirect("dashboard:membresias_list")
+
+
+@login_required
+@require_GET
+def membresia_create_form(request):
+    orgs = _orgs_admin(request.user)
+    if orgs is None:
+        org_qs = Organizacion.objects.all()
+    else:
+        org_qs = Organizacion.objects.filter(id__in=orgs)
+    form = MembresiaForm()
+    form.fields["organizacion"].queryset = org_qs.order_by("nombre")
+    return render(request, "dashboard/configuracion/form.html", {
+        "form": form, "page_title": "Nueva membresía",
+    })
+
+
+@login_required
+@require_POST
+def membresia_create_submit(request):
+    orgs = _orgs_admin(request.user)
+    if orgs is None:
+        org_qs = Organizacion.objects.all()
+    else:
+        org_qs = Organizacion.objects.filter(id__in=orgs)
+    form = MembresiaForm(request.POST)
+    form.fields["organizacion"].queryset = org_qs.order_by("nombre")
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Membresía creada correctamente.")
+        return redirect("dashboard:membresias_list")
+    return render(request, "dashboard/configuracion/form.html", {
+        "form": form, "page_title": "Nueva membresía",
+    })

@@ -83,6 +83,36 @@ class MembresiasListTests(TestCase):
         self.assertIn("carlos", table)
         self.assertIn("Org A", table)
 
+    def test_filters_by_q(self):
+        """Filtro q busca por username (o email) sin romper con input raro."""
+        u1 = _mk_user("ana_busqueda")
+        u2 = _mk_user("beto_busqueda")
+        org = _mk_org()
+        _mk_membresia(u1, org)
+        _mk_membresia(u2, org)
+        admin = _mk_user("admin_q")
+        _mk_membresia(admin, org, rol="ADMIN_ORGANIZACION")
+        self.client.force_login(admin)
+        r = self.client.get(
+            reverse("dashboard:membresias_list"), {"q": "ana_busqueda"},
+        )
+        self.assertEqual(r.status_code, 200)
+        body = r.content.decode()
+        self.assertIn("ana_busqueda", body)
+        self.assertNotIn("beto_busqueda", body)
+
+    def test_filters_by_q_no_rompe_con_wildcards(self):
+        """Input con % y _ no rompe la búsqueda."""
+        org = _mk_org()
+        admin = _mk_user("admin_q2")
+        _mk_membresia(admin, org, rol="ADMIN_ORGANIZACION")
+        self.client.force_login(admin)
+        r = self.client.get(
+            reverse("dashboard:membresias_list"),
+            {"q": "%_"},  # wildcards LIKE (%, _)
+        )
+        self.assertEqual(r.status_code, 200)
+
     def test_filters_by_estado(self):
         u1 = _mk_user("u_activa")
         u2 = _mk_user("u_suspendida")
@@ -180,6 +210,44 @@ class MembresiaUpdateTests(TestCase):
         self.m.refresh_from_db()
         self.assertEqual(self.m.estado, "SUSPENDIDA")
 
+    def test_admin_org_puede_autodemoverse_documenta_riesgo(self):
+        """Comportamiento actual: un ADMIN_ORGANIZACION SÍ puede demoverse a sí
+        mismo (no hay salvaguarda en _can_manage_membership).
+
+        Política deliberada del test: documentar el comportamiento real y
+        anotar el riesgo como deuda D-F5-03. Si en el futuro se añade
+        salvaguarda, este test debe pasar a 403 y borrarse D-F5-03.
+        """
+        org = _mk_org()
+        admin = _mk_user("self_admin")
+        m = _mk_membresia(admin, org, rol="ADMIN_ORGANIZACION")
+        self.client.force_login(admin)
+        r = self.client.post(
+            reverse("dashboard:membresia_update", args=[m.id]),
+            {"rol": "OPERADOR", "estado": "ACTIVA"},
+        )
+        # Comportamiento actual: permitido (302) y el cambio persiste.
+        self.assertEqual(r.status_code, 302)
+        m.refresh_from_db()
+        self.assertEqual(m.rol, "OPERADOR")
+
+    def test_admin_org_puede_modificar_otro_admin_misma_org(self):
+        """Un ADMIN_ORGANIZACION puede gestionar a otro ADMIN de su misma org
+        (política esperada: peers horizontal)."""
+        org = _mk_org()
+        admin1 = _mk_user("admin_peer_1")
+        admin2 = _mk_user("admin_peer_2")
+        _mk_membresia(admin1, org, rol="ADMIN_ORGANIZACION")
+        m2 = _mk_membresia(admin2, org, rol="ADMIN_ORGANIZACION")
+        self.client.force_login(admin1)
+        r = self.client.post(
+            reverse("dashboard:membresia_update", args=[m2.id]),
+            {"rol": "COORDINADOR", "estado": "ACTIVA"},
+        )
+        self.assertEqual(r.status_code, 302)
+        m2.refresh_from_db()
+        self.assertEqual(m2.rol, "COORDINADOR")
+
     def test_admin_org_other_org_forbidden(self):
         self.client.logout()
         other_org = _mk_org("Org B")
@@ -221,3 +289,53 @@ class MembresiasScopeTests(TestCase):
         table = body.split("<table", 1)[1].split("</table>", 1)[0]
         self.assertIn("user1", table)
         self.assertNotIn("user2", table)
+
+
+class MembresiaCRUDTests(TestCase):
+    """Crear nueva membresía y revocar (cambio de estado)."""
+
+    def setUp(self):
+        self.org = _mk_org("OrgCRUD")
+        self.admin = _mk_user("admin_crud")
+        _mk_membresia(self.admin, self.org, rol="ADMIN_ORGANIZACION")
+        self.url_form = reverse("dashboard:membresia_create_form")
+        self.url_submit = reverse("dashboard:membresia_create_submit")
+
+    def test_admin_org_puede_crear_membresia(self):
+        self.client.force_login(self.admin)
+        r = self.client.get(self.url_form)
+        self.assertEqual(r.status_code, 200)
+
+        nuevo = _mk_user("nuevo_crud")
+        data = {
+            "usuario": nuevo.pk,
+            "organizacion": self.org.pk,
+            "rol": "OPERADOR",
+            "estado": "ACTIVA",
+        }
+        r = self.client.post(self.url_submit, data)
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue(
+            Membresia.objects.filter(
+                usuario=nuevo, organizacion=self.org, rol="OPERADOR",
+            ).exists(),
+            "La membresía debe crearse",
+        )
+
+    def test_user_sin_rol_admin_forbidden(self):
+        u = _mk_user("peon_crud")
+        _mk_membresia(u, self.org, rol="OPERADOR")
+        self.client.force_login(u)
+        r = self.client.get(self.url_form)
+        # OPERADOR no gestiona membresías → sin orgs_admin → form vacío
+        # (o 200 con queryset vacío). El POST sí debe fallar por orgs vacío.
+        r = self.client.post(self.url_submit, {
+            "usuario": self.admin.pk,
+            "organizacion": self.org.pk,
+            "rol": "OPERADOR",
+            "estado": "ACTIVA",
+        })
+        # El form rechaza la org (no está en queryset) → 200 con errores
+        # o 403/404 según implementación. Aceptamos 200 con error de validación.
+        self.assertIn(r.status_code, (200, 403, 404))
+

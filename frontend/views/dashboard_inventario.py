@@ -9,15 +9,17 @@ Superuser (puede_administrar_plataforma) ve todo.
 """
 from datetime import timedelta
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 from django.core.paginator import Paginator
 from django.db.models import (
     BooleanField, Case, DecimalField, F, Q, Sum, Value, When,
 )
 from django.db.models.functions import Coalesce
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 
 from apps.inventario.models import Almacen, Insumo, Lote, Movimiento, Stock
 from apps.organizaciones.models import Membresia
@@ -104,6 +106,7 @@ def insumos_list(request):
             "bajo_stock": "true" if solo_bajo else "",
         },
         "categorias": Insumo._meta.get_field("categoria").choices,
+        "can_edit": _can_edit_insumos(request.user),
     })
 
 
@@ -244,4 +247,82 @@ def insumo_detail(request, codigo):
         "insumo": insumo,
         "stocks": stocks_lista,
         "total_cantidad": total_cantidad,
+        "can_edit": _can_edit_insumos(request.user),
     })
+
+
+from frontend.forms.insumos import InsumoForm
+
+
+def _can_edit_insumos(user):
+    """Insumo es catálogo global: solo admin de plataforma puede editarlo."""
+    return puede_administrar_plataforma(user)
+
+
+@login_required
+@require_GET
+def insumo_create_form(request):
+    if not _can_edit_insumos(request.user):
+        return HttpResponseForbidden("Sin permiso para crear insumos.")
+    form = InsumoForm()
+    return render(request, "dashboard/inventario/form.html", {
+        "form": form, "page_title": "Nuevo insumo",
+    })
+
+
+@login_required
+@require_POST
+def insumo_create_submit(request):
+    if not _can_edit_insumos(request.user):
+        return HttpResponseForbidden("Sin permiso para crear insumos.")
+    form = InsumoForm(request.POST)
+    if form.is_valid():
+        insumo = form.save()
+        messages.success(request, f"Insumo '{insumo.nombre}' creado.")
+        return redirect("dashboard:insumo_detail", codigo=insumo.codigo)
+    return render(request, "dashboard/inventario/form.html", {
+        "form": form, "page_title": "Nuevo insumo",
+    })
+
+
+@login_required
+@require_GET
+def insumo_update_form(request, codigo):
+    if not _can_edit_insumos(request.user):
+        return HttpResponseForbidden("Sin permiso para editar insumos.")
+    insumo = get_object_or_404(Insumo, codigo=codigo)
+    form = InsumoForm(instance=insumo)
+    return render(request, "dashboard/inventario/form.html", {
+        "form": form, "page_title": f"Editar insumo: {insumo.nombre}",
+        "insumo": insumo,
+    })
+
+
+@login_required
+@require_POST
+def insumo_update_submit(request, codigo):
+    if not _can_edit_insumos(request.user):
+        return HttpResponseForbidden("Sin permiso para editar insumos.")
+    insumo = get_object_or_404(Insumo, codigo=codigo)
+    form = InsumoForm(request.POST, instance=insumo)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Insumo actualizado.")
+        return redirect("dashboard:insumo_detail", codigo=insumo.codigo)
+    return render(request, "dashboard/inventario/form.html", {
+        "form": form, "page_title": f"Editar insumo: {insumo.nombre}",
+        "insumo": insumo,
+    })
+
+
+@login_required
+@require_POST
+def insumo_inactivar_submit(request, codigo):
+    if not _can_edit_insumos(request.user):
+        return HttpResponseForbidden("Sin permiso para inactivar insumos.")
+    insumo = get_object_or_404(Insumo, codigo=codigo)
+    insumo.activo = not insumo.activo
+    insumo.save(update_fields=["activo", "actualizado_en"])
+    estado = "activado" if insumo.activo else "inactivado"
+    messages.success(request, f"Insumo {estado}.")
+    return redirect("dashboard:insumo_detail", codigo=insumo.codigo)

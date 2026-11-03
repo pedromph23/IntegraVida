@@ -173,6 +173,20 @@ class EntregaDetailTests(TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.e.codigo)
 
+    def test_detail_404_otra_org(self):
+        """Entrega real en OTRA org → 404."""
+        u = _mk_user("cross_det_e")
+        org_a = _mk_org()
+        org_b = _mk_org()
+        _mk_membresia(u, org_a)
+        self.client.force_login(u)
+        almacen_b = _mk_almacen(org_b, "AlmacenB")
+        e_b = _mk_entrega(almacen_b, u)
+        r = self.client.get(
+            reverse("dashboard:entrega_detail", args=[e_b.id])
+        )
+        self.assertEqual(r.status_code, 404)
+
     def test_detail_404(self):
         r = self.client.get(
             reverse("dashboard:entrega_detail", args=[uuid.uuid4()])
@@ -226,6 +240,43 @@ class EntregaAccionTests(TestCase):
         self.assertEqual(r.status_code, 302)
         self.e.refresh_from_db()
         self.assertEqual(self.e.estado, "ENVIADA")
+
+    def test_accion_404_otra_org(self):
+        """POST de acción cross-org → 404 y estado sin cambios."""
+        u = _mk_user("cross_acc_e")
+        org_a = _mk_org()
+        org_b = _mk_org()
+        _mk_membresia(u, org_a)
+        self.client.force_login(u)
+        almacen_b = _mk_almacen(org_b, "AlmacenB2")
+        e_b = _mk_entrega(almacen_b, u)
+        r = self.client.post(
+            reverse("dashboard:entrega_accion", args=[e_b.id]),
+            {"accion": "enviar"},
+        )
+        self.assertEqual(r.status_code, 404)
+        e_b.refresh_from_db()
+        self.assertEqual(e_b.estado, "BORRADOR")
+
+    def test_accion_recibir_valid(self):
+        """ENVIADA → RECIBIDA."""
+        self.e.estado = "ENVIADA"
+        self.e.save(update_fields=["estado"])
+        _mk_detalle(self.e, self.insumo, self.lote, Decimal("10.000"))
+        r = self.client.post(self.url, {"accion": "recibir"})
+        self.assertEqual(r.status_code, 302)
+        self.e.refresh_from_db()
+        self.assertEqual(self.e.estado, "RECIBIDA")
+
+    def test_accion_cancelar_enviada_valid(self):
+        """ENVIADA → CANCELADA."""
+        self.e.estado = "ENVIADA"
+        self.e.save(update_fields=["estado"])
+        _mk_detalle(self.e, self.insumo, self.lote, Decimal("10.000"))
+        r = self.client.post(self.url, {"accion": "cancelar"})
+        self.assertEqual(r.status_code, 302)
+        self.e.refresh_from_db()
+        self.assertEqual(self.e.estado, "CANCELADA")
 
     def test_accion_cancelar_borrador_valid(self):
         r = self.client.post(self.url, {"accion": "cancelar"})

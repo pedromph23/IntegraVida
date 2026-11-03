@@ -9,6 +9,9 @@
     </p>
   </div>
 
+  <div class="mb-4 flex justify-end">
+    <a href="{% url 'dashboard:almacen_create_form' %}" class="rounded-lg px-3 py-1.5 text-sm font-medium text-white iv-cta-bg">+ Nuevo Almacén</a>
+  </div>
   <form method="get" class="mb-4 flex flex-wrap gap-2">
     <select name="almacen" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
       <option value="">Almacén (todos)</option>
@@ -18,14 +21,14 @@
     </select>
     <input type="text" name="q" value="{{ filters.q }}"
            placeholder="Buscar insumo"
-           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]">
+           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]" aria-label="Buscar insumo">
     <select name="con_stock" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
       <option value="true" {% if filters.con_stock == "true" %}selected{% endif %}>Solo con stock</option>
       <option value="false" {% if filters.con_stock == "false" %}selected{% endif %}>Todos</option>
     </select>
     <label class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-lg border border-border bg-surface-raised">
       <input type="checkbox" name="bajo_stock" value="true"
-             {% if filters.bajo_stock == "true" %}checked{% endif %}>
+             {% if filters.bajo_stock == "true" %}checked{% endif %} aria-label="Solo bajo stock">
       Solo bajo stock
     </label>
     <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">

@@ -149,6 +149,28 @@ class InsumoDetailTests(TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.insumo.nombre)
 
+    def test_only_visible_stocks(self):
+        """insumo global: la página solo muestra stocks de almacenes del user."""
+        u = _mk_user("insumo_scope_user")
+        org_a = _mk_org()
+        org_b = _mk_org()
+        _mk_membresia(u, org_a)
+        self.client.force_login(u)
+        insumo = _mk_insumo(nombre="InsumoScopeX")
+        # Almacén en MI org (debe verse)
+        almacen_a = _mk_almacen(org_a, nombre="AlmacenVisiblePropio")
+        _mk_stock(almacen_a, _mk_lote(insumo), Decimal("15.000"))
+        # Almacén en OTRA org (no debe verse)
+        almacen_b = _mk_almacen(org_b, nombre="AlmacenAjenoOculto")
+        _mk_stock(almacen_b, _mk_lote(insumo), Decimal("99.000"))
+        r = self.client.get(
+            reverse("dashboard:insumo_detail", args=[insumo.codigo])
+        )
+        self.assertEqual(r.status_code, 200)
+        body = r.content.decode()
+        self.assertIn("AlmacenVisiblePropio", body)
+        self.assertNotIn("AlmacenAjenoOculto", body)
+
     def test_404(self):
         r = self.client.get(
             reverse("dashboard:insumo_detail", args=["nope"])
@@ -221,6 +243,22 @@ class StockDetailTests(TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.insumo.nombre)
 
+    def test_404_otra_org(self):
+        """Stock real en almacén de OTRA org → 404 (sin fuga cross-org)."""
+        u = _mk_user("cross_stock_user")
+        org_a = _mk_org()
+        org_b = _mk_org()
+        _mk_membresia(u, org_a)
+        self.client.force_login(u)
+        almacen_b = _mk_almacen(org_b)
+        insumo = _mk_insumo()
+        lote = _mk_lote(insumo)
+        stock_b = _mk_stock(almacen_b, lote, Decimal("10.000"))
+        r = self.client.get(
+            reverse("dashboard:stock_detail", args=[stock_b.id])
+        )
+        self.assertEqual(r.status_code, 404)
+
     def test_404_unknown(self):
         r = self.client.get(
             reverse("dashboard:stock_detail", args=[uuid.uuid4()])
@@ -278,3 +316,74 @@ class ScopeTests(TestCase):
         table = body.split("<table", 1)[1].split("</table>", 1)[0]
         self.assertIn("Almacén 1", table)
         self.assertNotIn("Almacén 2", table)
+
+
+class InsumoCRUDTests(TestCase):
+    """CRUD del catálogo global de Insumos (solo admin de plataforma)."""
+
+    def setUp(self):
+        self.url_create = reverse("dashboard:insumo_create_form")
+        self.url_submit = reverse("dashboard:insumo_create_submit")
+
+    def test_admin_plataforma_puede_crear(self):
+        u = _mk_superuser("admin_insumo_crud")
+        self.client.force_login(u)
+        r = self.client.get(self.url_create)
+        self.assertEqual(r.status_code, 200)
+
+        data = {
+            "codigo": "insumo-crud-test",
+            "nombre": "Insumo CRUD Test",
+            "categoria": "AGUA",
+            "subcategoria": "Botellones",
+            "unidad_medida": "LITRO",
+            "stock_minimo_global": "5.000",
+            "vida_util_dias": 365,
+            "notas": "Creado en test",
+        }
+        r = self.client.post(self.url_submit, data)
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue(
+            Insumo.objects.filter(codigo="insumo-crud-test").exists(),
+            "El insumo debe persistir",
+        )
+
+    def test_user_sin_plataforma_forbidden(self):
+        u = _mk_user("regular_crud")
+        org = _mk_org()
+        _mk_membresia(u, org)
+        self.client.force_login(u)
+        r = self.client.get(self.url_create)
+        self.assertEqual(r.status_code, 403)
+
+    def test_update_persiste_cambios(self):
+        u = _mk_superuser("admin_insumo_upd")
+        self.client.force_login(u)
+        insumo = _mk_insumo(nombre="Original CRUD")
+        url = reverse("dashboard:insumo_update_submit", args=[insumo.codigo])
+        data = {
+            "codigo": insumo.codigo,
+            "nombre": "Actualizado CRUD",
+            "categoria": "AGUA",
+            "subcategoria": "Botellones",
+            "unidad_medida": "LITRO",
+            "stock_minimo_global": "5.000",
+            "vida_util_dias": 365,
+            "notas": "",
+        }
+        r = self.client.post(url, data)
+        self.assertEqual(r.status_code, 302)
+        insumo.refresh_from_db()
+        self.assertEqual(insumo.nombre, "Actualizado CRUD")
+
+    def test_toggle_activo(self):
+        u = _mk_superuser("admin_insumo_tog")
+        self.client.force_login(u)
+        insumo = _mk_insumo()
+        self.assertTrue(insumo.activo)
+        url = reverse("dashboard:insumo_inactivar_submit", args=[insumo.codigo])
+        r = self.client.post(url)
+        self.assertEqual(r.status_code, 302)
+        insumo.refresh_from_db()
+        self.assertFalse(insumo.activo)
+

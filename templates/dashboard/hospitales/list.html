@@ -20,7 +20,7 @@
   <form method="get" class="mb-4 flex flex-wrap gap-2">
     <input type="text" name="q" value="{{ filters.q }}"
            placeholder="Buscar nombre, dirección o código"
-           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]">
+           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]" aria-label="Buscar nombre, dirección o código">
     <select name="estado_operativo" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
       <option value="">Estado (todos)</option>
       {% for v, label in estados %}

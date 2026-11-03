@@ -44,6 +44,9 @@ ROL_PERMISOS: dict[str, dict[str, set[str]]] = {
         "emergencias": {
             ACCION_VER, ACCION_CREAR, ACCION_EDITAR, ACCION_CAMBIAR_ESTADO,
         },
+        "pacientes": {
+            ACCION_VER, ACCION_EDITAR,
+        },
     },
     "COORDINADOR": {
         "refugios": {
@@ -57,16 +60,21 @@ ROL_PERMISOS: dict[str, dict[str, set[str]]] = {
         "emergencias": {
             ACCION_VER, ACCION_CREAR, ACCION_EDITAR, ACCION_CAMBIAR_ESTADO,
         },
+        "pacientes": {
+            ACCION_VER, ACCION_EDITAR,
+        },
     },
     "OPERADOR": {
         "refugios": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
         "hospitales": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
         "emergencias": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
+        "pacientes": {ACCION_VER},
     },
     "SANITARIO": {
         "refugios": {ACCION_VER},
         "hospitales": {ACCION_VER},
         "emergencias": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
+        "pacientes": {ACCION_VER},
     },
     "LOGISTICA": {
         "refugios": {ACCION_VER},
@@ -96,6 +104,9 @@ GROUP_PERMISOS: dict[str, dict[str, set[str]]] = {
         "emergencias": {
             ACCION_VER, ACCION_CREAR, ACCION_EDITAR, ACCION_CAMBIAR_ESTADO,
         },
+        "pacientes": {
+            ACCION_VER, ACCION_EDITAR,
+        },
     },
     "COORDINADOR": {
         "refugios": {
@@ -112,6 +123,7 @@ GROUP_PERMISOS: dict[str, dict[str, set[str]]] = {
     },
     "OPERADOR_HOSPITAL": {
         "hospitales": {ACCION_VER, ACCION_CAMBIAR_ESTADO},
+        "pacientes": {ACCION_VER},
     },
     "OPERADOR_EMERGENCIA": {
         "emergencias": {ACCION_VER, ACCION_CAMBIAR_ESTADO},

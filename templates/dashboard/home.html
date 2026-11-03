@@ -29,8 +29,40 @@
       {% endfor %}
     </section>
 
-    <p class="text-xs text-text-muted">
+    <section class="mb-8">
+      <div class="rounded-xl border border-border bg-surface-raised p-4">
+        <div class="flex items-center justify-between gap-3 mb-4">
+          <h2 class="text-lg font-medium">Mapa Operativo</h2>
+          {% if mapa_puntos %}
+            <a href="{% url 'dashboard:mapa_view' %}"
+               class="rounded-lg px-3 py-1.5 text-sm font-medium text-white iv-cta-bg whitespace-nowrap">
+              Abrir mapa navegador →
+            </a>
+          {% else %}
+            <span class="text-xs text-text-muted">Sin puntos cargados</span>
+          {% endif %}
+        </div>
+        <div id="map" class="w-full h-96 rounded-lg z-0 border border-border"
+             data-markers="{{ mapa_puntos_json }}"
+             data-tile-server="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"></div>
+        {% if not mapa_puntos %}
+          <p class="text-xs text-text-muted mt-2">
+            Aún no hay hospitales, refugios ni puntos de referencia registrados.
+            <a href="{% url 'dashboard:puntos_list' %}" class="text-primary hover:underline">
+              Añadir el primer punto →
+            </a>
+          </p>
+        {% else %}
+          <p class="text-xs text-text-muted mt-2">Solo se muestran los recursos de tu organización.</p>
+        {% endif %}
+      </div>
+    </section>
+
+    
+
+        <p class="text-xs text-text-muted">
       Selecciona un módulo del menú lateral para comenzar.
     </p>
   </div>
 {% endblock %}
+

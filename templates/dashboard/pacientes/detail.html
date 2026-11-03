@@ -7,9 +7,22 @@
     <a href="{% url 'dashboard:pacientes_list' %}" class="hover:text-primary">← Volver a pacientes</a>
   </nav>
 
-  <h1 class="text-2xl font-semibold mb-1">
-    {% if can_see_full_names %}{{ paciente.nombres }} {{ paciente.apellidos }}{% else %}{{ paciente.nombres|mask_nombre_completo }} {{ paciente.apellidos|mask_nombre_completo }}{% endif %}
-  </h1>
+  <div class="flex items-start justify-between gap-3 mb-1">
+    <h1 class="text-2xl font-semibold">
+      {% if can_see_full_names %}{{ paciente.nombres }} {{ paciente.apellidos }}{% else %}{{ paciente.nombres|mask_nombre_completo }} {{ paciente.apellidos|mask_nombre_completo }}{% endif %}
+    </h1>
+  <div class="flex gap-2 mb-4">
+    <a href="{% url 'dashboard:episodio_create_form' paciente.id %}" class="rounded-lg px-3 py-1.5 text-sm border border-border hover:bg-surface-raised">+ Nuevo Episodio</a>
+    <a href="{% url 'dashboard:contacto_create_form' paciente.id %}" class="rounded-lg px-3 py-1.5 text-sm border border-border hover:bg-surface-raised">+ Nuevo Contacto</a>
+  </div>
+    {% if can_edit %}
+      <a href="{% url 'dashboard:paciente_update_form' paciente.id %}"
+         class="rounded-lg px-3 py-1.5 text-sm border border-border hover:bg-surface-raised whitespace-nowrap"
+         aria-label="Editar datos del paciente">
+        Editar datos
+      </a>
+    {% endif %}
+  </div>
   <p class="text-sm text-text-muted mb-6">
     {% if can_see_sensitive_pii %}PII completa visible{% elif can_see_full_names %}Nombres completos, cédula enmascarada{% else %}PII enmascarada{% endif %}
   </p>
@@ -50,6 +63,22 @@
     </div>
     {% endif %}
   </section>
+
+  {% if paciente.color_piel or paciente.color_ojos or paciente.tipo_cara or paciente.estatura_cm or paciente.peso_kg or paciente.edad_aproximada %}
+  <section class="mb-6">
+    <div class="rounded-xl border border-border bg-surface-raised p-4">
+      <div class="text-xs uppercase text-text-muted mb-2">Descripción física (si no se conoce identidad)</div>
+      <dl class="text-sm grid grid-cols-2 md:grid-cols-3 gap-2">
+        {% if paciente.color_piel %}<div><dt class="inline text-text-muted">Color de piel:</dt> <dd class="inline">{{ paciente.get_color_piel_display }}</dd></div>{% endif %}
+        {% if paciente.color_ojos %}<div><dt class="inline text-text-muted">Color de ojos:</dt> <dd class="inline">{{ paciente.get_color_ojos_display }}</dd></div>{% endif %}
+        {% if paciente.tipo_cara %}<div><dt class="inline text-text-muted">Tipo de cara:</dt> <dd class="inline">{{ paciente.get_tipo_cara_display }}</dd></div>{% endif %}
+        {% if paciente.estatura_cm %}<div><dt class="inline text-text-muted">Estatura:</dt> <dd class="inline">{{ paciente.estatura_cm }} cm</dd></div>{% endif %}
+        {% if paciente.peso_kg %}<div><dt class="inline text-text-muted">Peso:</dt> <dd class="inline">{{ paciente.peso_kg }} kg</dd></div>{% endif %}
+        {% if paciente.edad_aproximada %}<div><dt class="inline text-text-muted">Edad aprox.:</dt> <dd class="inline">{{ paciente.edad_aproximada }}</dd></div>{% endif %}
+      </dl>
+    </div>
+  </section>
+  {% endif %}
 
   <section class="mb-6">
     <h2 class="text-lg font-semibold mb-2">Contactos de emergencia ({{ contactos|length }})</h2>

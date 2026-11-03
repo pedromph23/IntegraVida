@@ -6,6 +6,10 @@
     <a href="{% url 'dashboard:hospitales_list' %}" class="hover:text-primary">← Volver a hospitales</a>
   </nav>
   <h1 class="text-2xl font-semibold mb-1">{{ hospital.nombre }}</h1>
+  <div class="flex gap-2 mb-4">
+    <a href="{% url 'dashboard:servicio_create_form' %}" class="rounded-lg px-3 py-1.5 text-sm font-medium text-white iv-cta-bg">+ Nuevo Servicio</a>
+    <a href="{% url 'dashboard:recurso_create_form' hospital.id %}" class="rounded-lg px-3 py-1.5 text-sm border border-border hover:bg-surface-raised">+ Nuevo Recurso</a>
+  </div>
   <p class="text-sm text-text-muted mb-6 font-mono">
     {{ hospital.codigo }} · {{ hospital.get_tipo_display }} · {{ hospital.get_nivel_display }}
   </p>

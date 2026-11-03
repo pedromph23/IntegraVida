@@ -18,6 +18,7 @@ from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
+from apps.auditoria.models import EventoAuditoria
 from apps.usuarios.services import (
     check_rate_limit,
     clear_rate_limit,
@@ -219,6 +220,27 @@ class MFAViewTests(TestCase):
         s = self.client.session
         self.assertNotIn("admin_mfa_verified_at", s)
 
+    def test_codigo_invalido_crea_evento_auditoria(self):
+        """Un código TOTP inválido debe quedar auditado (§7.1)."""
+        enroll_admin_mfa(self.user)
+        before = EventoAuditoria.objects.filter(
+            accion="admin.mfa.invalid_code", actor=self.user,
+        ).count()
+        self.client.post(f"/{self.slug}/mfa/verify/", {"code": "000000"})
+        after = EventoAuditoria.objects.filter(
+            accion="admin.mfa.invalid_code", actor=self.user,
+        ).count()
+        self.assertEqual(
+            after, before + 1,
+            "El intento con código inválido debe crear EventoAuditoria",
+        )
+        ev = EventoAuditoria.objects.filter(
+            accion="admin.mfa.invalid_code", actor=self.user,
+        ).latest("ocurrido_en")
+        self.assertEqual(ev.resultado, EventoAuditoria.Resultado.DENEGADO)
+        self.assertEqual(ev.tipo_objeto, "AdminMFA")
+        self.assertEqual(ev.objeto_id, str(self.user.pk))
+
     def test_cancel_limpia_sesion(self):
         s = self.client.session
         s["admin_mfa_verified_at"] = timezone.now().timestamp()
@@ -267,6 +289,31 @@ class RateLimitViewTests(TestCase):
         self.client.post(f"/{self.slug}/mfa/verify/", {"code": code})
         # La sesión no se marca
         self.assertNotIn("admin_mfa_verified_at", self.client.session)
+
+    def test_rate_limit_crea_evento_auditoria(self):
+        """El bloqueo por rate limit debe quedar auditado (§7.1)."""
+        # 5 fallos → el 6to intento es bloqueado por rate limit
+        for _ in range(5):
+            self.client.post(f"/{self.slug}/mfa/verify/", {"code": "000000"})
+
+        # 6to intento (con código válido): bloqueado por rate limit
+        secret = self.user.admin_mfa_secret
+        code = pyotp.TOTP(secret).now()
+        self.client.post(f"/{self.slug}/mfa/verify/", {"code": code})
+
+        eventos = EventoAuditoria.objects.filter(
+            accion="admin.mfa.rate_limited", actor=self.user,
+        )
+        self.assertTrue(
+            eventos.exists(),
+            "El bloqueo por rate limit debe crear EventoAuditoria",
+        )
+        ev = eventos.latest("ocurrido_en")
+        self.assertEqual(ev.resultado, EventoAuditoria.Resultado.DENEGADO)
+        self.assertEqual(ev.tipo_objeto, "AdminMFA")
+        self.assertEqual(ev.objeto_id, str(self.user.pk))
+        self.assertIn("intentos", ev.metadatos)
+        self.assertIn("maximo", ev.metadatos)
 
     def test_codigo_valido_antes_del_limite_ok(self):
         secret = self.user.admin_mfa_secret

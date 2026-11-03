@@ -2,6 +2,13 @@
 
 {% block content %}
 <div class="max-w-7xl">
+  <div class="mb-6 flex flex-wrap gap-2">
+    <a href="{% url 'dashboard:organizacion_create_form' %}" class="rounded-lg px-3 py-1.5 text-sm font-medium text-white iv-cta-bg">+ Nueva Organización</a>
+    <a href="{% url 'dashboard:entidad_create_form' %}" class="rounded-lg px-3 py-1.5 text-sm border border-border hover:bg-surface-raised">+ Nueva Entidad Federal</a>
+    <a href="{% url 'dashboard:municipio_create_form' %}" class="rounded-lg px-3 py-1.5 text-sm border border-border hover:bg-surface-raised">+ Nuevo Municipio</a>
+    <a href="{% url 'dashboard:parroquia_create_form' %}" class="rounded-lg px-3 py-1.5 text-sm border border-border hover:bg-surface-raised">+ Nueva Parroquia</a>
+  </div>
+
   <div class="mb-6">
     <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
     <p class="text-sm text-text-muted mt-1">

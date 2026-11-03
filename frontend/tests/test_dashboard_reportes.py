@@ -97,6 +97,44 @@ class ReporteEjecutarTests(TestCase):
         self.assertContains(r, "<form")
         self.assertContains(r, "Inventario crítico")
 
+    def test_post_org_ajena_no_crea_registro(self):
+        """POST con organizacion ajena → error, no crea registro, no ejecuta servicio."""
+        op = _mk_user("op_ajeno")
+        org_a = _mk_org("OrgA_ajena_test")
+        org_b = _mk_org("OrgB_ajena_test")
+        _mk_membresia(op, org_a)
+        self.client.force_login(op)
+        before = RegistroExportacion.objects.count()
+        r = self.client.post(
+            reverse("dashboard:reporte_ejecutar", args=["inventario-critico"]),
+            {"organizacion": str(org_b.id)},
+            follow=True,
+        )
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(
+            RegistroExportacion.objects.count(), before,
+            "POST con org ajena NO debe crear RegistroExportacion",
+        )
+        self.assertNotContains(
+            r, "Resultado (JSON)",
+            msg_prefix="Servicio no debe ejecutarse con org ajena",
+        )
+        self.assertContains(r, "Organización inválida")
+
+    def test_post_user_sin_membresias_no_crea_registro(self):
+        """User autenticado sin membresías → sin registro, sin ejecutar servicio."""
+        u = _mk_user("no_memb_reportes")
+        self.client.force_login(u)
+        before = RegistroExportacion.objects.count()
+        r = self.client.post(
+            reverse("dashboard:reporte_ejecutar", args=["inventario-critico"]),
+            {},
+            follow=True,
+        )
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(RegistroExportacion.objects.count(), before)
+        self.assertNotContains(r, "Resultado (JSON)")
+
     def test_post_inventario_registra_exportacion(self):
         before = RegistroExportacion.objects.count()
         r = self.client.post(
@@ -201,6 +239,30 @@ class HistorialTests(TestCase):
 
 
 class HistorialScopeTests(TestCase):
+    def test_historial_admin_ve_todo(self):
+        """Admin de plataforma ve exportaciones de TODAS las orgs."""
+        admin = _mk_superuser("admin_hist")
+        org1 = _mk_org("HistOrg1")
+        org2 = _mk_org("HistOrg2")
+        RegistroExportacion.objects.create(
+            usuario=admin, organizacion=org1,
+            tipo="JSON", contenido="INVENTARIO_CRITICO",
+            parametros={}, filas_incluidas=1,
+            archivo_ruta="", resultado="EXITOSO", detalle="A",
+        )
+        RegistroExportacion.objects.create(
+            usuario=admin, organizacion=org2,
+            tipo="JSON", contenido="CAPACIDAD_OPERATIVA",
+            parametros={}, filas_incluidas=1,
+            archivo_ruta="", resultado="EXITOSO", detalle="B",
+        )
+        self.client.force_login(admin)
+        r = self.client.get(reverse("dashboard:reportes_historial"))
+        body = r.content.decode()
+        table = body.split("<table", 1)[1].split("</table>", 1)[0]
+        self.assertIn("Inventario crítico", table)
+        self.assertIn("Capacidad operativa", table)
+
     def test_operator_sees_only_own_org_exportaciones(self):
         admin = _mk_superuser("admin")
         org1 = _mk_org("Org1")
@@ -223,6 +285,32 @@ class HistorialScopeTests(TestCase):
         op = _mk_user("op")
         _mk_membresia(op, org1)
         self.client.force_login(op)
+        r = self.client.get(reverse("dashboard:reportes_historial"))
+        body = r.content.decode()
+        table = body.split("<table", 1)[1].split("</table>", 1)[0]
+        self.assertIn("Inventario crítico", table)
+        self.assertNotIn("Capacidad operativa", table)
+
+
+    def test_historial_exportacion_personal_sin_org_visible(self):
+        """Exportación personal (organizacion=None) propia visible, ajena no."""
+        u = _mk_user("personal_hist")
+        org_a = _mk_org("OrgPersonal")
+        _mk_membresia(u, org_a)
+        RegistroExportacion.objects.create(
+            usuario=u, organizacion=None,
+            tipo="JSON", contenido="INVENTARIO_CRITICO",
+            parametros={}, filas_incluidas=1,
+            archivo_ruta="", resultado="EXITOSO", detalle="personal",
+        )
+        otro = _mk_user("otro_personal_hist")
+        RegistroExportacion.objects.create(
+            usuario=otro, organizacion=None,
+            tipo="JSON", contenido="CAPACIDAD_OPERATIVA",
+            parametros={}, filas_incluidas=1,
+            archivo_ruta="", resultado="EXITOSO", detalle="ajena",
+        )
+        self.client.force_login(u)
         r = self.client.get(reverse("dashboard:reportes_historial"))
         body = r.content.decode()
         table = body.split("<table", 1)[1].split("</table>", 1)[0]

@@ -9,6 +9,9 @@ from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
 from django.shortcuts import render
+from apps.organizaciones.services import puede_administrar_plataforma
+from apps.organizaciones.models import Membresia
+from django.urls import reverse
 from django.utils import timezone
 
 from apps.refugios.models import Refugio
@@ -122,9 +125,57 @@ def home(request):
     groups = list(user.groups.values_list("name", flat=True))
     visible = _visible_from_groups(groups)
     cards = _build_cards(visible)
-    return render(request, "dashboard/home.html", {
+
+    # ── Datos para el mapa ──
+    mapa_puntos = []
+    try:
+        if puede_administrar_plataforma(user):
+            org_ids = None
+        else:
+            org_ids = list(
+                Membresia.objects.filter(
+                    usuario=user, estado=Membresia.Estado.ACTIVA,
+                ).values_list("organizacion_id", flat=True)
+            )
+
+        h_qs = Hospital.objects.filter(estado_operativo="DISPONIBLE")
+        if org_ids is not None:
+            h_qs = h_qs.filter(organizacion_id__in=org_ids)
+        for h in h_qs:
+            if h.ubicacion:
+                mapa_puntos.append({
+                    "lat": h.ubicacion.y,
+                    "lng": h.ubicacion.x,
+                    "titulo": h.nombre,
+                    "categoria": "HOSPITAL",
+                    "subtitulo": h.direccion,
+                    "url": reverse("dashboard:hospital_detail", args=[h.codigo]),
+                })
+
+        r_qs = Refugio.objects.filter(estado_operativo="DISPONIBLE")
+        if org_ids is not None:
+            r_qs = r_qs.filter(organizacion_id__in=org_ids)
+        for r in r_qs:
+            if r.ubicacion:
+                mapa_puntos.append({
+                    "lat": r.ubicacion.y,
+                    "lng": r.ubicacion.x,
+                    "titulo": r.nombre,
+                    "categoria": "REFUGIO",
+                    "subtitulo": r.direccion,
+                    "url": reverse("dashboard:refugio_detail", args=[r.codigo]),
+                })
+    except Exception:
+        import logging
+        logging.getLogger(__name__).exception("Error construyendo mapa del panel")
+        mapa_puntos = []
+
+    import json
+    context = {
         "page_title": "Panel institucional",
-        "user_groups": groups,
-        "last_login": user.last_login,
         "cards": cards,
-    })
+        "user_groups": groups,
+        "mapa_puntos": mapa_puntos,
+        "mapa_puntos_json": json.dumps(mapa_puntos),
+    }
+    return render(request, "dashboard/home.html", context)

@@ -39,13 +39,33 @@ def registrar_evento(
         with connection.cursor() as cursor:
             cursor.execute("SELECT pg_advisory_xact_lock(%s)", [_ADVISORY_LOCK_KEY])
 
-        ultimo_hash = (
-            EventoAuditoria.objects
-            .order_by("-ocurrido_en")
-            .values_list("hash_actual", flat=True)
-            .first()
+        # La cabeza es el hash_actual que todavía no ha sido
+        # referenciado como hash_anterior por otro evento.
+        hashes_referenciados = EventoAuditoria.objects.values(
+            "hash_anterior"
         )
-        hash_anterior = ultimo_hash if ultimo_hash else HASH_GENESIS
+
+        cabezas = list(
+            EventoAuditoria.objects
+            .exclude(hash_actual__in=hashes_referenciados)
+            .values_list("hash_actual", flat=True)[:2]
+        )
+
+        if len(cabezas) > 1:
+            raise RuntimeError(
+                "Integridad de auditoría comprometida: "
+                "se detectaron varias cabezas de cadena."
+            )
+
+        if not cabezas:
+            if EventoAuditoria.objects.exists():
+                raise RuntimeError(
+                    "Integridad de auditoría comprometida: "
+                    "no se pudo identificar la cabeza de la cadena."
+                )
+            hash_anterior = HASH_GENESIS
+        else:
+            hash_anterior = cabezas[0]
 
         evento = EventoAuditoria(
             actor=actor,

@@ -1,0 +1,42 @@
+{% extends "base/base_dashboard.html" %}
+{% block content %}
+<div class="max-w-4xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="{% url 'dashboard:usuarios_list' %}" class="hover:text-primary">← Volver a usuarios</a>
+  </nav>
+
+  <div class="flex items-start justify-between gap-3 mb-4">
+    <div>
+      <h1 class="text-2xl font-semibold">{{ usuario.get_full_name|default:usuario.username }}</h1>
+      <p class="text-sm text-text-muted font-mono">{{ usuario.username }} · {{ usuario.email|default:"sin email" }}</p>
+    </div>
+    {% if can_edit %}
+      <div class="flex gap-2">
+        <a href="{% url 'dashboard:usuario_update_form' usuario.id %}"
+           class="rounded-lg px-3 py-1.5 text-sm border border-border hover:bg-surface-raised">Editar</a>
+        <form method="post" action="{% url 'dashboard:usuario_toggle_active' usuario.id %}" class="inline">
+          {% csrf_token %}
+          <button type="submit"
+                  class="rounded-lg px-3 py-1.5 text-sm border border-danger/40 text-danger hover:bg-danger/10">
+            {% if usuario.is_active %}Inactivar{% else %}Activar{% endif %}
+          </button>
+        </form>
+      </div>
+    {% endif %}
+  </div>
+
+  <section class="rounded-xl border border-border bg-surface-raised p-4 mb-4">
+    <div class="text-xs uppercase text-text-muted mb-2">Membresías</div>
+    <ul class="space-y-2 text-sm">
+      {% for m in membresias %}
+        <li class="flex items-center justify-between border-b border-border pb-1">
+          <span>{{ m.organizacion.nombre }}</span>
+          <span class="text-xs text-text-muted">{{ m.get_rol_display }} · {{ m.get_estado_display }}</span>
+        </li>
+      {% empty %}
+        <li class="text-text-muted text-sm">Sin membresías.</li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+{% endblock %}

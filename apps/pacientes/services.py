@@ -128,21 +128,18 @@ def buscar_paciente_por_cedula(cedula):
 
 def filtrar_episodios_por_ambito(queryset, usuario):
     """
-    Filtra un queryset de Episodios según el ámbito de las membresías del usuario.
+    Limita episodios a las membresías activas del usuario.
 
-    Reglas (§8, §11):
-    - Superusuario: ve todos los episodios.
-    - Membresía ACTIVA con ambito_municipio NULL: ve todos los episodios de
-      su organización.
-    - Membresía ACTIVA con ambito_municipio definido: ve solo los episodios
-      cuyo hospital o refugio esté en ese municipio.
-    - Sin membresía: no ve nada.
-
-    Se combinan con OR: un usuario con múltiples membresías ve la unión.
+    - Superusuario activo: acceso global de plataforma.
+    - Membresía sin municipio: todos los centros de su organización.
+    - Membresía con municipio: solo centros de esa organización
+      ubicados en ese municipio.
+    - Se respeta cada pareja organización/municipio sin cruzar ámbitos.
+    - Las organizaciones suspendidas o inactivas no conceden acceso.
     """
     from django.db.models import Q
 
-    from apps.organizaciones.models import Membresia
+    from apps.organizaciones.models import Membresia, Organizacion
     from apps.organizaciones.services import puede_administrar_plataforma
 
     if puede_administrar_plataforma(usuario):
@@ -151,40 +148,38 @@ def filtrar_episodios_por_ambito(queryset, usuario):
     if not getattr(usuario, "is_authenticated", False):
         return queryset.none()
 
-    membresias = Membresia.objects.filter(
-        usuario=usuario,
-        estado=Membresia.Estado.ACTIVA,
-    ).values_list("organizacion_id", "ambito_municipio_id")
+    membresias = list(
+        Membresia.objects.filter(
+            usuario=usuario,
+            estado=Membresia.Estado.ACTIVA,
+            organizacion__estado=Organizacion.Estado.ACTIVA,
+        ).values_list(
+            "organizacion_id",
+            "ambito_municipio_id",
+        )
+    )
 
-    orgs_sin_restriccion = []
-    municipios_restringidos = []
-
-    for org_id, municipio_id in membresias:
-        if municipio_id is None:
-            orgs_sin_restriccion.append(org_id)
-        else:
-            municipios_restringidos.append(municipio_id)
-
-    if not orgs_sin_restriccion and not municipios_restringidos:
+    if not membresias:
         return queryset.none()
 
-    filtros = Q()
-    if orgs_sin_restriccion:
-        filtros |= Q(hospital__organizacion_id__in=orgs_sin_restriccion)
-        filtros |= Q(refugio__organizacion_id__in=orgs_sin_restriccion)
-    if municipios_restringidos:
-        filtros |= Q(
-            hospital__organizacion_id__in=[
-                m[0] for m in membresias if m[1] is not None
-            ],
-            hospital__municipio_id__in=municipios_restringidos,
-        )
-        filtros |= Q(
-            refugio__organizacion_id__in=[
-                m[0] for m in membresias if m[1] is not None
-            ],
-            refugio__municipio_id__in=municipios_restringidos,
-        )
+    filtros = Q(pk__in=[])
+
+    for organizacion_id, municipio_id in membresias:
+        if municipio_id is None:
+            filtros |= (
+                Q(hospital__organizacion_id=organizacion_id)
+                | Q(refugio__organizacion_id=organizacion_id)
+            )
+        else:
+            filtros |= (
+                Q(
+                    hospital__organizacion_id=organizacion_id,
+                    hospital__municipio_id=municipio_id,
+                )
+                | Q(
+                    refugio__organizacion_id=organizacion_id,
+                    refugio__municipio_id=municipio_id,
+                )
+            )
 
     return queryset.filter(filtros).distinct()
-

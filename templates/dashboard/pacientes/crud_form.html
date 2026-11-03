@@ -1,0 +1,28 @@
+{% extends "base/base_dashboard.html" %}
+{% block content %}
+<div class="max-w-3xl">
+  <nav class="text-sm text-text-muted mb-2">
+    <a href="javascript:history.back()" class="hover:text-primary">← Volver</a>
+  </nav>
+  <h1 class="text-2xl font-semibold mb-6">{{ page_title }}</h1>
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="text-danger text-sm font-medium mb-2">{{ form.non_field_errors }}</div>
+    {% endif %}
+    {% for field in form %}
+      <div>
+        <label for="{{ field.id_for_label }}" class="block text-sm font-medium mb-1">
+          {{ field.label }}{% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+        </label>
+        {{ field }}
+        {% if field.errors %}<div class="text-xs text-danger mt-1">{{ field.errors }}</div>{% endif %}
+      </div>
+    {% endfor %}
+    <div class="flex gap-2 pt-4">
+      <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">Guardar</button>
+      <a href="javascript:history.back()" class="rounded-lg px-4 py-2 text-sm border border-border hover:bg-surface-raised">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

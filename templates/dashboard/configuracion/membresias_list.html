@@ -6,11 +6,19 @@
     <a href="{% url 'dashboard:configuracion_index' %}" class="hover:text-primary">← Volver a configuración</a>
   </nav>
 
-  <div class="mb-4">
-    <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
-    <p class="text-sm text-text-muted mt-1">
-      {{ total }} membresía{{ total|pluralize }}
-    </p>
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <div>
+      <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
+      <p class="text-sm text-text-muted mt-1">
+        {{ total }} membresía{{ total|pluralize }}
+      </p>
+    </div>
+    {% if can_manage %}
+      <a href="{% url 'dashboard:membresia_create_form' %}"
+         class="rounded-lg px-3 py-1.5 text-sm font-medium text-white iv-cta-bg whitespace-nowrap">
+        + Nueva membresía
+      </a>
+    {% endif %}
   </div>
 
   {% if messages %}
@@ -26,7 +34,7 @@
   <form method="get" class="mb-4 flex flex-wrap gap-2">
     <input type="text" name="q" value="{{ filters.q }}"
            placeholder="Buscar usuario u organización"
-           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]">
+           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]" aria-label="Buscar usuario u organización">
     <select name="estado" class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised">
       <option value="">Estado (todos)</option>
       {% for v, label in estados %}

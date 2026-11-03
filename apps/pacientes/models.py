@@ -55,6 +55,43 @@ class Paciente(models.Model):
     notas_internas = EncryptedTextField(blank=True)
     creado_en = models.DateTimeField(auto_now_add=True, db_index=True)
     actualizado_en = models.DateTimeField(auto_now=True)
+    color_piel = models.CharField(
+        max_length=20, blank=True, default="",
+        choices=[
+            ("CLARA", "Clara"),
+            ("MEDIA", "Media"),
+            ("OSCURA", "Oscura"),
+            ("MUY_OSCURA", "Muy oscura"),
+            ("NO_ESPECIFICADO", "No especificado"),
+        ],
+    )
+    color_ojos = models.CharField(
+        max_length=20, blank=True, default="",
+        choices=[
+            ("MARRONES", "Marrones"),
+            ("VERDES", "Verdes"),
+            ("AZULES", "Azules"),
+            ("GRISES", "Grises"),
+            ("NEGROS", "Negros"),
+            ("NO_ESPECIFICADO", "No especificado"),
+        ],
+    )
+    tipo_cara = models.CharField(
+        max_length=20, blank=True, default="",
+        choices=[
+            ("OVALADA", "Ovalada"),
+            ("REDONDA", "Redonda"),
+            ("CUADRADA", "Cuadrada"),
+            ("ALARGADA", "Alargada"),
+            ("TRIANGULAR", "Triangular"),
+            ("NO_ESPECIFICADO", "No especificado"),
+        ],
+    )
+    estatura_cm = models.PositiveIntegerField(null=True, blank=True)
+    peso_kg = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    edad_aproximada = models.CharField(max_length=50, blank=True, default="")
+
+
 
     class Meta:
         ordering = ["-creado_en"]

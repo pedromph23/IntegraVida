@@ -7,13 +7,14 @@ apps/triaje/tests.py). Aquí validamos: lista, filtros, aislamiento por
 import uuid
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.db import connection
 from django.test import TestCase
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
 
-from apps.organizaciones.models import Organizacion
+from apps.organizaciones.models import Organizacion, Membresia
 from apps.hospitales.models import Hospital
 from apps.pacientes.models import Paciente, Episodio
 from apps.triaje.models import Triaje
@@ -66,6 +67,37 @@ def _mk_episodio(paciente, hospital, registrado_por):
     )
 
 
+def _mk_user(username, groups=(), is_staff=False):
+    u = User.objects.create_user(username=username, password="x")
+    if is_staff:
+        u.is_staff = True
+        u.save()
+    for n in groups:
+        g, _ = Group.objects.get_or_create(name=n)
+        u.groups.add(g)
+    return u
+
+
+def _mk_membresia(user, org, rol="COORDINADOR", estado="ACTIVA"):
+    return Membresia.objects.create(
+        usuario=user, organizacion=org, rol=rol, estado=estado,
+    )
+
+
+def _linked_triaje(org, autor, cedula="V-12345678",
+                   nombres="Juan Carlos", apellidos="Pérez Rodríguez",
+                   clasificacion="VERDE", vigente=True):
+    """Paciente + Hospital(org) + Episodio + Triaje en un solo paso."""
+    paciente = Paciente.objects.create(
+        nombres=nombres, apellidos=apellidos,
+        cedula=cedula, cedula_hash=None,
+        sexo_biologico="M",
+    )
+    hospital = _mk_hospital(org)
+    episodio = _mk_episodio(paciente, hospital, autor)
+    return _mk_triaje(episodio, autor, clasificacion=clasificacion, vigente=vigente)
+
+
 def _mk_triaje(episodio, evaluado_por, clasificacion="VERDE", vigente=True):
     return Triaje.objects.create(
         episodio=episodio, clasificacion=clasificacion,
@@ -94,6 +126,22 @@ class TriajesListTests(TestCase):
         r = self.client.get(reverse("dashboard:triajes_list"))
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, "Triajes")
+
+    def test_list_masks_pii_even_for_admin(self):
+        """List SIEMPRE enmascara, incluso ADMIN (consistencia con Pacientes)."""
+        u = _mk_user("admin_mask", groups=["ADMIN"])
+        org = _mk_org()
+        _mk_membresia(u, org, rol="ADMIN_ORGANIZACION")
+        self.client.force_login(u)
+        _linked_triaje(org, u, cedula="V-12345678",
+                       nombres="Juan Carlos", apellidos="Pérez")
+        r = self.client.get(reverse("dashboard:triajes_list"))
+        self.assertEqual(r.status_code, 200)
+        body = r.content.decode()
+        # List siempre enmascarado, sea quien sea el usuario
+        self.assertNotIn("V-12345678", body)
+        self.assertNotIn("Juan Carlos", body)
+        self.assertNotIn("Pérez", body)
 
     def test_list_shows_triaje(self):
         _mk_triaje(self.episodio, self.admin, clasificacion="ROJO")
@@ -158,6 +206,31 @@ class TriajesScopeTests(TestCase):
         self.assertIn("No hay triajes", table)
 
 
+class TriajesListNoPermisoTests(TestCase):
+    """Roles con membresía pero sin acceso a PII de pacientes."""
+
+    def test_logistica_forbidden(self):
+        u = _mk_user("log_tri")
+        org = _mk_org()
+        _mk_membresia(u, org, rol="LOGISTICA")
+        self.client.force_login(u)
+        # Triaje con PII distintiva en la org del usuario (LOGISTICA)
+        _linked_triaje(
+            org, u,
+            nombres="SecretNombreX", apellidos="ApellidoSecreto",
+            cedula="V-99999999",
+        )
+        r = self.client.get(reverse("dashboard:triajes_list"))
+        # Aceptamos 200 (enmascarado) o 403 (bloqueo total).
+        self.assertIn(r.status_code, (200, 403))
+        if r.status_code == 200:
+            body = r.content.decode()
+            # Nunca debe exponer PII completa
+            self.assertNotIn("V-99999999", body)
+            self.assertNotIn("SecretNombreX", body)
+            self.assertNotIn("ApellidoSecreto", body)
+
+
 class TriajeDetailTests(TestCase):
     def setUp(self):
         self.admin = _mk_superuser("admin")
@@ -174,6 +247,20 @@ class TriajeDetailTests(TestCase):
         )
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, "Rojo")
+
+    def test_detail_404_otra_org(self):
+        """Triaje existente en OTRA org → 404 (no filtra UUID cross-org)."""
+        u = _mk_user("coord_cross")
+        org_a = _mk_org()
+        org_b = _mk_org()
+        _mk_membresia(u, org_a, rol="COORDINADOR")
+        self.client.force_login(u)
+        # Triaje en org_b (que NO es la del user)
+        t = _linked_triaje(org_b, u)
+        r = self.client.get(
+            reverse("dashboard:triaje_detail", args=[t.id])
+        )
+        self.assertEqual(r.status_code, 404)
 
     def test_detail_404_unknown(self):
         r = self.client.get(

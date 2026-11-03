@@ -11,10 +11,13 @@
     </p>
   </div>
 
+  <div class="mb-4 flex justify-end">
+    <a href="{% url 'dashboard:paciente_create_form' %}" class="rounded-lg px-3 py-1.5 text-sm font-medium text-white iv-cta-bg">+ Nuevo Paciente</a>
+  </div>
   <form method="get" class="mb-4 flex flex-wrap gap-2">
     <input type="text" name="q" value="{{ filters.q }}"
            placeholder="Buscar por nombre o apellidos"
-           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]">
+           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]" aria-label="Buscar por nombre o apellidos">
     <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">
       Filtrar
     </button>

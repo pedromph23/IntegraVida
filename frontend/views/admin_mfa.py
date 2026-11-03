@@ -20,6 +20,8 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_GET, require_POST
 
+from apps.auditoria.models import EventoAuditoria
+from apps.auditoria.services import registrar_evento
 from apps.usuarios.services import (
     check_rate_limit,
     clear_rate_limit,
@@ -61,6 +63,35 @@ def _require_admin_staff(user):
 # no al del panel institucional (settings.LOGIN_URL = /panel/login/).
 # reverse_lazy("admin:login") → /<slug>/login/ (prefijo del admin.site.urls).
 _admin_login_required = login_required(login_url=reverse_lazy("admin:login"))
+
+
+def _audit_mfa_event(request, *, accion, justificacion, metadatos=None):
+    """Auditoría best-effort: nunca debe romper el flujo de autenticación.
+
+    registrar_evento() puede fallar por advisory lock, cadena rota, o
+    problemas transitorios de BD. Si eso ocurre, lo loggeamos pero
+    dejamos que el usuario continúe su intento de auth.
+    """
+    import logging
+    _logger = logging.getLogger(__name__)
+    ip = (request.META.get("REMOTE_ADDR") or "")[:64] or None
+    ua = (request.META.get("HTTP_USER_AGENT") or "")[:500]
+    try:
+        registrar_evento(
+            actor=request.user,
+            accion=accion,
+            tipo_objeto="AdminMFA",
+            objeto_id=str(request.user.pk),
+            resultado=EventoAuditoria.Resultado.DENEGADO,
+            justificacion=justificacion,
+            direccion_ip=ip,
+            agente_usuario=ua,
+            metadatos=metadatos or {},
+        )
+    except Exception:
+        _logger.exception(
+            "No se pudo registrar evento de auditoría MFA: %s", accion,
+        )
 
 
 @_admin_login_required
@@ -112,6 +143,12 @@ def mfa_verify_submit(request):
 
     permitido, intentos, maximo = check_rate_limit(ip, request.user.username)
     if not permitido:
+        _audit_mfa_event(
+            request,
+            accion="admin.mfa.rate_limited",
+            justificacion=f"Rate limit excedido ({intentos}/{maximo}).",
+            metadatos={"intentos": intentos, "maximo": maximo},
+        )
         messages.error(
             request,
             f"Demasiados intentos ({intentos}/{maximo}). "
@@ -121,6 +158,12 @@ def mfa_verify_submit(request):
 
     if not verify_admin_mfa(request.user, code):
         register_failed_attempt(ip, request.user.username)
+        _audit_mfa_event(
+            request,
+            accion="admin.mfa.invalid_code",
+            justificacion="Código TOTP inválido.",
+            metadatos={"intentos_previos": intentos},
+        )
         messages.error(request, "Código inválido. Intenta de nuevo.")
         return redirect(_verify_url())
 

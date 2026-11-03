@@ -1,0 +1,70 @@
+{% extends "base/base_dashboard.html" %}
+{% block content %}
+<div class="max-w-7xl">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <div>
+      <h1 class="text-2xl font-semibold">{{ page_title }}</h1>
+      <p class="text-sm text-text-muted mt-1">{{ total }} usuario{{ total|pluralize }}</p>
+    </div>
+    {% if can_create %}
+      <a href="{% url 'dashboard:usuario_create_form' %}"
+         class="rounded-lg px-3 py-1.5 text-sm font-medium text-white iv-cta-bg whitespace-nowrap">
+        + Nuevo usuario
+      </a>
+    {% endif %}
+  </div>
+
+  <form method="get" class="mb-4 flex flex-wrap gap-2">
+    <input type="text" name="q" value="{{ filters.q }}"
+           placeholder="Buscar por nombre, usuario o email"
+           class="rounded-lg border border-border px-3 py-2 text-sm bg-surface-raised flex-1 min-w-[200px]"
+           aria-label="Buscar por nombre, usuario o email">
+    <button type="submit" class="rounded-lg px-4 py-2 text-sm font-medium text-white iv-cta-bg">Filtrar</button>
+  </form>
+
+  <div class="rounded-xl border border-border overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-surface-raised text-text-muted">
+        <tr>
+          <th class="text-left px-3 py-2 font-medium">Usuario</th>
+          <th class="text-left px-3 py-2 font-medium">Nombre</th>
+          <th class="text-left px-3 py-2 font-medium">Email</th>
+          <th class="text-left px-3 py-2 font-medium">Estado</th>
+          <th class="text-left px-3 py-2 font-medium">Organizaciones</th>
+          <th class="text-right px-3 py-2 font-medium"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in page_obj %}
+          <tr class="border-t border-border hover:bg-surface-raised/50">
+            <td class="px-3 py-2 font-mono">{{ u.username }}</td>
+            <td class="px-3 py-2">{{ u.get_full_name|default:"—" }}</td>
+            <td class="px-3 py-2">{{ u.email|default:"—" }}</td>
+            <td class="px-3 py-2">
+              {% if u.is_active %}
+                <span class="inline-flex px-2 py-0.5 rounded-full text-xs bg-secondary/10 text-secondary border border-secondary/40">Activo</span>
+              {% else %}
+                <span class="inline-flex px-2 py-0.5 rounded-full text-xs bg-danger/10 text-danger border border-danger/40">Inactivo</span>
+              {% endif %}
+            </td>
+            <td class="px-3 py-2 text-xs">
+              {% for m in u.membresias.all %}
+                <span class="inline-block bg-surface-raised border border-border rounded px-1 mr-1 mb-1">
+                  {{ m.organizacion.nombre }} ({{ m.get_rol_display }})
+                </span>
+              {% empty %}
+                —
+              {% endfor %}
+            </td>
+            <td class="px-3 py-2 text-right">
+              <a href="{% url 'dashboard:usuario_detail' u.id %}" class="text-primary hover:underline">Ver →</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="px-3 py-6 text-center text-text-muted">Sin usuarios.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

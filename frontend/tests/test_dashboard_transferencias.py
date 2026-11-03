@@ -162,6 +162,22 @@ class TransferenciaDetailTests(TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.t.codigo)
 
+    def test_detail_404_otra_org(self):
+        """Transferencia real en OTRA org → 404."""
+        u = _mk_user("cross_det_t")
+        org_a = _mk_org()
+        org_b = _mk_org()
+        org_c = _mk_org()
+        _mk_membresia(u, org_a)
+        self.client.force_login(u)
+        alm_b = _mk_almacen(org_b, "AlmB")
+        alm_c = _mk_almacen(org_c, "AlmC")
+        t_bc = _mk_transferencia(alm_b, alm_c, u)
+        r = self.client.get(
+            reverse("dashboard:transferencia_detail", args=[t_bc.id])
+        )
+        self.assertEqual(r.status_code, 404)
+
     def test_detail_404(self):
         r = self.client.get(
             reverse("dashboard:transferencia_detail", args=[uuid.uuid4()])
@@ -235,6 +251,44 @@ class TransferenciaAccionTests(TestCase):
         self.assertEqual(r.status_code, 302)
         self.t.refresh_from_db()
         self.assertEqual(self.t.estado, "EN_TRANSITO")
+
+    def test_accion_404_otra_org(self):
+        """POST cross-org → 404 y estado sin cambios."""
+        u = _mk_user("cross_acc_t")
+        org_a = _mk_org()
+        org_b = _mk_org()
+        org_c = _mk_org()
+        _mk_membresia(u, org_a)
+        self.client.force_login(u)
+        alm_b = _mk_almacen(org_b, "AlmB2")
+        alm_c = _mk_almacen(org_c, "AlmC2")
+        t_bc = _mk_transferencia(alm_b, alm_c, u)
+        r = self.client.post(
+            reverse("dashboard:transferencia_accion", args=[t_bc.id]),
+            {"accion": "aprobar"},
+        )
+        self.assertEqual(r.status_code, 404)
+        t_bc.refresh_from_db()
+        self.assertEqual(t_bc.estado, "BORRADOR")
+
+    def test_accion_recibir_valid(self):
+        """EN_TRANSITO → RECIBIDA."""
+        self.t.estado = "EN_TRANSITO"
+        self.t.save(update_fields=["estado"])
+        det = _mk_detalle(self.t, self.insumo, self.lote, Decimal("10.000"))
+        det.cantidad_despachada = Decimal("10.000")
+        det.save(update_fields=["cantidad_despachada"])
+        r = self.client.post(self.url, {"accion": "recibir"})
+        self.assertEqual(r.status_code, 302)
+        self.t.refresh_from_db()
+        self.assertEqual(self.t.estado, "RECIBIDA")
+
+    def test_accion_cancelar_borrador_valid(self):
+        """BORRADOR → CANCELADA."""
+        r = self.client.post(self.url, {"accion": "cancelar"})
+        self.assertEqual(r.status_code, 302)
+        self.t.refresh_from_db()
+        self.assertEqual(self.t.estado, "CANCELADA")
 
     def test_accion_invalid_transition(self):
         # BORRADOR → recibir no permitida

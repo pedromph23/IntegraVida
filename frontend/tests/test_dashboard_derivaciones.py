@@ -175,6 +175,45 @@ class DerivacionDetailTests(TestCase):
         self.ep = _mk_episodio(self.pac, self.hosp_o, self.admin)
         self.der = _mk_derivacion(self.ep, self.hosp_o, self.hosp_d, self.admin)
 
+    def test_detail_plain_user_masks_pii(self):
+        """OPERADOR ve cédula enmascarada en detail (no fuga de PII)."""
+        u = _mk_user("plain_mask")
+        org = _mk_org()
+        Membresia.objects.create(
+            usuario=u, organizacion=org, rol="OPERADOR", estado="ACTIVA",
+        )
+        self.client.force_login(u)
+        paciente = _mk_paciente()
+        hosp_origen = _mk_hospital(org)
+        hosp_destino = _mk_hospital(org)
+        episodio = _mk_episodio(paciente, hosp_origen, u)
+        d = _mk_derivacion(episodio, hosp_origen, hosp_destino, u)
+        r = self.client.get(reverse("dashboard:derivacion_detail", args=[d.id]))
+        self.assertEqual(r.status_code, 200)
+        body = r.content.decode()
+        if paciente.cedula:
+            self.assertNotIn(
+                paciente.cedula, body,
+                "PII leak: cédula completa visible para OPERADOR en detail",
+            )
+
+    def test_detail_404_otra_org(self):
+        """Derivación real de OTRA org → 404 (sin fuga cross-org)."""
+        u = _mk_user("coord_cross_der")
+        org_a = _mk_org()
+        org_b = _mk_org()
+        Membresia.objects.create(
+            usuario=u, organizacion=org_a, rol="COORDINADOR", estado="ACTIVA",
+        )
+        self.client.force_login(u)
+        paciente = _mk_paciente()
+        hosp_b1 = _mk_hospital(org_b)
+        hosp_b2 = _mk_hospital(org_b)
+        episodio = _mk_episodio(paciente, hosp_b1, u)
+        d = _mk_derivacion(episodio, hosp_b1, hosp_b2, u)
+        r = self.client.get(reverse("dashboard:derivacion_detail", args=[d.id]))
+        self.assertEqual(r.status_code, 404)
+
     def test_detail_renders(self):
         r = self.client.get(
             reverse("dashboard:derivacion_detail", args=[self.der.id])
@@ -217,6 +256,28 @@ class TransicionarTests(TestCase):
         r = self.client.post(self.url, {"estado": "ACEPTADA"})
         self.assertEqual(r.status_code, 302)
         self.assertIn("/panel/login/", r.url)
+
+    def test_transicionar_404_otra_org(self):
+        """POST de transición cross-org → 404 y estado sin cambios."""
+        u = _mk_user("coord_cross_tx")
+        org_a = _mk_org()
+        org_b = _mk_org()
+        Membresia.objects.create(
+            usuario=u, organizacion=org_a, rol="COORDINADOR", estado="ACTIVA",
+        )
+        self.client.force_login(u)
+        paciente = _mk_paciente()
+        hosp_b1 = _mk_hospital(org_b)
+        hosp_b2 = _mk_hospital(org_b)
+        episodio = _mk_episodio(paciente, hosp_b1, u)
+        d = _mk_derivacion(episodio, hosp_b1, hosp_b2, u)
+        # get_object_or_404 dispara ANTES de leer POST → body vacío basta.
+        r = self.client.post(
+            reverse("dashboard:derivacion_transicionar", args=[d.id]),
+        )
+        self.assertEqual(r.status_code, 404)
+        d.refresh_from_db()
+        self.assertEqual(d.estado, "SOLICITADA")
 
     def test_get_rejected(self):
         self.client.force_login(self.admin)
