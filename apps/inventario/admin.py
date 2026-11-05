@@ -1,3 +1,4 @@
+from frontend.forms.insumos import InsumoForm
 from django.contrib import admin
 
 from apps.inventario.models import Almacen, Insumo
@@ -5,6 +6,7 @@ from apps.inventario.models import Almacen, Insumo
 
 @admin.register(Insumo)
 class InsumoAdmin(admin.ModelAdmin):
+    form = InsumoForm
     list_display = (
         "codigo", "nombre", "categoria", "unidad_medida",
         "requiere_lote", "requiere_vencimiento", "activo",

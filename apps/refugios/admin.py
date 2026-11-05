@@ -1,3 +1,4 @@
+from frontend.forms.refugios import RefugioForm
 from django.contrib import admin
 
 from apps.refugios.models import Necesidad, Refugio, RegistroOcupacion
@@ -44,6 +45,7 @@ class RegistroOcupacionInline(admin.TabularInline):
 
 @admin.register(Refugio)
 class RefugioAdmin(admin.ModelAdmin):
+    form = RefugioForm
     list_display = (
         "nombre",
         "codigo",

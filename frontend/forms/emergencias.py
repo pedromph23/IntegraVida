@@ -1,12 +1,13 @@
 """Formularios del panel para el módulo Emergencias (F5.c)."""
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 
 from apps.emergencias.models import Emergencia
 from frontend.validators import validar_texto_libre
 from apps.usuarios.permisos import ACCION_CREAR, orgs_donde_puede
 
 
-class EmergenciaForm(forms.ModelForm):
+class EmergenciaForm(ValidatedModelForm):
     """Crear / editar Emergencia.
 
     - `estado` NO está aquí: se gestiona con la acción "cambiar estado".

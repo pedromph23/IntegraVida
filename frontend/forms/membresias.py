@@ -1,10 +1,11 @@
 """Formularios del panel para Membresías."""
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 
 from apps.organizaciones.models import Membresia
 
 
-class MembresiaForm(forms.ModelForm):
+class MembresiaForm(ValidatedModelForm):
     """Crear una membresía. La vista filtra organizaciones visibles."""
 
     class Meta:

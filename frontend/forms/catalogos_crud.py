@@ -6,13 +6,14 @@ datos basura en organizaciones, entidades, municipios y parroquias.
 import re
 
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 
 from apps.organizaciones.models import Organizacion
 from apps.territorio.models import EntidadFederal, Municipio, Parroquia
 from frontend.validators import validar_codigo, validar_telefono
 
 
-class OrganizacionForm(forms.ModelForm):
+class OrganizacionForm(ValidatedModelForm):
     class Meta:
         model = Organizacion
         fields = (
@@ -66,7 +67,7 @@ class OrganizacionForm(forms.ModelForm):
         return v
 
 
-class EntidadFederalForm(forms.ModelForm):
+class EntidadFederalForm(ValidatedModelForm):
     class Meta:
         model = EntidadFederal
         fields = ("codigo", "nombre", "tipo", "activa")
@@ -91,7 +92,7 @@ class EntidadFederalForm(forms.ModelForm):
         return v
 
 
-class MunicipioForm(forms.ModelForm):
+class MunicipioForm(ValidatedModelForm):
     class Meta:
         model = Municipio
         fields = ("entidad_federal", "codigo", "nombre", "activo")
@@ -119,7 +120,7 @@ class MunicipioForm(forms.ModelForm):
         return v
 
 
-class ParroquiaForm(forms.ModelForm):
+class ParroquiaForm(ValidatedModelForm):
     class Meta:
         model = Parroquia
         fields = ("municipio", "codigo", "nombre", "activa")

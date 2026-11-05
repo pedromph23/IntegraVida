@@ -1,12 +1,13 @@
 """Formularios del panel para el módulo Hospitales (F5.b)."""
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 
 from apps.hospitales.models import Hospital
 from frontend.validators import validar_direccion, validar_telefono
 from apps.usuarios.permisos import ACCION_CREAR, orgs_donde_puede
 
 
-class HospitalForm(forms.ModelForm):
+class HospitalForm(ValidatedModelForm):
     """Crear / editar Hospital.
 
     - `organizacion` se filtra a las orgs donde el user puede CREAR.

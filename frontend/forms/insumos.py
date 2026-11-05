@@ -1,11 +1,12 @@
 """Formularios del panel para el módulo Inventario (CRUD de catálogo)."""
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 
 from apps.inventario.models import Insumo
 from frontend.validators import validar_codigo
 
 
-class InsumoForm(forms.ModelForm):
+class InsumoForm(ValidatedModelForm):
     """Crear/editar un Insumo del catálogo global.
 
     Nota: Insumo es global (sin FK a organizacion). Solo ADMIN_PLATAFORMA

@@ -1,12 +1,13 @@
 """Formularios del panel para el módulo Refugios (F5.a)."""
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 
 from apps.refugios.models import Refugio
 from frontend.validators import validar_direccion, validar_telefono
 from apps.usuarios.permisos import ACCION_CREAR, orgs_donde_puede
 
 
-class RefugioForm(forms.ModelForm):
+class RefugioForm(ValidatedModelForm):
     """Crear / editar Refugio.
 
     - `organizacion` se filtra a las orgs donde el user tiene CREAR.

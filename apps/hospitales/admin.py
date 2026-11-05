@@ -1,3 +1,4 @@
+from frontend.forms.hospitales import HospitalForm
 from django.contrib import admin
 
 from apps.hospitales.models import (
@@ -51,6 +52,7 @@ class RegistroDisponibilidadInline(admin.TabularInline):
 
 @admin.register(Hospital)
 class HospitalAdmin(admin.ModelAdmin):
+    form = HospitalForm
     list_display = (
         "nombre",
         "codigo",

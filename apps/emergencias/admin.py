@@ -1,3 +1,4 @@
+from frontend.forms.emergencias import EmergenciaForm
 from django.contrib import admin
 
 from apps.emergencias.models import Emergencia, ReporteEmergencia
@@ -5,6 +6,7 @@ from apps.emergencias.models import Emergencia, ReporteEmergencia
 
 @admin.register(Emergencia)
 class EmergenciaAdmin(admin.ModelAdmin):
+    form = EmergenciaForm
     list_display = (
         "titulo",
         "categoria",

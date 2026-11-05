@@ -1,5 +1,6 @@
 """Formulario para crear/editar PuntoReferencia."""
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 from django.contrib.gis.geos import Point
 
 from apps.refugios.models import PuntoReferencia
@@ -9,7 +10,7 @@ from frontend.validators import (
 )
 
 
-class PuntoReferenciaForm(forms.ModelForm):
+class PuntoReferenciaForm(ValidatedModelForm):
     lat = forms.FloatField(
         required=True,
         widget=forms.NumberInput(attrs={

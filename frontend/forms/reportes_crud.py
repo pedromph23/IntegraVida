@@ -1,7 +1,8 @@
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 from apps.emergencias.models import ReporteEmergencia
 
-class ReporteEmergenciaForm(forms.ModelForm):
+class ReporteEmergenciaForm(ValidatedModelForm):
     class Meta:
         model = ReporteEmergencia
         fields = ("categoria", "descripcion", "ubicacion_texto", "referencia_lugar", "municipio", "parroquia", "canal", "estado_revision")

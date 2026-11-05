@@ -1,3 +1,4 @@
+from frontend.forms.pacientes import PacienteForm
 from django.contrib import admin
 
 from apps.pacientes.models import ContactoEmergencia, Episodio, Paciente
@@ -25,6 +26,7 @@ class EpisodioInline(admin.TabularInline):
 
 @admin.register(Paciente)
 class PacienteAdmin(admin.ModelAdmin):
+    form = PacienteForm
     list_display = (
         "apellidos",
         "nombres",

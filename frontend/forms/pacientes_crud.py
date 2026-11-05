@@ -1,5 +1,6 @@
 """Formularios para el CRUD clínico (Pacientes, Episodios, Contactos)."""
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 from apps.hospitales.models import Hospital
 from apps.refugios.models import Refugio
 from apps.pacientes.models import Paciente, Episodio, ContactoEmergencia
@@ -8,7 +9,7 @@ from frontend.validators import (
     validar_nombre_persona, validar_peso_kg, validar_telefono,
 )
 
-class PacienteCreateForm(forms.ModelForm):
+class PacienteCreateForm(ValidatedModelForm):
     class Meta:
         model = Paciente
         fields = (
@@ -75,7 +76,7 @@ class PacienteCreateForm(forms.ModelForm):
         return v
 
 
-class EpisodioForm(forms.ModelForm):
+class EpisodioForm(ValidatedModelForm):
     class Meta:
         model = Episodio
         fields = ("hospital", "refugio", "motivo_consulta", "notas_internas")
@@ -100,7 +101,7 @@ class EpisodioForm(forms.ModelForm):
             raise forms.ValidationError("Debe seleccionar exactamente un Hospital o un Refugio, no ambos ni ninguno.")
         return cleaned
 
-class ContactoEmergenciaForm(forms.ModelForm):
+class ContactoEmergenciaForm(ValidatedModelForm):
     class Meta:
         model = ContactoEmergencia
         fields = ("nombre", "parentesco", "telefono", "es_principal")

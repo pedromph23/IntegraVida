@@ -1,9 +1,10 @@
 """Formularios para Servicios, Recursos, Almacenes y Lotes."""
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 from apps.hospitales.models import Servicio, RecursoHospitalario
 from apps.inventario.models import Almacen, Lote
 
-class ServicioForm(forms.ModelForm):
+class ServicioForm(ValidatedModelForm):
     class Meta:
         model = Servicio
         fields = ("codigo", "nombre", "tipo", "activo")
@@ -11,7 +12,7 @@ class ServicioForm(forms.ModelForm):
         widgets["tipo"] = forms.Select(attrs={"class": "w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface"})
         widgets["activo"] = forms.CheckboxInput(attrs={"class": "rounded border-border"})
 
-class RecursoHospitalarioForm(forms.ModelForm):
+class RecursoHospitalarioForm(ValidatedModelForm):
     class Meta:
         model = RecursoHospitalario
         fields = ("tipo", "capacidad_total", "disponible")
@@ -21,7 +22,7 @@ class RecursoHospitalarioForm(forms.ModelForm):
             "disponible": forms.NumberInput(attrs={"class": "w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface"}),
         }
 
-class AlmacenForm(forms.ModelForm):
+class AlmacenForm(ValidatedModelForm):
     class Meta:
         model = Almacen
         fields = ("codigo", "nombre", "hospital", "refugio", "direccion", "activo", "notas")
@@ -39,7 +40,7 @@ class AlmacenForm(forms.ModelForm):
             raise forms.ValidationError("Debe seleccionar exactamente un Hospital o un Refugio.")
         return cleaned
 
-class LoteForm(forms.ModelForm):
+class LoteForm(ValidatedModelForm):
     class Meta:
         model = Lote
         fields = ("insumo", "codigo", "fecha_vencimiento", "proveedor")

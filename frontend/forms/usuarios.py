@@ -1,5 +1,6 @@
 """Formularios del panel para Usuarios (creación con membresía inicial)."""
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
@@ -66,7 +67,7 @@ class UsuarioCreateForm(UserCreationForm):
             )
 
 
-class UsuarioUpdateForm(forms.ModelForm):
+class UsuarioUpdateForm(ValidatedModelForm):
     """Edita datos personales (no credenciales ni membresías)."""
 
     class Meta:

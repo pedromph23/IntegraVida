@@ -9,11 +9,12 @@ Crear paciente NO va en este form:
   el admin oculto. Aquí solo editamos datos demográficos existentes.
 """
 from django import forms
+from frontend.forms.base import ValidatedModelForm
 
 from apps.pacientes.models import Paciente
 
 
-class PacienteForm(forms.ModelForm):
+class PacienteForm(ValidatedModelForm):
     """Editar datos demográficos de un Paciente.
 
     Campos editables: nombres, apellidos, cedula, fecha_nacimiento,
