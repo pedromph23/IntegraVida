@@ -30,6 +30,7 @@ def organizacion_create_submit(request):
         form.save()
         messages.success(request, "Organización creada.")
         return redirect("dashboard:configuracion_index")
+    # Si falla la validación, volvemos a renderizar el form CON el submit_url correcto
     return render(request, "dashboard/generic_crud_form.html", {
         "form": form,
         "page_title": "Nueva Organización",
