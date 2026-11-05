@@ -2,6 +2,7 @@
 from django import forms
 
 from apps.refugios.models import Refugio
+from frontend.validators import validar_direccion, validar_telefono
 from apps.usuarios.permisos import ACCION_CREAR, orgs_donde_puede
 
 
@@ -88,3 +89,13 @@ class RefugioForm(forms.ModelForm):
             # codigo: identificador inmutable → fuera del form.
             self.fields["organizacion"].disabled = True
             self.fields.pop("codigo", None)
+
+    def clean_direccion(self):
+        v = self.cleaned_data.get("direccion", "")
+        validar_direccion(v)
+        return v
+
+    def clean_telefono_publico(self):
+        v = self.cleaned_data.get("telefono_publico", "")
+        validar_telefono(v)
+        return v.strip() if v else v

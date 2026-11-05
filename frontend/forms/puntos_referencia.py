@@ -3,6 +3,10 @@ from django import forms
 from django.contrib.gis.geos import Point
 
 from apps.refugios.models import PuntoReferencia
+from frontend.validators import (
+    validar_coordenadas, validar_direccion, validar_nombre_persona,
+    validar_telefono,
+)
 
 
 class PuntoReferenciaForm(forms.ModelForm):
@@ -49,3 +53,31 @@ class PuntoReferenciaForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+    def clean_nombre(self):
+        v = self.cleaned_data.get("nombre", "")
+        if v and len(v.strip()) < 3:
+            from django.core.exceptions import ValidationError
+            raise ValidationError("El nombre debe tener al menos 3 caracteres.")
+        if v and len(v.strip()) > 200:
+            from django.core.exceptions import ValidationError
+            raise ValidationError("El nombre no puede superar 200 caracteres.")
+        return v
+
+    def clean_direccion(self):
+        v = self.cleaned_data.get("direccion", "")
+        validar_direccion(v)
+        return v
+
+    def clean_telefono(self):
+        v = self.cleaned_data.get("telefono", "")
+        validar_telefono(v)
+        return v.strip() if v else v
+
+    def clean(self):
+        cleaned = super().clean()
+        lat = cleaned.get("lat")
+        lng = cleaned.get("lng")
+        if lat is not None and lng is not None:
+            validar_coordenadas(lat, lng)
+        return cleaned

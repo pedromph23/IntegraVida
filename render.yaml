@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: integravida
+    runtime: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: INTEGRAVIDA_ADMIN_SLUG
+        sync: false
+      - key: FIELD_ENCRYPTION_KEY
+        sync: false
+      - key: TILE_SERVER_URL
+        value: https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+      - key: TILE_SERVER_ATTRIBUTION
+        value: "&copy; OpenStreetMap contributors"
+      - key: ADMIN_MFA_REQUIRED
+        value: "True"
+      - key: PYTHON_VERSION
+        value: "3.13.0"

@@ -14,7 +14,7 @@
     </div>
   {% endif %}
 
-  <form method="post" action="{% if submit_url %}{{ submit_url }}{% else %}{{ request.path }}guardar/{% endif %}" class="space-y-4">
+  <form method="post" action="{{ submit_url }}" class="space-y-4">
     {% csrf_token %}
     {% for field in form %}
       <div>

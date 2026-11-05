@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
 from apps.organizaciones.models import Membresia
+from frontend.validators import validar_nombre_persona, validar_telefono
 
 User = get_user_model()
 
@@ -26,6 +27,33 @@ class UsuarioCreateForm(UserCreationForm):
         model = User
         fields = ("username", "first_name", "last_name", "email", "telefono")
 
+    def clean_username(self):
+        v = self.cleaned_data.get("username", "").strip()
+        import re
+        if not re.match(r"^[A-Za-z0-9_.-]{3,30}$", v):
+            from django.core.exceptions import ValidationError
+            raise ValidationError(
+                "El usuario debe tener 3-30 caracteres: letras, números, "
+                "puntos, guiones o guiones bajos."
+            )
+        return v
+
+    def clean_first_name(self):
+        v = self.cleaned_data.get("first_name", "")
+        validar_nombre_persona(v)
+        return v
+
+    def clean_last_name(self):
+        v = self.cleaned_data.get("last_name", "")
+        validar_nombre_persona(v)
+        return v
+
+    def clean_telefono(self):
+        v = self.cleaned_data.get("telefono", "")
+        validar_telefono(v)
+        return v.strip() if v else v
+
+
     def __init__(self, *args, **kwargs):
         orgs_qs = kwargs.pop("orgs_qs", None)
         super().__init__(*args, **kwargs)
@@ -44,6 +72,22 @@ class UsuarioUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "telefono")
+
+    def clean_first_name(self):
+        v = self.cleaned_data.get("first_name", "")
+        validar_nombre_persona(v)
+        return v
+
+    def clean_last_name(self):
+        v = self.cleaned_data.get("last_name", "")
+        validar_nombre_persona(v)
+        return v
+
+    def clean_telefono(self):
+        v = self.cleaned_data.get("telefono", "")
+        validar_telefono(v)
+        return v.strip() if v else v
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

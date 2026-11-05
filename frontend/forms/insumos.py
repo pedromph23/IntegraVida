@@ -2,6 +2,7 @@
 from django import forms
 
 from apps.inventario.models import Insumo
+from frontend.validators import validar_codigo
 
 
 class InsumoForm(forms.ModelForm):
@@ -54,3 +55,23 @@ class InsumoForm(forms.ModelForm):
                 "rows": 3,
             }),
         }
+
+    def clean_codigo(self):
+        v = self.cleaned_data.get("codigo", "")
+        validar_codigo(v)
+        return v.strip().lower() if v else v
+
+    def clean_stock_minimo_global(self):
+        v = self.cleaned_data.get("stock_minimo_global")
+        if v is not None and v < 0:
+            from django.core.exceptions import ValidationError
+            raise ValidationError("El stock mínimo no puede ser negativo.")
+        return v
+
+    def clean_vida_util_dias(self):
+        v = self.cleaned_data.get("vida_util_dias")
+        if v is not None and v > 36500:
+            from django.core.exceptions import ValidationError
+            raise ValidationError("La vida útil no puede superar 100 años (36500 días).")
+        return v
+

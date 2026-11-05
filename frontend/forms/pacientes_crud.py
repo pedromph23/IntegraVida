@@ -3,6 +3,10 @@ from django import forms
 from apps.hospitales.models import Hospital
 from apps.refugios.models import Refugio
 from apps.pacientes.models import Paciente, Episodio, ContactoEmergencia
+from frontend.validators import (
+    validar_cedula, validar_edad_aproximada, validar_estatura_cm,
+    validar_nombre_persona, validar_peso_kg, validar_telefono,
+)
 
 class PacienteCreateForm(forms.ModelForm):
     class Meta:
@@ -34,6 +38,41 @@ class PacienteCreateForm(forms.ModelForm):
             (val, label) for val, label in choices
             if "intersexual" not in label.lower()
         ]
+
+    def clean_nombres(self):
+        v = self.cleaned_data.get("nombres", "")
+        validar_nombre_persona(v)
+        return v
+
+    def clean_apellidos(self):
+        v = self.cleaned_data.get("apellidos", "")
+        validar_nombre_persona(v)
+        return v
+
+    def clean_cedula(self):
+        v = self.cleaned_data.get("cedula", "")
+        validar_cedula(v)
+        return v.strip().upper() if v else v
+
+    def clean_telefono(self):
+        v = self.cleaned_data.get("telefono", "")
+        validar_telefono(v)
+        return v.strip() if v else v
+
+    def clean_estatura_cm(self):
+        v = self.cleaned_data.get("estatura_cm")
+        validar_estatura_cm(v)
+        return v
+
+    def clean_peso_kg(self):
+        v = self.cleaned_data.get("peso_kg")
+        validar_peso_kg(v)
+        return v
+
+    def clean_edad_aproximada(self):
+        v = self.cleaned_data.get("edad_aproximada", "")
+        validar_edad_aproximada(v)
+        return v
 
 
 class EpisodioForm(forms.ModelForm):
@@ -71,3 +110,21 @@ class ContactoEmergenciaForm(forms.ModelForm):
             "telefono": forms.TextInput(attrs={"class": "w-full rounded-lg border border-border px-3 py-2 text-sm bg-surface"}),
             "es_principal": forms.CheckboxInput(attrs={"class": "rounded border-border"}),
         }
+
+    def clean_nombre(self):
+        v = self.cleaned_data.get("nombre", "")
+        validar_nombre_persona(v)
+        return v
+
+    def clean_parentesco(self):
+        v = self.cleaned_data.get("parentesco", "")
+        if v and len(v) > 50:
+            from django.core.exceptions import ValidationError
+            raise ValidationError("El parentesco no puede superar 50 caracteres.")
+        return v
+
+    def clean_telefono(self):
+        v = self.cleaned_data.get("telefono", "")
+        validar_telefono(v)
+        return v.strip() if v else v
+

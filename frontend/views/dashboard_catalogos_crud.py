@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_GET, require_POST
 from django.http import HttpResponseForbidden
@@ -14,7 +15,11 @@ def _require_admin(user):
 @require_GET
 def organizacion_create_form(request):
     if not puede_administrar_plataforma(request.user): return HttpResponseForbidden()
-    return render(request, "dashboard/generic_crud_form.html", {"form": OrganizacionForm(), "page_title": "Nueva Organización"})
+    return render(request, "dashboard/generic_crud_form.html", {
+        "form": OrganizacionForm(),
+        "page_title": "Nueva Organización",
+        "submit_url": reverse("dashboard:organizacion_create_submit"),
+    })
 
 @login_required
 @require_POST
@@ -25,7 +30,11 @@ def organizacion_create_submit(request):
         form.save()
         messages.success(request, "Organización creada.")
         return redirect("dashboard:configuracion_index")
-    return render(request, "dashboard/generic_crud_form.html", {"form": form, "page_title": "Nueva Organización"})
+    return render(request, "dashboard/generic_crud_form.html", {
+        "form": form,
+        "page_title": "Nueva Organización",
+        "submit_url": reverse("dashboard:organizacion_create_submit"),
+    })
 
 @login_required
 @require_GET

@@ -82,3 +82,4 @@ test-results/
 *.bak_*
 .env
 .env.*
+.env.production

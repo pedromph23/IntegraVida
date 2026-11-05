@@ -2,6 +2,7 @@
 from django import forms
 
 from apps.emergencias.models import Emergencia
+from frontend.validators import validar_texto_libre
 from apps.usuarios.permisos import ACCION_CREAR, orgs_donde_puede
 
 
@@ -77,3 +78,13 @@ class EmergenciaForm(forms.ModelForm):
         is_update = self.instance is not None and not self.instance._state.adding
         if is_update:
             self.fields["organizacion"].disabled = True
+
+    def clean_titulo(self):
+        v = self.cleaned_data.get("titulo", "")
+        validar_texto_libre(v, min_len=5, max_len=200, campo="El título")
+        return v
+
+    def clean_descripcion(self):
+        v = self.cleaned_data.get("descripcion", "")
+        validar_texto_libre(v, min_len=10, max_len=2000, campo="La descripción")
+        return v
