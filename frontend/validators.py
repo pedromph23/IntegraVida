@@ -29,28 +29,109 @@ RE_LNG = re.compile(r"^-?\d{1,3}\.\d{1,10}$")
 
 # ─── Validadores ──────────────────────────────────────────────────────
 def validar_telefono(value):
-    """Acepta teléfonos tipo: 0414-1234567, +58 412 1234567, (0212) 555-4433."""
+    """Valida teléfonos venezolanos e internacionales.
+
+    Válidos:
+      - Venezuela nacional: 0414-1234567, 0212-555-4433, 04241234567
+      - Venezuela internacional: +58 414 1234567, +584141234567
+      - Otros países (con prefijo +): +1 555 1234567, +34 612345678
+
+    Rechaza:
+      - Números sin estructura (4532153253215)
+      - Dígitos repetidos (1111111111, 0000000000)
+      - Secuencias (1234567890, 0123456789)
+      - Prefijos no venezolanos sin + (453..., 912...)
+    """
     if not value:
         return
-    # Limpiar caracteres invisibles y espacios no imprimibles
+
+    # 1. Limpiar caracteres invisibles
     value = "".join(c for c in value if c.isprintable()).strip()
-    
-    # Contar solo dígitos
-    solo_digitos = re.sub(r"\D", "", value)
-    if len(solo_digitos) < 7:
+
+    # 2. Limpiar todo excepto dígitos, +, -, (, ), espacio
+    limpio = re.sub(r"[^\d\+\-\(\)\s]", "", value)
+    if not limpio:
+        raise ValidationError("El teléfono no contiene caracteres válidos.")
+
+    # 3. Solo dígitos, para validaciones estructurales
+    solo_digitos = re.sub(r"\D", "", limpio)
+
+    # 4. Anti-basura: todos iguales
+    if len(set(solo_digitos)) == 1:
         raise ValidationError(
-            "El teléfono debe tener al menos 7 dígitos (sin contar +, espacios ni guiones)."
-        )
-    if len(solo_digitos) > 15:
-        raise ValidationError(
-            "El teléfono no puede tener más de 15 dígitos (formato internacional E.164)."
+            "El teléfono no puede tener todos los dígitos iguales (ej: 1111111111)."
         )
 
-    if not RE_TELEFONO.match(value):
+    # 5. Anti-basura: secuencia ascendente o descendente
+    if solo_digitos in ("0123456789", "9876543210", "1234567890", "0987654321"):
         raise ValidationError(
-            "Formato de teléfono inválido. Usa solo números, +, guiones, "
-            "espacios y paréntesis. Ej: +58 412-1234567"
+            "El teléfono no puede ser una secuencia (ej: 1234567890)."
         )
+    # Anti-secuencia parcial: subcadena de 8 dígitos secuenciales
+    for i in range(len(solo_digitos) - 7):
+        sub = solo_digitos[i:i+8]
+        asc = "".join(str((int(sub[0]) + j) % 10) for j in range(8))
+        desc = "".join(str((int(sub[0]) - j) % 10) for j in range(8))
+        if sub == asc or sub == desc:
+            raise ValidationError(
+                "El teléfono contiene una secuencia de dígitos no permitida."
+            )
+
+    # 6. Formato internacional (con prefijo +)
+    if limpio.startswith("+"):
+        # Debe tener entre 8 y 16 dígitos totales
+        if not (8 <= len(solo_digitos) <= 16):
+            raise ValidationError(
+                "El teléfono internacional debe tener entre 8 y 16 dígitos."
+            )
+        # Prefijos de país comunes (2-3 dígitos)
+        prefijos_validos = ["58", "1", "34", "52", "57", "51", "56", "55", "54",
+                            "44", "33", "39", "49", "81", "86", "91", "7", "20",
+                            "27", "30", "31", "32", "36", "40", "41", "43", "45",
+                            "46", "47", "48", "60", "61", "62", "63", "64", "65",
+                            "66", "82", "84", "90", "92", "95", "98"]
+        if not any(solo_digitos.startswith(p) for p in prefijos_validos):
+            raise ValidationError(
+                "Prefijo de país no reconocido. Ej válidos: +58 (VE), +1 (US), +34 (ES)."
+            )
+        return  # Válido
+
+    # 7. Formato venezolano nacional (empieza con 0)
+    if solo_digitos.startswith("0"):
+        # Debe tener exactamente 11 dígitos
+        if len(solo_digitos) != 11:
+            raise ValidationError(
+                "Un teléfono venezolano debe tener exactamente 11 dígitos "
+                "(ej: 0414-1234567 o 0212-5554433)."
+            )
+        # Celulares válidos: 0412, 0414, 0416, 0424, 0426
+        # Fijos válidos: 0212, 0234, 0241, 0243, 0244, 0246, 0247, 0248, 0249,
+        #                0251, 0252, 0253, 0254, 0255, 0256, 0257, 0258, 0259,
+        #                0261-0269, 0271-0279, 0281-0289, 0291-0295
+        prefijo4 = solo_digitos[:4]
+        celulares = {"0412", "0414", "0416", "0424", "0426"}
+        fijos_validos = {"0212", "0234", "0241", "0243", "0244", "0246", "0247",
+                         "0248", "0249", "0251", "0252", "0253", "0254", "0255",
+                         "0256", "0257", "0258", "0259", "0261", "0262", "0263",
+                         "0264", "0265", "0266", "0267", "0268", "0269", "0271",
+                         "0272", "0273", "0274", "0275", "0276", "0277", "0278",
+                         "0279", "0281", "0282", "0283", "0284", "0285", "0286",
+                         "0287", "0288", "0289", "0291", "0292", "0293", "0294",
+                         "0295"}
+        if prefijo4 not in (celulares | fijos_validos):
+            raise ValidationError(
+                f"El prefijo '{prefijo4}' no es un código de área venezolano válido. "
+                "Celulares: 0412, 0414, 0416, 0424, 0426. "
+                "Fijos: 0212, 0234, 0241, etc."
+            )
+        return  # Válido
+
+    # 8. Cualquier otra cosa: rechazar
+    raise ValidationError(
+        "Teléfono inválido. Formatos aceptados: "
+        "0414-1234567 (celular VE), 0212-5554433 (fijo VE), "
+        "+58 414 1234567 (internacional VE), +1 5551234567 (otro país con +)."
+    )
 
 
 def validar_cedula(value):
