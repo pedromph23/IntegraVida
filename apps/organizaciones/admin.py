@@ -1,3 +1,4 @@
+from frontend.forms.catalogos_crud import OrganizacionForm
 from django.contrib import admin
 
 from .models import Membresia, Organizacion
@@ -5,6 +6,7 @@ from .models import Membresia, Organizacion
 
 @admin.register(Organizacion)
 class OrganizacionAdmin(admin.ModelAdmin):
+    form = OrganizacionForm
     list_display = (
         "nombre",
         "codigo",
