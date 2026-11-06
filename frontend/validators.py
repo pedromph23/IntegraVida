@@ -147,21 +147,71 @@ def validar_cedula(value):
 
 
 def validar_nombre_persona(value):
-    """Nombre o apellido: letras, tildes, espacios, apóstrofes y guiones."""
+    """Valida nombres reales. Rechaza basura como "jdsufuguhugHUHUIDHGH7...".
+
+    Reglas:
+    - Solo letras (con tildes), espacios, apóstrofes y guiones.
+    - Cada palabra: 2-40 chars, al menos una vocal.
+    - Máximo 6 palabras (nombre completo real).
+    - Cada palabra empieza con mayúscula o minúscula (sin números).
+    """
     if not value:
         return
+
     value = value.strip()
+
     if len(value) < 2:
         raise ValidationError("El nombre debe tener al menos 2 caracteres.")
     if len(value) > 100:
         raise ValidationError("El nombre no puede superar 100 caracteres.")
-    if not RE_NOMBRE.match(value):
-        raise ValidationError(
-            "El nombre solo puede contener letras, espacios, apóstrofes (') "
-            "y guiones (-). Ej: María José, O'Connor, Ana-María."
-        )
     if "  " in value:
         raise ValidationError("El nombre no puede tener espacios dobles consecutivos.")
+
+    # Solo letras, espacios, apóstrofes y guiones
+    if not re.match(r"^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ'\- ]+$", value):
+        raise ValidationError(
+            "El nombre solo puede contener letras, espacios, apóstrofes (') "
+            "y guiones (-)."
+        )
+
+    # Análisis por palabra
+    palabras = re.split(r"[\s\-]+", value)
+    palabras = [p for p in palabras if p]  # ignorar vacías
+
+    if len(palabras) > 6:
+        raise ValidationError(
+            "El nombre tiene demasiadas palabras (máximo 6: nombres + apellidos)."
+        )
+
+    VOCALES = "aeiouáéíóúüAEIOUÁÉÍÓÚÜ"
+
+    for palabra in palabras:
+        # Sin números (por si acaso)
+        if any(c.isdigit() for c in palabra):
+            raise ValidationError(
+                "El nombre no puede contener números."
+            )
+        # Longitud razonable por palabra
+        if len(palabra) < 2:
+            raise ValidationError(
+                "Cada palabra del nombre debe tener al menos 2 letras."
+            )
+        if len(palabra) > 40:
+            raise ValidationError(
+                "Cada palabra del nombre no puede superar 40 caracteres."
+            )
+        # Debe tener al menos una vocal (evita "jdsfghj" o "wwwwww")
+        if not any(v in VOCALES for v in palabra):
+            raise ValidationError(
+                "Cada palabra del nombre debe tener al menos una vocal "
+                "(el nombre parece no ser real)."
+            )
+        # No puede ser una sola letra repetida
+        if len(set(palabra.lower())) == 1:
+            raise ValidationError(
+                "El nombre contiene letras repetidas sin sentido."
+            )
+
 
 
 def validar_codigo(value):
