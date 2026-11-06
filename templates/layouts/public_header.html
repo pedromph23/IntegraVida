@@ -1,7 +1,8 @@
+{% load static %}
 <header class="border-b border-border">
   <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-3">
-    <a href="{% url 'public:home' %}" class="text-lg font-semibold text-primary">
-      IntegraVida
+    <a href="{% url 'public:home' %}" class="flex items-center gap-2">
+      <img src="{% static 'img/logo-iujo.svg' %}" alt="IUJO IntegraVida" class="h-10 w-auto bg-white rounded px-2 py-1 object-contain">
     </a>
     <nav class="flex items-center gap-2" aria-label="Navegación">
       <a href="{% url 'public:home' %}" class="btn btn-ghost text-sm">Inicio</a>

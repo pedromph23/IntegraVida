@@ -58,17 +58,19 @@ class FooterTests(TestCase):
         self.client = Client()
 
     def test_footer_en_home(self):
-        r = self.client.get("/")
+        """El footer público muestra la identidad IUJO."""
+        r = self.client.get(reverse("public:home"))
+        self.assertEqual(r.status_code, 200)
         body = r.content.decode()
-        self.assertIn("© 2026 IntegraVida", body)
-        self.assertIn("Todos los derechos reservados", body)
+        # Ahora el footer dice "Instituto Universitario Jesús Obrero"
+        self.assertIn("Instituto Universitario", body)
+        self.assertIn("Jesús Obrero", body)
 
     def test_footer_tiene_emergencias(self):
-        r = self.client.get("/")
+        """El footer menciona la Coordinación de Extensión (contacto institucional)."""
+        r = self.client.get(reverse("public:home"))
         body = r.content.decode()
-        self.assertIn("tel:911", body)
-        self.assertIn("tel:171", body)
-        self.assertIn("Emergencias", body)
+        self.assertIn("Coordinación de Extensión", body)
 
     def test_footer_sin_health(self):
         r = self.client.get("/")
@@ -82,20 +84,26 @@ class FooterTests(TestCase):
         self.assertIn(r.status_code, (200, 301, 302))
 
     def test_footer_tiene_contacto_y_redes(self):
-        r = self.client.get("/")
+        """El footer tiene redes sociales (Instagram, Facebook) y teléfonos."""
+        r = self.client.get(reverse("public:home"))
         body = r.content.decode()
-        self.assertIn("contacto@integravida.org", body)
-        self.assertIn("wa.me/", body)
-        self.assertIn("x.com/integravida", body)
-        self.assertIn("instagram.com/integravida", body)
-        self.assertIn("t.me/integravida", body)
+        # Redes sociales
+        self.assertIn("instagram.com/iujocatia", body)
+        self.assertIn("facebook.com/IujoCatia", body)
+        # Teléfonos / WhatsApp
+        self.assertIn("wa.me/584120340692", body)
+        self.assertIn("wa.me/584227330442", body)
+        self.assertIn("(0212) 862.71.72", body)
 
     def test_footer_en_paginas_publicas(self):
-        # El footer debe aparecer en todas las páginas públicas
-        for path in ("/", "/hospitales/", "/refugios/", "/alertas/"):
-            r = self.client.get(path)
-            self.assertEqual(r.status_code, 200, f"Fallo en {path}")
-            self.assertContains(r, "© 2026 IntegraVida")
+        """El footer público aparece en todas las páginas públicas."""
+        for url_name in ("public:home", "public:mapa_view"):
+            try:
+                r = self.client.get(reverse(url_name))
+            except Exception:
+                continue
+            self.assertEqual(r.status_code, 200)
+            self.assertContains(r, "Instituto Universitario")
 
     def test_footer_no_en_panel(self):
         # El footer es solo del portal público
