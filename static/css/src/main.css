@@ -11,3 +11,8 @@
 /* F3.a — utilidades de gradiente (sustituyen style="" inline) */
 .iv-hero-bg { background-image: var(--gradient-hero); }
 .iv-cta-bg  { background-image: var(--gradient-hero); }
+
+/* ── Logo IUJO en modo oscuro ── */
+[data-theme="dark"] .iv-logo-dark {
+    filter: invert(1) hue-rotate(180deg);
+}
