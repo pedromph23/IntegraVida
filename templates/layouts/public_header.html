@@ -1,24 +1,30 @@
 {% load static %}
-<header class="border-b border-border">
+<header class="border-b border-border bg-surface">
   <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-3">
-    <a href="{% url 'public:home' %}" class="flex items-center gap-2">
-      <img src="{% static 'img/logo-iujo.svg' %}" alt="IUJO IntegraVida" class="h-10 w-auto bg-white rounded px-2 py-1 object-contain">
+    
+    <!-- Logo con filtro para modo oscuro -->
+    <a href="{% url 'public:home' %}" class="flex items-center gap-2 shrink-0">
+      <img src="{% static 'img/logo-iujo.svg' %}" alt="IUJO IntegraVida" 
+           class="h-10 w-auto object-contain dark:invert">
     </a>
-    <nav class="flex items-center gap-2" aria-label="Navegación">
-      <a href="{% url 'public:home' %}" class="btn btn-ghost text-sm">Inicio</a>
-      <a href="{% url 'public:mapa_view' %}" class="btn btn-ghost text-sm">🗺️ Mapa</a>
+
+    <!-- Menú de navegación -->
+    <nav class="flex items-center gap-2 flex-wrap justify-end" aria-label="Navegación">
+      <a href="{% url 'public:home' %}" class="btn btn-ghost text-sm whitespace-nowrap">Inicio</a>
+      <a href="{% url 'public:mapa_view' %}" class="btn btn-ghost text-sm whitespace-nowrap">🗺️ Mapa</a>
 
       {% if request.user.is_authenticated %}
-        <a href="{% url 'dashboard:home' %}" class="btn btn-ghost text-sm">
+        <a href="{% url 'dashboard:home' %}" class="btn btn-ghost text-sm whitespace-nowrap">
           Ir al panel →
         </a>
       {% else %}
-        <a href="{% url 'auth:login' %}" class="btn btn-ghost text-sm">
+        <a href="{% url 'auth:login' %}" class="btn btn-ghost text-sm whitespace-nowrap">
           Acceso institucional
         </a>
       {% endif %}
 
       {% include "components/theme-toggle.html" %}
     </nav>
+    
   </div>
 </header>
