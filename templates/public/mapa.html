@@ -53,8 +53,8 @@
       </div>
     </aside>
 
-    <main class="flex-1 rounded-xl border border-border overflow-hidden relative h-[500px] lg:h-auto">
-      <div id="mapa-nav" class="w-full h-full"
+    <main class="flex-1 w-full rounded-xl border border-border overflow-hidden relative h-[500px] lg:h-full lg:min-h-[500px]">
+      <div id="mapa-nav" class="w-full h-full min-h-[500px] z-0"
            data-puntos="{{ puntos_json }}"
            data-api-url="/api/publico/ruta/"></div>
       <button type="button" id="btn-centrar"

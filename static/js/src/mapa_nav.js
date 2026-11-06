@@ -19,6 +19,7 @@ const MOD_ES = {
 };
 
 // ── Estado global ──────────────────────────────────────────────
+let apiUrl = '/panel/api/ruta/';
 let mapa = null;
 let markers = {};
 let markerUsuario = null;
@@ -89,6 +90,7 @@ function init() {
   const el = document.getElementById('mapa-nav');
   if (!el) return;
 
+  if (el.dataset.apiUrl) apiUrl = el.dataset.apiUrl;
   let puntos = [];
   try { puntos = JSON.parse(el.dataset.puntos || '[]'); } catch (e) { puntos = []; }
 
@@ -105,6 +107,12 @@ function init() {
     mapa.fitBounds(L.latLngBounds(puntos.map((p) => [p.lat, p.lng])), { padding: [40, 40] });
   }
   renderizarLista(puntos);
+
+  // ── FIX MÓVIL: Forzar a Leaflet a recalcular el tamaño del contenedor ──
+  // Usamos setTimeout para esperar a que el CSS (Tailwind) termine de aplicarse
+  setTimeout(() => {
+    mapa.invalidateSize();
+  }, 200);
 
   document.querySelectorAll('.js-filtro').forEach((chk) => chk.addEventListener('change', aplicarFiltros));
   document.getElementById('btn-centrar')?.addEventListener('click', centrarEnMi);
@@ -231,7 +239,7 @@ function navegarA(p) {
   }
 
   mostrarEstado(`Calculando ruta hacia ${p.titulo}...`);
-  const url = `/panel/api/ruta/?origin_lat=${ultimaUbicacion.lat}&origin_lng=${ultimaUbicacion.lng}&dest_lat=${p.lat}&dest_lng=${p.lng}`;
+  const url = `${apiUrl}?origin_lat=${ultimaUbicacion.lat}&origin_lng=${ultimaUbicacion.lng}&dest_lat=${p.lat}&dest_lng=${p.lng}`;
 
   fetch(url, { credentials: 'same-origin' })
     .then((r) => r.json())
