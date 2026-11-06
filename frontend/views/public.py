@@ -1,3 +1,4 @@
+import json
 """Vistas del portal público — sin registro (§6.1)."""
 
 from django.conf import settings
@@ -463,3 +464,71 @@ def report_tracking(request, reporte_id):
         "public/report_tracking.html",
         {"reporte": data},
     )
+
+
+@require_GET
+def mapa_view(request):
+    """Vista pública del mapa operativo.
+
+    Muestra hospitales y refugios DISPONIBLES, y emergencias ABIERTAS/EN_ATENCION
+    con coordenadas. El ciudadano puede trazar una ruta hasta cualquiera.
+    """
+    from apps.hospitales.models import Hospital
+    from apps.refugios.models import Refugio
+    from apps.emergencias.models import Emergencia
+
+    puntos = []
+
+    # Hospitales públicos
+    for h in Hospital.objects.filter(
+        estado_operativo="DISPONIBLE",
+        ubicacion__isnull=False,
+    ):
+        if h.ubicacion:
+            puntos.append({
+                "id": str(h.id),
+                "lat": h.ubicacion.y,
+                "lng": h.ubicacion.x,
+                "titulo": h.nombre,
+                "categoria": "HOSPITAL",
+                "subtitulo": h.direccion,
+                "url": f"/hospitales/{h.codigo}/",
+            })
+
+    # Refugios públicos
+    for r in Refugio.objects.filter(
+        estado_operativo="DISPONIBLE",
+        ubicacion__isnull=False,
+    ):
+        if r.ubicacion:
+            puntos.append({
+                "id": str(r.id),
+                "lat": r.ubicacion.y,
+                "lng": r.ubicacion.x,
+                "titulo": r.nombre,
+                "categoria": "REFUGIO",
+                "subtitulo": r.direccion,
+                "url": f"/refugios/{r.codigo}/",
+            })
+
+    # Emergencias verificadas (ABIERTA o EN_ATENCION) con punto
+    for e in Emergencia.objects.filter(
+        estado__in=["ABIERTA", "EN_ATENCION"],
+        punto__isnull=False,
+    ):
+        if e.punto:
+            puntos.append({
+                "id": str(e.id),
+                "lat": e.punto.y,
+                "lng": e.punto.x,
+                "titulo": getattr(e, "titulo", "Emergencia"),
+                "categoria": getattr(e, "categoria", "OTRA"),
+                "subtitulo": getattr(e, "ubicacion_texto", ""),
+                "url": f"/alertas/{e.id}/",
+            })
+
+    return render(request, "public/mapa.html", {
+        "page_title": "Mapa público",
+        "puntos_json": json.dumps(puntos),
+        "total_puntos": len(puntos),
+    })
