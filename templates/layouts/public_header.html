@@ -1,11 +1,11 @@
 {% load static %}
 <header class="border-b border-border bg-surface">
-  <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-3">
+  <div class="mx-auto max-w-7xl px-4 py-2 sm:py-3 flex items-center justify-between gap-2 sm:gap-3">
     
     <!-- Logo con filtro para modo oscuro -->
     <a href="{% url 'public:home' %}" class="flex items-center gap-2 shrink-0">
       <img src="{% static 'img/logo-iujo.svg' %}" alt="IUJO IntegraVida" 
-           class="h-12 sm:h-16 w-auto object-contain iv-logo-dark">
+           class="h-10 sm:h-12 w-auto max-w-[180px] sm:max-w-[220px] object-contain iv-logo-dark">
     </a>
 
     <!-- Menú de navegación -->
