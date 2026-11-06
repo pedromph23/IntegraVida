@@ -1,6 +1,7 @@
 from django.urls import path
 
 from frontend.views import public
+from frontend.views import api_rutas
 
 app_name = "public"
 
@@ -31,4 +32,10 @@ urlpatterns = [
         public.hospital_detail,
         name="hospital-detail",
     ),
+]
+
+
+urlpatterns += [
+    path("mapa/", public.mapa_view, name="mapa_view"),
+    path("api/publico/ruta/", api_rutas.calcular_ruta_publica, name="api_ruta_publica"),
 ]
