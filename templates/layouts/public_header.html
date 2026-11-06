@@ -5,20 +5,20 @@
     <!-- Logo con filtro para modo oscuro -->
     <a href="{% url 'public:home' %}" class="flex items-center gap-2 shrink-0">
       <img src="{% static 'img/logo-iujo.svg' %}" alt="IUJO IntegraVida" 
-           class="h-10 w-auto object-contain iv-logo-dark">
+           class="h-12 sm:h-16 w-auto object-contain iv-logo-dark">
     </a>
 
     <!-- Menú de navegación -->
-    <nav class="flex items-center gap-2 flex-wrap justify-end" aria-label="Navegación">
-      <a href="{% url 'public:home' %}" class="btn btn-ghost text-sm whitespace-nowrap">Inicio</a>
-      <a href="{% url 'public:mapa_view' %}" class="btn btn-ghost text-sm whitespace-nowrap">🗺️ Mapa</a>
+    <nav class="flex items-center gap-1 sm:gap-2 justify-end" aria-label="Navegación">
+      <a href="{% url 'public:home' %}" class="btn btn-ghost text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">Inicio</a>
+      <a href="{% url 'public:mapa_view' %}" class="btn btn-ghost text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">🗺️ Mapa</a>
 
       {% if request.user.is_authenticated %}
-        <a href="{% url 'dashboard:home' %}" class="btn btn-ghost text-sm whitespace-nowrap">
+        <a href="{% url 'dashboard:home' %}" class="btn btn-ghost text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
           Ir al panel →
         </a>
       {% else %}
-        <a href="{% url 'auth:login' %}" class="btn btn-ghost text-sm whitespace-nowrap">
+        <a href="{% url 'auth:login' %}" class="btn btn-ghost text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
           Acceso institucional
         </a>
       {% endif %}

@@ -10,8 +10,8 @@
     </p>
   </div>
 
-  <div class="flex gap-4" style="height: calc(100vh - 12rem); min-height: 500px;">
-    <aside class="w-80 flex-shrink-0 space-y-3 overflow-y-auto">
+  <div class="flex flex-col lg:flex-row gap-4 h-auto lg:h-[calc(100vh-12rem)] min-h-[500px]">
+    <aside class="w-full lg:w-80 flex-shrink-0 space-y-3 overflow-y-auto lg:h-full">
       <div class="rounded-xl border border-border bg-surface-raised p-4">
         <h2 class="text-sm font-medium mb-2">Filtros</h2>
         <label class="flex items-center gap-2 text-sm mb-1">
@@ -53,7 +53,7 @@
       </div>
     </aside>
 
-    <main class="flex-1 rounded-xl border border-border overflow-hidden relative">
+    <main class="flex-1 rounded-xl border border-border overflow-hidden relative h-[500px] lg:h-auto">
       <div id="mapa-nav" class="w-full h-full"
            data-puntos="{{ puntos_json }}"
            data-api-url="/api/publico/ruta/"></div>
